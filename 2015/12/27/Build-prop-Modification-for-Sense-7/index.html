@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="D9L_iPzvP6fvAKh3XTLCUIqbG8uCxYUgJv35bG1bkRE">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ntflc.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="build.prop是Android系统中一个类似于Windows注册表的配置项，在&#x2F;system目录下。 说到build.prop，还得提到另一个文件，即&#x2F;system&#x2F;customize&#x2F;clientid&#x2F;default.prop，这是Sense 7开始才有的配置项，其实内容和build.prop前若干行一致，但是系统会默认读取这部分的代码。也就是说，如果你只修改了build.prop前若干行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sense 7 常用修改：build.prop及clientid配置">
+<meta property="og:url" content="https://ntflc.com/2015/12/27/Build-prop-Modification-for-Sense-7/index.html">
+<meta property="og:site_name" content="越昂超英的博客">
+<meta property="og:description" content="build.prop是Android系统中一个类似于Windows注册表的配置项，在&#x2F;system目录下。 说到build.prop，还得提到另一个文件，即&#x2F;system&#x2F;customize&#x2F;clientid&#x2F;default.prop，这是Sense 7开始才有的配置项，其实内容和build.prop前若干行一致，但是系统会默认读取这部分的代码。也就是说，如果你只修改了build.prop前若干行">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-12-27T14:36:04.000Z">
+<meta property="article:modified_time" content="2021-06-14T12:54:22.353Z">
+<meta property="article:author" content="越昂超英">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="Sense">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ntflc.com/2015/12/27/Build-prop-Modification-for-Sense-7/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Sense 7 常用修改：build.prop及clientid配置 | 越昂超英的博客</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?804fc670bbeb813451fa072d0b70651a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">越昂超英的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">ntflc's blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ntflc.com/2015/12/27/Build-prop-Modification-for-Sense-7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="越昂超英">
+      <meta itemprop="description" content="测试开发工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="越昂超英的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Sense 7 常用修改：build.prop及clientid配置
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-12-27 22:36:04" itemprop="dateCreated datePublished" datetime="2015-12-27T22:36:04+08:00">2015-12-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2015/12/27/Build-prop-Modification-for-Sense-7/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/12/27/Build-prop-Modification-for-Sense-7/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><code>build.prop</code>是Android系统中一个类似于Windows注册表的配置项，在/system目录下。</p>
+<p>说到<code>build.prop</code>，还得提到另一个文件，即<code>/system/customize/clientid/default.prop</code>，这是Sense 7开始才有的配置项，其实内容和build.prop前若干行一致，但是系统会默认读取这部分的代码。也就是说，如果你只修改了<code>build.prop</code>前若干行的内容，没有修改这里，系统是不会读取<code>build.prop</code>内对应内容的。当然，你也可以直接删除<code>/system/customize/clientid/default.prop</code>，这样系统就只读取<code>build.prop</code>的配置项了。</p>
+<p>下面只说<code>build.prop</code>的修改项，请自行对比<code>/system/customize/clientid/default.prop</code>与<code>build.prop</code>的重合部分，将这部分里需要修改的内容在<code>/system/customize/clientid/default.prop</code>中修改，或者干脆删掉它。</p>
+<br>
+
+<span id="more"></span>
+
+<h1 id="开机系统语言"><a href="#开机系统语言" class="headerlink" title="开机系统语言"></a>开机系统语言</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ro.product.locale.language=en</span><br><span class="line">ro.product.locale.region=US</span><br></pre></td></tr></table></figure>
+
+<p>将en和US分别改为zh和CN，则第一次开机系统语言为简体中文。</p>
+<br>
+
+<h1 id="机型信息"><a href="#机型信息" class="headerlink" title="机型信息"></a>机型信息</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ro.product.model=HTC One M9</span><br></pre></td></tr></table></figure>
+
+<p><code>ro.product.model</code>是机型唯一识别信息，微博尾巴、部分软件识别机型都是依据这个值。</p>
+<p>对于微博尾巴，像M8和之前大部分机型，会直接读取这里的值，匹配对应尾巴。但对于M9及之后机型，除了修改这里的值，还需要安装HTC官方微博客户端，才能显示正确的尾巴。具体可以看这篇文章：<a href="http://ntflc.com/2015/06/15/HTC-Weibo-App/">HTC官方微博客户端，支持M9尾巴显示</a></p>
+<p>建议将这里的值修改为国行机型值，M9为HTC M9w，注意大小写区别。即：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ro.product.model=HTC M9w</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h1 id="软件版本信息"><a href="#软件版本信息" class="headerlink" title="软件版本信息"></a>软件版本信息</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ro.product.version=2.11.1405.5</span><br></pre></td></tr></table></figure>
+
+<p>前面CID配置修改里提到软件版本信息的强制显示修改，这里是可变显示。即如果CID配置里<code>deviceData1</code>下sw_number的值为NA，则软件版本信息显示等号后面的值；如果不为NA，则显示<code>sw_number</code>的值。且如果显示此处值，修改后设置里的软件版本信息也会改变。此处值可以为任意信息，不局限于x.xx.xxx.x，比如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ro.product.version=NTFLC ROM 2.0</span><br></pre></td></tr></table></figure>
+
+<p>注意：部分第三方ROM通过修改系统代码，禁止用户修改此处值，比如毒蛇ROM，一旦修改，开机后就无法正常使用，只能重刷ROM。官方系统没有限制。</p>
+<br>
+
+<h1 id="默认开启USB调试等"><a href="#默认开启USB调试等" class="headerlink" title="默认开启USB调试等"></a>默认开启USB调试等</h1><p>添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ro.adb.secure=0</span><br><span class="line">ro.secure=0</span><br><span class="line">ro.allow.mock.location=0</span><br><span class="line">ro.debuggable=0</span><br><span class="line">persist.service.adb.enable=1</span><br><span class="line">persist.sys.usb.config=adb</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h1 id="强制显示-不显示虚拟按键"><a href="#强制显示-不显示虚拟按键" class="headerlink" title="强制显示/不显示虚拟按键"></a>强制显示/不显示虚拟按键</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qemu.hw.mainkeys=1</span><br></pre></td></tr></table></figure>
+
+<p>这一项一般是没有的，需要自行添加。值为1是强制不显示虚拟按键，值0为是强制显示虚拟按键。</p>
+<p>对于Sense 7，由于系统提供隐藏虚拟按键按钮，不建议强制隐藏。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>如果你喜欢我的文章，欢迎打赏。</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="越昂超英 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%99%E7%A8%8B/" rel="tag"># 教程</a>
+              <a href="/tags/Sense/" rel="tag"># Sense</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2015/12/27/MNS-Modification-for-Sense-7/" rel="prev" title="Sense 7 常用修改：MNS配置">
+      <i class="fa fa-chevron-left"></i> Sense 7 常用修改：MNS配置
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2015/12/29/Install-Android-Wear-Watch-Face-When-Connecting-iOS-Devices/" rel="next" title="在与 iOS 连接的 Android Wear 设备上安装第三方表盘">
+      在与 iOS 连接的 Android Wear 设备上安装第三方表盘 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E6%9C%BA%E7%B3%BB%E7%BB%9F%E8%AF%AD%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">开机系统语言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%BA%E5%9E%8B%E4%BF%A1%E6%81%AF"><span class="nav-number">2.</span> <span class="nav-text">机型信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="nav-number">3.</span> <span class="nav-text">软件版本信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E5%BC%80%E5%90%AFUSB%E8%B0%83%E8%AF%95%E7%AD%89"><span class="nav-number">4.</span> <span class="nav-text">默认开启USB调试等</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%BA%E5%88%B6%E6%98%BE%E7%A4%BA-%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%99%9A%E6%8B%9F%E6%8C%89%E9%94%AE"><span class="nav-number">5.</span> <span class="nav-text">强制显示&#x2F;不显示虚拟按键</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="越昂超英"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">越昂超英</p>
+  <div class="site-description" itemprop="description">测试开发工程师</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/412070391" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;412070391" rel="noopener" target="_blank"><i class="fa fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/FeiLichao" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;FeiLichao" rel="noopener" target="_blank"><i class="fa fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/ntflc" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ntflc" rel="noopener" target="_blank"><i class="fa fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/%E7%AB%8B%E8%B6%85-%E8%B4%B9-6a8802101/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;%E7%AB%8B%E8%B6%85-%E8%B4%B9-6a8802101&#x2F;" rel="noopener" target="_blank"><i class="fa fa-linkedin fa-fw"></i>LinkedIn</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://hybest.org/" title="http:&#x2F;&#x2F;hybest.org" rel="noopener" target="_blank">Endless loop</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://suree.org/" title="http:&#x2F;&#x2F;suree.org" rel="noopener" target="_blank">Sure Edding</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://spechles.cn/" title="http:&#x2F;&#x2F;spechles.cn" rel="noopener" target="_blank">Morning's Blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://liutingxi.com/" title="http:&#x2F;&#x2F;liutingxi.com" rel="noopener" target="_blank">Liutingxi's Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">越昂超英</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://ntflc.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://ntflc.com/2015/12/27/Build-prop-Modification-for-Sense-7/";
+    this.page.identifier = "2015/12/27/Build-prop-Modification-for-Sense-7/";
+    this.page.title = "Sense 7 常用修改：build.prop及clientid配置";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://ntflc.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>
