@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"ntflc.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"ntflc.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="测试开发工程师">
@@ -115,7 +115,6 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
-        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -150,38 +149,11 @@
     <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
 
   </li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
-        </a>
-      </li>
   </ul>
 </nav>
 
 
 
-  <div class="search-pop-overlay">
-    <div class="popup search-popup">
-        <div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div id="search-result">
-  <div id="no-result">
-    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
-  </div>
-</div>
-
-    </div>
-  </div>
 
 </div>
     </header>
@@ -225,10 +197,10 @@
       <div class="post-body">
           <div class="tag-cloud">
             <div class="tag-cloud-title">
-              目前共计 33 个标签
+              目前共计 37 个标签
             </div>
             <div class="tag-cloud-tags">
-              <a href="/tags/Android-Wear/" style="font-size: 12px; color: #ccc">Android Wear</a> <a href="/tags/Apache/" style="font-size: 12px; color: #ccc">Apache</a> <a href="/tags/BlinkFeed/" style="font-size: 15px; color: #adadad">BlinkFeed</a> <a href="/tags/China-Sense/" style="font-size: 12px; color: #ccc">China Sense</a> <a href="/tags/Jenkins/" style="font-size: 18px; color: #8e8e8e">Jenkins</a> <a href="/tags/LeakCanary/" style="font-size: 18px; color: #8e8e8e">LeakCanary</a> <a href="/tags/M8/" style="font-size: 15px; color: #adadad">M8</a> <a href="/tags/M9/" style="font-size: 27px; color: #303030">M9</a> <a href="/tags/MID/" style="font-size: 12px; color: #ccc">MID</a> <a href="/tags/MaximusHD/" style="font-size: 15px; color: #adadad">MaximusHD</a> <a href="/tags/Monkey/" style="font-size: 12px; color: #ccc">Monkey</a> <a href="/tags/NGINX/" style="font-size: 12px; color: #ccc">NGINX</a> <a href="/tags/NTFLC-ROM/" style="font-size: 15px; color: #adadad">NTFLC ROM</a> <a href="/tags/PHP/" style="font-size: 12px; color: #ccc">PHP</a> <a href="/tags/Python/" style="font-size: 15px; color: #adadad">Python</a> <a href="/tags/ROM/" style="font-size: 18px; color: #8e8e8e">ROM</a> <a href="/tags/STF/" style="font-size: 12px; color: #ccc">STF</a> <a href="/tags/Selenium/" style="font-size: 15px; color: #adadad">Selenium</a> <a href="/tags/Sense/" style="font-size: 24px; color: #4f4f4f">Sense</a> <a href="/tags/TestNg/" style="font-size: 12px; color: #ccc">TestNg</a> <a href="/tags/WebDriver/" style="font-size: 15px; color: #adadad">WebDriver</a> <a href="/tags/WebPageTest/" style="font-size: 15px; color: #adadad">WebPageTest</a> <a href="/tags/iOS/" style="font-size: 12px; color: #ccc">iOS</a> <a href="/tags/root/" style="font-size: 12px; color: #ccc">root</a> <a href="/tags/sepolicy/" style="font-size: 12px; color: #ccc">sepolicy</a> <a href="/tags/%E5%BD%92%E5%B1%9E%E5%9C%B0/" style="font-size: 12px; color: #ccc">归属地</a> <a href="/tags/%E5%BE%AE%E5%8D%9A/" style="font-size: 15px; color: #adadad">微博</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 30px; color: #111">教程</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 30px; color: #111">测试</a> <a href="/tags/%E8%81%94%E7%BD%91%E5%9B%BE%E6%A0%87/" style="font-size: 12px; color: #ccc">联网图标</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%8C%89%E9%94%AE/" style="font-size: 12px; color: #ccc">虚拟按键</a> <a href="/tags/%E8%B5%84%E6%BA%90/" style="font-size: 18px; color: #8e8e8e">资源</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 21px; color: #6f6f6f">随笔</a>
+              <a href="/tags/Android-Wear/" style="font-size: 12px; color: #ccc">Android Wear</a> <a href="/tags/Apache/" style="font-size: 12px; color: #ccc">Apache</a> <a href="/tags/BlinkFeed/" style="font-size: 15px; color: #adadad">BlinkFeed</a> <a href="/tags/China-Sense/" style="font-size: 12px; color: #ccc">China Sense</a> <a href="/tags/Jenkins/" style="font-size: 18px; color: #8e8e8e">Jenkins</a> <a href="/tags/LeakCanary/" style="font-size: 18px; color: #8e8e8e">LeakCanary</a> <a href="/tags/M8/" style="font-size: 15px; color: #adadad">M8</a> <a href="/tags/M9/" style="font-size: 27px; color: #303030">M9</a> <a href="/tags/MID/" style="font-size: 12px; color: #ccc">MID</a> <a href="/tags/MaximusHD/" style="font-size: 15px; color: #adadad">MaximusHD</a> <a href="/tags/Monkey/" style="font-size: 12px; color: #ccc">Monkey</a> <a href="/tags/NAS/" style="font-size: 12px; color: #ccc">NAS</a> <a href="/tags/NGINX/" style="font-size: 12px; color: #ccc">NGINX</a> <a href="/tags/NTFLC-ROM/" style="font-size: 15px; color: #adadad">NTFLC ROM</a> <a href="/tags/PHP/" style="font-size: 12px; color: #ccc">PHP</a> <a href="/tags/Python/" style="font-size: 15px; color: #adadad">Python</a> <a href="/tags/ROM/" style="font-size: 18px; color: #8e8e8e">ROM</a> <a href="/tags/STF/" style="font-size: 12px; color: #ccc">STF</a> <a href="/tags/Selenium/" style="font-size: 15px; color: #adadad">Selenium</a> <a href="/tags/Sense/" style="font-size: 24px; color: #4f4f4f">Sense</a> <a href="/tags/Synology/" style="font-size: 12px; color: #ccc">Synology</a> <a href="/tags/TestNG/" style="font-size: 12px; color: #ccc">TestNG</a> <a href="/tags/WebDriver/" style="font-size: 15px; color: #adadad">WebDriver</a> <a href="/tags/WebPageTest/" style="font-size: 15px; color: #adadad">WebPageTest</a> <a href="/tags/iOS/" style="font-size: 12px; color: #ccc">iOS</a> <a href="/tags/qBittorrent/" style="font-size: 12px; color: #ccc">qBittorrent</a> <a href="/tags/root/" style="font-size: 12px; color: #ccc">root</a> <a href="/tags/sepolicy/" style="font-size: 12px; color: #ccc">sepolicy</a> <a href="/tags/%E5%BD%92%E5%B1%9E%E5%9C%B0/" style="font-size: 12px; color: #ccc">归属地</a> <a href="/tags/%E5%BE%AE%E5%8D%9A/" style="font-size: 15px; color: #adadad">微博</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 30px; color: #111">教程</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 30px; color: #111">测试</a> <a href="/tags/%E7%BE%A4%E6%99%96/" style="font-size: 12px; color: #ccc">群晖</a> <a href="/tags/%E8%81%94%E7%BD%91%E5%9B%BE%E6%A0%87/" style="font-size: 12px; color: #ccc">联网图标</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%8C%89%E9%94%AE/" style="font-size: 12px; color: #ccc">虚拟按键</a> <a href="/tags/%E8%B5%84%E6%BA%90/" style="font-size: 18px; color: #8e8e8e">资源</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 21px; color: #6f6f6f">随笔</a>
             </div>
           </div>
         
@@ -307,20 +279,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-count">37</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -443,10 +415,6 @@
   
 
 
-
-
-  
-<script src="/js/local-search.js"></script>
 
 
 

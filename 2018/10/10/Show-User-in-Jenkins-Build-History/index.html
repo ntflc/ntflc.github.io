@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"ntflc.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"ntflc.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="最近在使用 Jenkins 时，想在构建历史里显示启动人，网上搜了一圈，发现没有完整一些的教程，于是决定自己写一篇。">
@@ -28,16 +28,16 @@
 <meta property="og:site_name" content="越昂超英的博客">
 <meta property="og:description" content="最近在使用 Jenkins 时，想在构建历史里显示启动人，网上搜了一圈，发现没有完整一些的教程，于是决定自己写一篇。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/68e1aca9gy1fw38xn49npj20i40240ss.jpg">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/68e1aca9gy1fw38xn2cixj20i203cdfy.jpg">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/68e1aca9gy1fw38xn2e6xj20i401uglo.jpg">
+<meta property="og:image" content="https://ntflc.com/images/Show-User-in-Jenkins-Build-History/1.jpg">
+<meta property="og:image" content="https://ntflc.com/images/Show-User-in-Jenkins-Build-History/2.jpg">
+<meta property="og:image" content="https://ntflc.com/images/Show-User-in-Jenkins-Build-History/3.jpg">
 <meta property="article:published_time" content="2018-10-10T08:49:25.000Z">
-<meta property="article:modified_time" content="2021-06-14T12:54:22.374Z">
+<meta property="article:modified_time" content="2021-06-14T15:44:45.070Z">
 <meta property="article:author" content="越昂超英">
 <meta property="article:tag" content="测试">
 <meta property="article:tag" content="Jenkins">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/68e1aca9gy1fw38xn49npj20i40240ss.jpg">
+<meta name="twitter:image" content="https://ntflc.com/images/Show-User-in-Jenkins-Build-History/1.jpg">
 
 <link rel="canonical" href="https://ntflc.com/2018/10/10/Show-User-in-Jenkins-Build-History/">
 
@@ -120,7 +120,6 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
-        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -155,38 +154,11 @@
     <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
 
   </li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
-        </a>
-      </li>
   </ul>
 </nav>
 
 
 
-  <div class="search-pop-overlay">
-    <div class="popup search-popup">
-        <div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div id="search-result">
-  <div id="no-result">
-    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
-  </div>
-</div>
-
-    </div>
-  </div>
 
 </div>
     </header>
@@ -285,17 +257,17 @@
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">manager.addShortText(manager.envVars[<span class="string">&#x27;BUILD_USER&#x27;</span>])</span><br></pre></td></tr></table></figure>
 
 <p>如此配置后，构建完成后，就会在对应构建历史后显示启动人，如下图所示（启动人为ntflc）：</p>
-<p><img src="https://ws1.sinaimg.cn/large/68e1aca9gy1fw38xn49npj20i40240ss.jpg"></p>
+<p><img src="/images/Show-User-in-Jenkins-Build-History/1.jpg"></p>
 <p>如果想在启动人前加上文字，<code>Groovy Script</code>可以写成：</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">manager.addShortText(<span class="string">&quot;启动人：$&#123;manager.envVars[&#x27;BUILD_USER&#x27;]&#125;&quot;</span>)</span><br></pre></td></tr></table></figure>
 
 <p>效果如下图：</p>
-<p><img src="https://ws1.sinaimg.cn/large/68e1aca9gy1fw38xn2cixj20i203cdfy.jpg"></p>
+<p><img src="/images/Show-User-in-Jenkins-Build-History/2.jpg"></p>
 <p>如果不想直接显示文字，而是显示图标，<code>Groovy Script</code>可以写成：</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">manager.addInfoBadge(<span class="string">&quot;启动人：$&#123;manager.envVars[&#x27;BUILD_USER&#x27;]&#125;&quot;</span>)</span><br></pre></td></tr></table></figure>
 
 <p>效果如下图（鼠标放在图标上显示文字浮窗，点击弹窗显示文字）：</p>
-<p><img src="https://ws1.sinaimg.cn/large/68e1aca9gy1fw38xn2e6xj20i401uglo.jpg"></p>
+<p><img src="/images/Show-User-in-Jenkins-Build-History/3.jpg"></p>
 <p>当然，这里只是最简单的几种情况，灵活运用<code>Groovy Script</code>可以实现更复杂的效果，具体可以参考：<a target="_blank" rel="noopener" href="https://wiki.jenkins.io/display/JENKINS/Groovy+Postbuild+Plugin">https://wiki.jenkins.io/display/JENKINS/Groovy+Postbuild+Plugin</a></p>
 
     </div>
@@ -335,8 +307,8 @@
       <i class="fa fa-chevron-left"></i> 随笔：回顾 2017
     </a></div>
       <div class="post-nav-item">
-    <a href="/2018/10/18/TestNg-Retry-Failed-Tests-with-DataProvider/" rel="next" title="TestNg 失败重跑（支持使用 dataProvider 的参数化用例）">
-      TestNg 失败重跑（支持使用 dataProvider 的参数化用例） <i class="fa fa-chevron-right"></i>
+    <a href="/2018/10/18/TestNG-Retry-Failed-Tests-with-DataProvider/" rel="next" title="TestNG 失败重跑（支持使用 dataProvider 的参数化用例）">
+      TestNG 失败重跑（支持使用 dataProvider 的参数化用例） <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -418,20 +390,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-count">37</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -554,10 +526,6 @@
   
 
 
-
-
-  
-<script src="/js/local-search.js"></script>
 
 
 

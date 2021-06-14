@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"ntflc.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"ntflc.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="WebPageTest 最新版本（17.08）的一个新功能，是增加了一个新的支持多平台的 Agent 端：wptagent。  The biggest change by far is a new cross-platform agent (wptagent) that supports Linux, Windows, Mac and Android testing. Eventually wpt">
@@ -28,15 +28,15 @@
 <meta property="og:site_name" content="越昂超英的博客">
 <meta property="og:description" content="WebPageTest 最新版本（17.08）的一个新功能，是增加了一个新的支持多平台的 Agent 端：wptagent。  The biggest change by far is a new cross-platform agent (wptagent) that supports Linux, Windows, Mac and Android testing. Eventually wpt">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://wx3.sinaimg.cn/large/68e1aca9ly1fjxyu4h51cj21gw11qwqp.jpg">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/68e1aca9gy1fk6jxkzvumj218u11oak2.jpg">
+<meta property="og:image" content="https://ntflc.com/images/Install-WebPageTest-on-macOS/1.jpg">
+<meta property="og:image" content="https://ntflc.com/images/Install-WebPageTest-on-macOS/2.jpg">
 <meta property="article:published_time" content="2017-09-27T02:31:24.000Z">
-<meta property="article:modified_time" content="2021-06-14T12:54:22.368Z">
+<meta property="article:modified_time" content="2021-06-14T15:49:24.685Z">
 <meta property="article:author" content="越昂超英">
 <meta property="article:tag" content="测试">
 <meta property="article:tag" content="WebPageTest">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://wx3.sinaimg.cn/large/68e1aca9ly1fjxyu4h51cj21gw11qwqp.jpg">
+<meta name="twitter:image" content="https://ntflc.com/images/Install-WebPageTest-on-macOS/1.jpg">
 
 <link rel="canonical" href="https://ntflc.com/2017/09/27/Install-WebPageTest-on-macOS/">
 
@@ -119,7 +119,6 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
-        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -154,38 +153,11 @@
     <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
 
   </li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
-        </a>
-      </li>
   </ul>
 </nav>
 
 
 
-  <div class="search-pop-overlay">
-    <div class="popup search-popup">
-        <div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div id="search-result">
-  <div id="no-result">
-    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
-  </div>
-</div>
-
-    </div>
-  </div>
 
 </div>
     </header>
@@ -353,12 +325,12 @@
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    phpinfo();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>重启 Apache，浏览器访问<code>localhost</code>看到下图即为配置成功：</p>
-<p><img src="http://wx3.sinaimg.cn/large/68e1aca9ly1fjxyu4h51cj21gw11qwqp.jpg"></p>
+<p><img src="/images/Install-WebPageTest-on-macOS/1.jpg"></p>
 <h1 id="下载并启动-WebPageTest"><a href="#下载并启动-WebPageTest" class="headerlink" title="下载并启动 WebPageTest"></a>下载并启动 WebPageTest</h1><p>WebPageTest GitHub：<a target="_blank" rel="noopener" href="https://github.com/WPO-Foundation/webpagetest">https://github.com/WPO-Foundation/webpagetest</a></p>
 <p>下载地址：<a target="_blank" rel="noopener" href="https://github.com/WPO-Foundation/webpagetest/releases">https://github.com/WPO-Foundation/webpagetest/releases</a></p>
 <p>下载最新版本即可，这里以 <a target="_blank" rel="noopener" href="https://github.com/WPO-Foundation/webpagetest/releases/download/WebPageTest-17.08/webpagetest_17.08.zip">webpagetest_17.08.zip</a> 为例。</p>
 <p>下载后解压，得到<code>www</code>、<code>agent</code>、<code>wptagent</code>等目录，其中<code>www</code>为服务端，<code>agent</code>为 Windows 测试端（本次不使用），<code>wptagent</code>为最新的多平台测试端（也就是本次使用的测试端）。将 <code>www</code>和<code>wptagent</code>文件夹（前者是服务端，后者是测试端）移动到<code>/Users/your_user_name/WebPageTest</code>下，重启 Apache。打开浏览器，访问<code>localhost/install</code>如下图：</p>
-<p><img src="http://ww1.sinaimg.cn/large/68e1aca9gy1fk6jxkzvumj218u11oak2.jpg"></p>
+<p><img src="/images/Install-WebPageTest-on-macOS/2.jpg"></p>
 <p>接来下就是根据提示信息安装相关依赖。</p>
 <h1 id="安装-WebPageTest-依赖"><a href="#安装-WebPageTest-依赖" class="headerlink" title="安装 WebPageTest 依赖"></a>安装 WebPageTest 依赖</h1><h2 id="安装-APC"><a href="#安装-APC" class="headerlink" title="安装 APC"></a>安装 APC</h2><p>终端执行：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install php71-apcu</span><br></pre></td></tr></table></figure>
@@ -583,20 +555,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-count">37</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -719,10 +691,6 @@
   
 
 
-
-
-  
-<script src="/js/local-search.js"></script>
 
 
 

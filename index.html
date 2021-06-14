@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"ntflc.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"ntflc.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="测试开发工程师">
@@ -112,7 +112,6 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
-        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -147,38 +146,11 @@
     <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
 
   </li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
-        </a>
-      </li>
   </ul>
 </nav>
 
 
 
-  <div class="search-pop-overlay">
-    <div class="popup search-popup">
-        <div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div id="search-result">
-  <div id="no-result">
-    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
-  </div>
-</div>
-
-    </div>
-  </div>
 
 </div>
     </header>
@@ -201,7 +173,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ntflc.com/2018/10/18/TestNg-Retry-Failed-Tests-with-DataProvider/">
+    <link itemprop="mainEntityOfPage" href="https://ntflc.com/2021/06/14/Synology-DSM-7-Install-qBittorrent-and-Migrate-Data/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -215,7 +187,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2018/10/18/TestNg-Retry-Failed-Tests-with-DataProvider/" class="post-title-link" itemprop="url">TestNg 失败重跑（支持使用 dataProvider 的参数化用例）</a>
+            <a href="/2021/06/14/Synology-DSM-7-Install-qBittorrent-and-Migrate-Data/" class="post-title-link" itemprop="url">群晖 DSM 7.0 安装 qBittorrent 及迁移数据</a>
         </h2>
 
         <div class="post-meta">
@@ -225,7 +197,16 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2018-10-18 20:36:41" itemprop="dateCreated datePublished" datetime="2018-10-18T20:36:41+08:00">2018-10-18</time>
+              <time title="创建时间：2021-06-14 22:00:42" itemprop="dateCreated datePublished" datetime="2021-06-14T22:00:42+08:00">2021-06-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NAS/" itemprop="url" rel="index"><span itemprop="name">NAS</span></a>
+                </span>
             </span>
 
           
@@ -237,8 +218,96 @@
       </span>
       <span class="post-meta-item-text">Disqus：</span>
     
-    <a title="disqus" href="/2018/10/18/TestNg-Retry-Failed-Tests-with-DataProvider/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/10/18/TestNg-Retry-Failed-Tests-with-DataProvider/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/06/14/Synology-DSM-7-Install-qBittorrent-and-Migrate-Data/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/06/14/Synology-DSM-7-Install-qBittorrent-and-Migrate-Data/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>端午节闲来无事，想着把 DS920+ 升级到 DSM 7.0 RC 版。由于 DSM 7.0 第三方套件需要重新适配才能支持，而我用 NAS 主要是为了 PT 站挂种，最常用套件 qBittorrent Asuka 版（<a target="_blank" rel="noopener" href="http://www.gebi1.com/thread-295399-1-1.html">http://www.gebi1.com/thread-295399-1-1.html</a>）还不支持 DSM 7.0，因此之前一直没升。最近正好看到另一位作者 zhangbo8418 编译了支持 DSM 7.0 的 qBittorrent 套件（<a target="_blank" rel="noopener" href="http://www.gebi1.com/thread-297854-1-1.html">http://www.gebi1.com/thread-297854-1-1.html</a>），才终于想着折腾下 DSM 7.0。之前 Asuka 编译的版本要求必须启用 admin 用户和家目录，配置和数据都在 admin 用户目录下，而 zhangbo8418 编译的版本则是将配置和数据放在套件目录下，因此这里还涉及到数据迁移。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/06/14/Synology-DSM-7-Install-qBittorrent-and-Migrate-Data/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ntflc.com/2018/10/18/TestNG-Retry-Failed-Tests-with-DataProvider/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="越昂超英">
+      <meta itemprop="description" content="测试开发工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="越昂超英的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/10/18/TestNG-Retry-Failed-Tests-with-DataProvider/" class="post-title-link" itemprop="url">TestNG 失败重跑（支持使用 dataProvider 的参数化用例）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-10-18 20:36:41" itemprop="dateCreated datePublished" datetime="2018-10-18T20:36:41+08:00">2018-10-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B5%8B%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">测试</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/10/18/TestNG-Retry-Failed-Tests-with-DataProvider/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/10/18/TestNG-Retry-Failed-Tests-with-DataProvider/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -256,7 +325,7 @@
           <p>最近在用 Java+TestNg+Maven 写 UI 自动化。因为之前用惯了 Python 的测试框架，失败重跑装个插件（<a target="_blank" rel="noopener" href="https://github.com/box/flaky">flaky</a> 或者 <a target="_blank" rel="noopener" href="https://github.com/pytest-dev/pytest-rerunfailures">pytest-rerunfailures</a>）就行。而 TestNg 的失败重跑需要自己重新方法，并且网上搜了很多资料，针对使用了<code>dataProvider</code>的参数化用例都存在一些问题。因此希望这篇文章能对需要的人起到帮助。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2018/10/18/TestNg-Retry-Failed-Tests-with-DataProvider/#more" rel="contents">
+              <a class="btn" href="/2018/10/18/TestNG-Retry-Failed-Tests-with-DataProvider/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -989,95 +1058,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ntflc.com/2017/01/02/Overview-of-2016/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="越昂超英">
-      <meta itemprop="description" content="测试开发工程师">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="越昂超英的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/01/02/Overview-of-2016/" class="post-title-link" itemprop="url">随笔：回顾2016</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-01-02 21:59:06" itemprop="dateCreated datePublished" datetime="2017-01-02T21:59:06+08:00">2017-01-02</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9A%8F%E7%AC%94/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2017/01/02/Overview-of-2016/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/01/02/Overview-of-2016/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>好久没有写点东西了，看到好多同学、朋友都写了2016年的总结亦或是回顾，总觉得我也应该写点什么。</p>
-<p>15年年底，我写了篇随笔，名叫<a href="http://ntflc.com/2015/12/27/Essay-20151227/">《随笔：谈谈这两年》</a>，转眼间一年就过去了。那篇随笔，意味着我正是告别手机ROM圈，开始为毕业和工作奋斗。现在，我离毕业已经半年，正式入职也有半年了。回顾2016，有太多值得回味，值得反思。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/01/02/Overview-of-2016/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1149,20 +1129,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-count">37</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1285,10 +1265,6 @@
   
 
 
-
-
-  
-<script src="/js/local-search.js"></script>
 
 
 
