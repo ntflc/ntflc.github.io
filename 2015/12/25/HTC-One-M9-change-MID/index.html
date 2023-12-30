@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="D9L_iPzvP6fvAKh3XTLCUIqbG8uCxYUgJv35bG1bkRE">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ntflc.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="之前玩过 M7、M8 的应该知道，修改 MID 比较复杂，涉及到修改分区文件。 而根据 xda-developers 上的说法，有 Download mode 的机型，均可以像修改 CID 那样修改 MID 了。 因此本人在使用该方法将手中的台版 M9 修改 MID 成功后，给出简单的教程，供需要的人修改。但是不建议连 adb 命令都不会使用用户尝试！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTC One M9 修改 MID 教程">
+<meta property="og:url" content="https://ntflc.com/2015/12/25/HTC-One-M9-change-MID/index.html">
+<meta property="og:site_name" content="ntflc&#39;s blog">
+<meta property="og:description" content="之前玩过 M7、M8 的应该知道，修改 MID 比较复杂，涉及到修改分区文件。 而根据 xda-developers 上的说法，有 Download mode 的机型，均可以像修改 CID 那样修改 MID 了。 因此本人在使用该方法将手中的台版 M9 修改 MID 成功后，给出简单的教程，供需要的人修改。但是不建议连 adb 命令都不会使用用户尝试！">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2015-12-25T15:18:24.000Z">
+<meta property="article:modified_time" content="2023-12-30T14:43:55.754Z">
+<meta property="article:author" content="ntflc">
+<meta property="article:tag" content="Tutorial">
+<meta property="article:tag" content="M9">
+<meta property="article:tag" content="MID">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://ntflc.com/2015/12/25/HTC-One-M9-change-MID/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://ntflc.com/2015/12/25/HTC-One-M9-change-MID/","path":"2015/12/25/HTC-One-M9-change-MID/","title":"HTC One M9 修改 MID 教程"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>HTC One M9 修改 MID 教程 | ntflc's blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?804fc670bbeb813451fa072d0b70651a"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ntflc's blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ntflc"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ntflc</p>
+  <div class="site-description" itemprop="description">Software QA Engineer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ntflc" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ntflc" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/feilichao/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;feilichao&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>LinkedIn</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/412070391" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;412070391" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/FeiLichao" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;FeiLichao" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ntflc.com/2015/12/25/HTC-One-M9-change-MID/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ntflc">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ntflc's blog">
+      <meta itemprop="description" content="Software QA Engineer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="HTC One M9 修改 MID 教程 | ntflc's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HTC One M9 修改 MID 教程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2015-12-25 23:18:24" itemprop="dateCreated datePublished" datetime="2015-12-25T23:18:24+08:00">2015-12-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Tutorial/" itemprop="url" rel="index"><span itemprop="name">Tutorial</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2015/12/25/HTC-One-M9-change-MID/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/12/25/HTC-One-M9-change-MID/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>之前玩过 M7、M8 的应该知道，修改 MID 比较复杂，涉及到修改分区文件。</p>
+<p>而根据 xda-developers 上的说法，有 Download mode 的机型，均可以像修改 CID 那样修改 MID 了。</p>
+<p>因此本人在使用该方法将手中的台版 M9 修改 MID 成功后，给出简单的教程，供需要的人修改。但是不建议连 adb 命令都不会使用用户尝试！</p>
+<span id="more"></span>
+
+<p><strong>具体步骤：</strong></p>
+<ol start="0">
+<li><p><strong><font color=#4169e1>确保手机已经 S-OFF，没有 S-OFF 不能修改 MID！</font></strong></p>
+</li>
+<li><p>关闭手机，然后长按音量下+电源键，进入 Download mode。</p>
+</li>
+<li><p>手机连接电脑，电脑端打开 CMD，cd 到 adb 所在目录。（不会 adb 操作不建议修改 MID！！！）</p>
+</li>
+<li><p>执行：</p>
+</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastboot oem writemid XXXXXXXXX</span><br></pre></td></tr></table></figure>
+
+<p>其中 XXXXXXXXX 为 MID 值，9 位。下面给出部分机型对应的 MID：</p>
+<p>港版、台版、欧版、联通版：<code>0PJA10000</code></p>
+<p>AT&amp;T、开发者版：<code>0PJA11000</code></p>
+<p>T-Mobile 版：<code>0PJA12000</code></p>
+<p>国际版通用超级 MID：<code>0PJA1****</code></p>
+<p><strong><font color=red>说明：</font></strong></p>
+<ol>
+<li><p><strong><font color=red>超级 MID 必须保证前 5 位是确定值，即不能有『*』。因此不存在 <code>0PJA*****</code> 这样的 MID！</font></strong></p>
+</li>
+<li><p><strong><font color=red>非国际版，即前五位不为 0PJA1 的版本，主要是 Sprint、Verizon 版，不建议修改 MID，因为即使修改 MID 刷了国际版资源，也可能导致无法开机，甚至变砖！（本条着重提醒，如果 Sprint、Verizon 等版本用户由于修改 MID 刷国际版资源导致手机变砖，本人概不负责！！！）</font></strong></p>
+</li>
+<li><p><strong><font color=red>请注意第一位是数字 0，不是字母 O！</font></strong></p>
+</li>
+<li><p>重启 Download mode 即可</p>
+</li>
+</ol>
+<br>
+
+<p>查看 MID 方法：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastboot getvar mid</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ntflc WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Tutorial/" rel="tag"># Tutorial</a>
+              <a href="/tags/M9/" rel="tag"># M9</a>
+              <a href="/tags/MID/" rel="tag"># MID</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2015/09/24/Prism-Modification-for-China-2/" rel="prev" title="Sense 7.0 Prism.apk 修改内容详解">
+                  <i class="fa fa-angle-left"></i> Sense 7.0 Prism.apk 修改内容详解
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2015/12/26/SEPolicy-Modification-for-Android-6-0-Root/" rel="next" title="Android 6.0 Root 必备：修改 sepolicy">
+                  Android 6.0 Root 必备：修改 sepolicy <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ntflc</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"ntflc","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

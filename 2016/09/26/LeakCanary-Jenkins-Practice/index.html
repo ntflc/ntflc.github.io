@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="D9L_iPzvP6fvAKh3XTLCUIqbG8uCxYUgJv35bG1bkRE">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ntflc.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言本文是之前几篇文章 为 Android 软件接入 LeakCanary 实现内存泄漏检测、使用 Jenkins Pipeline 为接入 LeakCanary 的软件做持续集成、解决 LeakCanary 和 Jenkins Pipeline 中遇到的问题 的总结，为了发布到 TesterHome。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeakCanary+Jenkins 内存泄漏监控实践">
+<meta property="og:url" content="https://ntflc.com/2016/09/26/LeakCanary-Jenkins-Practice/index.html">
+<meta property="og:site_name" content="ntflc&#39;s blog">
+<meta property="og:description" content="前言本文是之前几篇文章 为 Android 软件接入 LeakCanary 实现内存泄漏检测、使用 Jenkins Pipeline 为接入 LeakCanary 的软件做持续集成、解决 LeakCanary 和 Jenkins Pipeline 中遇到的问题 的总结，为了发布到 TesterHome。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ntflc.com/images/LeakCanary-Jenkins-Practice/1.jpg">
+<meta property="og:image" content="https://ntflc.com/images/LeakCanary-Jenkins-Practice/2.jpg">
+<meta property="article:published_time" content="2016-09-26T07:57:27.000Z">
+<meta property="article:modified_time" content="2023-12-30T16:38:20.918Z">
+<meta property="article:author" content="ntflc">
+<meta property="article:tag" content="Test">
+<meta property="article:tag" content="Jenkins">
+<meta property="article:tag" content="LeakCanary">
+<meta property="article:tag" content="Monkey">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ntflc.com/images/LeakCanary-Jenkins-Practice/1.jpg">
+
+
+<link rel="canonical" href="https://ntflc.com/2016/09/26/LeakCanary-Jenkins-Practice/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://ntflc.com/2016/09/26/LeakCanary-Jenkins-Practice/","path":"2016/09/26/LeakCanary-Jenkins-Practice/","title":"LeakCanary+Jenkins 内存泄漏监控实践"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>LeakCanary+Jenkins 内存泄漏监控实践 | ntflc's blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?804fc670bbeb813451fa072d0b70651a"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ntflc's blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">3.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LeakCanary-%E6%8E%A5%E5%85%A5%E6%96%B9%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">LeakCanary 接入方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E7%82%B9-1%EF%BC%9A%E5%8F%91%E7%8E%B0%E6%B3%84%E6%BC%8F%E5%90%8E%E8%87%AA%E5%8A%A8%E4%B8%8A%E4%BC%A0%E5%88%B0%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">4.1.</span> <span class="nav-text">修改点 1：发现泄漏后自动上传到数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA-LeakUploadService-%E7%B1%BB"><span class="nav-number">4.1.1.</span> <span class="nav-text">新建 LeakUploadService 类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C-Service"><span class="nav-number">4.1.2.</span> <span class="nav-text">注册 Service</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8F"><span class="nav-number">4.1.3.</span> <span class="nav-text">修改安装方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E7%82%B9-2%EF%BC%9A%E5%B1%8F%E8%94%BD-DisplayLeakActivity-%E7%B1%BB"><span class="nav-number">4.2.</span> <span class="nav-text">修改点 2：屏蔽 DisplayLeakActivity 类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%86%E6%8E%A5%E5%85%A5-LeakCanary-%E7%9A%84%E6%89%80%E6%9C%89%E4%BF%AE%E6%94%B9%E6%95%B4%E7%90%86%E6%88%90-Shell-%E8%84%9A%E6%9C%AC"><span class="nav-number">5.</span> <span class="nav-text">将接入 LeakCanary 的所有修改整理成 Shell 脚本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA-Jenkins-%E9%A1%B9%E7%9B%AE%EF%BC%8C%E7%94%A8%E4%BA%8E%E6%9E%84%E5%BB%BA%E5%8C%85%E5%90%AB-LeakCanary-%E7%9A%84-Debug-%E5%8C%85"><span class="nav-number">6.</span> <span class="nav-text">新建 Jenkins 项目，用于构建包含 LeakCanary 的 Debug 包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA-Jenkins-Pipeline-%E9%A1%B9%E7%9B%AE%EF%BC%8C%E7%94%A8%E4%BA%8E%E5%AE%9E%E7%8E%B0%E5%AE%8C%E6%95%B4%E6%B5%81%E7%A8%8B"><span class="nav-number">7.</span> <span class="nav-text">新建 Jenkins Pipeline 项目，用于实现完整流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%8E%E7%BB%AD%E6%B5%81%E7%A8%8B"><span class="nav-number">8.</span> <span class="nav-text">后续流程</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ntflc"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ntflc</p>
+  <div class="site-description" itemprop="description">Software QA Engineer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ntflc" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ntflc" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/feilichao/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;feilichao&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>LinkedIn</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/412070391" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;412070391" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/FeiLichao" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;FeiLichao" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ntflc.com/2016/09/26/LeakCanary-Jenkins-Practice/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ntflc">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ntflc's blog">
+      <meta itemprop="description" content="Software QA Engineer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="LeakCanary+Jenkins 内存泄漏监控实践 | ntflc's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LeakCanary+Jenkins 内存泄漏监控实践
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2016-09-26 15:57:27" itemprop="dateCreated datePublished" datetime="2016-09-26T15:57:27+08:00">2016-09-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Test/" itemprop="url" rel="index"><span itemprop="name">Test</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2016/09/26/LeakCanary-Jenkins-Practice/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/09/26/LeakCanary-Jenkins-Practice/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本文是之前几篇文章 <a href="/2016/08/22/LeakCanary-for-Android-App/">为 Android 软件接入 LeakCanary 实现内存泄漏检测</a>、<a href="/2016/08/23/Jenkins-Pipeline-for-Leakcanary/">使用 Jenkins Pipeline 为接入 LeakCanary 的软件做持续集成</a>、<a href="/2016/09/20/Fix-Problems-for-LeakCanary-and-Jenkins-Pipeline/">解决 LeakCanary 和 Jenkins Pipeline 中遇到的问题</a> 的总结，为了发布到 <a target="_blank" rel="noopener" href="https://testerhome.com/">TesterHome</a>。</p>
+<span id="more"></span>
+
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>公司 Android 产品的 OOM 崩溃率持续增长，为了检测出内存泄漏问题，决定使用 <a target="_blank" rel="noopener" href="https://github.com/square/leakcanary">LeakCanary</a>。为了持续发现内存泄漏问题，尝试将 LeakCanary 与 Jenkins 相结合。本文着重于 LeakCanary 与 Jenkins 的结合，不会对 LeakCanary 和 Jenkins 本身做过多介绍，敬请谅解。</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><ul>
+<li>将 LeakCanary 接入 Android 产品<ul>
+<li>在 Jenkins 平台完成 LeakCanary 代码接入和 Debug 包的构建</li>
+<li>通过 Shell 脚本实现代码修改</li>
+<li>发现泄漏信息后自动上传到数据库</li>
+</ul>
+</li>
+<li>使用 Monkey 进行随机操作触发泄漏</li>
+<li>使用 Jenkins Pipeline 实现持续集成流程</li>
+</ul>
+<h1 id="LeakCanary-接入方法"><a href="#LeakCanary-接入方法" class="headerlink" title="LeakCanary 接入方法"></a>LeakCanary 接入方法</h1><p>关于 LeakCanary 的详细信息可以看这里：<a target="_blank" rel="noopener" href="http://www.liaohuqiu.net/cn/posts/leak-canary-read-me/">LeakCanary 中文使用说明</a>。</p>
+<p>主要修改点有两处：一处是在项目的 <code>build.gradle</code> 中加入 LeakCanary 的引用：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    debugCompile <span class="string">&#x27;com.squareup.leakcanary:leakcanary-android:1.4&#x27;</span></span><br><span class="line">    releaseCompile <span class="string">&#x27;com.squareup.leakcanary:leakcanary-android-no-op:1.4&#x27;</span></span><br><span class="line">    testCompile <span class="string">&#x27;com.squareup.leakcanary:leakcanary-android-no-op:1.4&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>另一处是在项目的主 Application 类（即 <code>AndroidManifest.xml</code> 内 <code>&lt;application&gt;</code> 标签中 <code>android:name</code> 的值）中安装 LeakCanary：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.squareup.leakcanary.*</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">YourApplication</span> <span class="keyword">extends</span> <span class="title class_">Application</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate();</span><br><span class="line">        <span class="comment">// 安装LeakCanary</span></span><br><span class="line">        LeakCanary.install(<span class="built_in">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>按照最基础的 <code>LeakCanary.install(this);</code> 方式接入 LeakCanary 后，发现泄漏都会产生一个通知，点击可以查看具体的 leak trace。考虑到持续集成，这里希望每次发现泄漏后，将相关信息自动上传到数据库。并且由于查看 leak trace 的界面是一个新的 Activity，在跑 Monkey 的过程中也会存在干扰，导致相当一段时间不在产品本身的界面中操作。因此，这里需要做一些修改。</p>
+<h2 id="修改点-1：发现泄漏后自动上传到数据库"><a href="#修改点-1：发现泄漏后自动上传到数据库" class="headerlink" title="修改点 1：发现泄漏后自动上传到数据库"></a>修改点 1：发现泄漏后自动上传到数据库</h2><h3 id="新建-LeakUploadService-类"><a href="#新建-LeakUploadService-类" class="headerlink" title="新建 LeakUploadService 类"></a>新建 <code>LeakUploadService</code> 类</h3><p>在 Application 类所在的 package 内新建一个 <code>LeakUploadService</code> 类，继承 <code>DisplayLeakService</code> 类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.squareup.leakcanary.*</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LeakUploadService</span> <span class="keyword">extends</span> <span class="title class_">DisplayLeakService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">afterDefaultHandling</span><span class="params">(HeapDump heapDump, AnalysisResult result, String leakInfo)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!result.leakFound || result.excludedLeak)&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 下面是处理泄漏数据和上传数据库的代码</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中，发生泄漏的类名为 <code>result.className.toString();</code>，其余信息诸如软件包名、软件版本号、leak trace 等，均在 <code>leakInfo</code> 中，形如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">In com.example.leakcanary:1.0:1.</span><br><span class="line">* com.example.leakcanary.MainActivity has leaked:</span><br><span class="line">* GC ROOT thread java.lang.Thread.&lt;Java Local&gt; (named &#x27;AsyncTask #3&#x27;)</span><br><span class="line">* references com.example.leakcanary.MainActivity$2.this$0 (anonymous subclass of android.os.AsyncTask)</span><br><span class="line">* leaks com.example.leakcanary.MainActivity instance</span><br><span class="line"></span><br><span class="line">* Retaining: 131 KB.</span><br><span class="line">* Reference Key: 53591da9-6668-423c-90d1-ff83a797d94a</span><br><span class="line">* Device: HTC htc HTC M9w himauhl_htccn_chs_2</span><br><span class="line">* Android Version: 6.0 API: 23 LeakCanary: 1.4-SNAPSHOT 44787a1</span><br><span class="line">* Durations: watch=5140ms, gc=172ms, heap dump=1381ms, analysis=18835ms</span><br><span class="line"></span><br><span class="line">* Details:</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>一般将软件包名、版本号、leak trace（第一行下面，<code>* Retaining: 131 KB.</code> 之上的部分）、泄漏大小等信息上传到数据库即可，有了这些信息，研发就可以定位问题了。</p>
+<p>处理方法也很简单，就是对 String 对象进行一些操作。这里我是将发送泄漏的类名、软件包名、软件版本号、整个泄漏信息（除了 Details 部分）上传到数据库，因此代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">className</span> <span class="operator">=</span> result.className.toString();</span><br><span class="line"><span class="type">String</span> <span class="variable">pkgName</span> <span class="operator">=</span> leakInfo.trim().split(<span class="string">&quot;:&quot;</span>)[<span class="number">0</span>].split(<span class="string">&quot; &quot;</span>)[<span class="number">1</span>]</span><br><span class="line"><span class="type">String</span> <span class="variable">pkgVer</span> <span class="operator">=</span> leakInfo.trim().split(<span class="string">&quot;:&quot;</span>)[<span class="number">1</span>]</span><br><span class="line"><span class="type">String</span> <span class="variable">leakDetail</span> <span class="operator">=</span> leakInfo.split(<span class="string">&quot;\n\n&quot;</span>)[<span class="number">0</span>] + <span class="string">&quot;\n\n&quot;</span> + leakInfo.split(<span class="string">&quot;\n\n&quot;</span>)[<span class="number">1</span>];</span><br></pre></td></tr></table></figure>
+
+<p>至于上传数据库的代码，这里就不提供了（这个是之前同事写的，我直接拿来用了）。</p>
+<h3 id="注册-Service"><a href="#注册-Service" class="headerlink" title="注册 Service"></a>注册 Service</h3><p>接下来需要在 <code>AndroidManifest.xml</code> 中注册 Service，即在 <code>&lt;application android:name=...&gt;</code> 和 <code>&lt;/application&gt;</code> 之间添加 <code>&lt;service android:name=&quot;xxx.LeakUploadService&quot; android:exported=&quot;false&quot;/&gt;</code>，其中 <code>xxx</code> 为 <code>LeakUploadService</code> 所在的 package。</p>
+<h3 id="修改安装方式"><a href="#修改安装方式" class="headerlink" title="修改安装方式"></a>修改安装方式</h3><p>最后修改主 Application 类中的安装方式，改为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ExampleApplication</span> <span class="keyword">extends</span> <span class="title class_">Application</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> RefWatcher refWatcher;</span><br><span class="line">    <span class="keyword">protected</span> RefWatcher <span class="title function_">installLeakCanary</span><span class="params">()</span>&#123;<span class="keyword">return</span> LeakCanary.install(<span class="built_in">this</span>, LeakUploadService.class, AndroidExcludedRefs.createAppDefaults().build());&#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate();</span><br><span class="line">        <span class="comment">// 安装LeakCanary</span></span><br><span class="line">        refWatcher = installLeakCanary();        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>做了如上操作后，每次发送泄漏，都会自动将发送泄漏的类名、软件包名、软件版本号、泄漏信息等上传到数据库了。</p>
+<h2 id="修改点-2：屏蔽-DisplayLeakActivity-类"><a href="#修改点-2：屏蔽-DisplayLeakActivity-类" class="headerlink" title="修改点 2：屏蔽 DisplayLeakActivity 类"></a>修改点 2：屏蔽 <code>DisplayLeakActivity</code> 类</h2><p><code>DisplayLeakActivity</code> 类是 LeakCanary 展示 leak trace 的类，这个类的存在，会导致跑 Monkey 的过程中，多次进入这个 Activity，在其中操作，从而减少在软件本身界面中的操作时间。屏蔽这个类后，不会再在应用列表中生成一个名为 Leaks 的软件，发送泄漏后，点击通知栏里的泄漏提醒，也不会进入 leak trace 的展示页面。但考虑到泄漏的信息已经上传到数据库，所以这么做也无可厚非。</p>
+<p>通过查阅 LeakCanary 源码可以发现，是否开启 <code>DisplayLeakActivity</code>，是由 <code>leakcanary-android/src/main/java/com/squareup/leakcanary/LeakCanary.java</code> 中的 <code>enableDisplayLeakActivity()</code> 函数决定的，该函数为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">enableDisplayLeakActivity</span><span class="params">(Context context)</span> &#123;</span><br><span class="line">    setEnabled(context, DisplayLeakActivity.class, <span class="literal">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>只需要把 <code>true</code> 改成 <code>false</code> 即可屏蔽 <code>DisplayLeakActivity</code> 类。</p>
+<p>但我采用的接入方法是直接在 <code>build.gradle</code> 中添加远程依赖，并且我也不想修改成本地依赖。因此我首先想到的方法是新建一个类，让其继承 <code>LeakCanary</code> 类，然后重写 <code>enableDisplayLeakActivity()</code> 函数。但是 <code>LeakCanary</code> 类是一个 final 类，无法被继承。</p>
+<p>由于 <code>LeakCanary</code> 类正好是在前面接入 LeakCanary 时添加代码 <code>LeakCanary.install(this);</code> 用到的类，因此我想到的方法是自己创建一个新的类 <code>LeakCanaryWithoutDisplay</code>，位置在 <code>com/squareup/leakcanary</code> 下（需要自己新建这个 package），里面的代码直接复制 <code>LeakCanary</code> 类，然后做如下修改：</p>
+<ul>
+<li>把 <code>public final class LeakCanary &#123;</code> 改为 <code>public final class LeakCanaryWithoutDisplay &#123;</code></li>
+<li>把 <code>private LeakCanary() &#123;</code> 改为 <code>private LeakCanaryWithoutDisplay() &#123;</code></li>
+<li>修改 <code>enableDisplayLeakActivity()</code> 函数，将 <code>true</code> 改为 <code>false</code></li>
+<li>将主 Application 类中安装 LeakCanary 的代码 <code>LeakCanary.install();</code> 改为 <code>LeakCanaryWithoutDisplay.install();</code></li>
+</ul>
+<p>这样就 OK 了。</p>
+<h1 id="将接入-LeakCanary-的所有修改整理成-Shell-脚本"><a href="#将接入-LeakCanary-的所有修改整理成-Shell-脚本" class="headerlink" title="将接入 LeakCanary 的所有修改整理成 Shell 脚本"></a>将接入 LeakCanary 的所有修改整理成 Shell 脚本</h1><p>由于 Jenkins 打包每次都会拉取最新代码，因此需要将接入 LeakCanary 的修改整理成 Shell 脚本，这样每次拉取最新代码后，执行这个 Shell 脚本，然后再打出的包才是后面流程所需要的包。</p>
+<p>编写 Shell 脚本主要使用到的命令是 <code>sed</code> 和 <code>cp</code>，<code>sed</code> 用来修改代码，<code>cp</code> 用来复制文件。其中，<code>LeakUploadService.java</code> 和 <code>LeakCanaryWithoutDisplay.java</code> 是固定的，因此可以提前写好备用，然后直接 <code>cp</code> 到相应目录。</p>
+<p>Shell 脚本主要分为以下几个部分：</p>
+<ul>
+<li>修改 <code>build.gradle</code>，添加 LeakCanary 依赖</li>
+<li>修改 <code>AndroidManifest.xml</code>，注册 Service</li>
+<li>修改主 Application 类，安装 LeakCanary</li>
+<li>复制 <code>LeakUploadService.java</code>（以及上传数据库可能需要用到的其他 Java 文件）到主 Application 类所在的包下</li>
+<li>复制 <code>LeakCanaryWithoutDisplay.java</code> 到 <code>com/squareup/leakcanary</code> 下</li>
+</ul>
+<p>由于不同项目的脚本存在一定差异，这里就不给出具体的 Shell 脚本了。</p>
+<h1 id="新建-Jenkins-项目，用于构建包含-LeakCanary-的-Debug-包"><a href="#新建-Jenkins-项目，用于构建包含-LeakCanary-的-Debug-包" class="headerlink" title="新建 Jenkins 项目，用于构建包含 LeakCanary 的 Debug 包"></a>新建 Jenkins 项目，用于构建包含 LeakCanary 的 Debug 包</h1><p>在 Jenkins 中新建项目，配置源码管理。</p>
+<p>将编写的 Shell 脚本和相关文件拷贝到 Jenkins 项目文件夹中。</p>
+<p>添加构建步骤，选择 Execute shell，执行 Shell 脚本，命令为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> <span class="variable">$WORKSPACE</span></span><br><span class="line">sh ../your_shell_file_name.sh</span><br></pre></td></tr></table></figure>
+
+<p>添加构建步骤，选择 Invoke Gradle script，生成 Debug 包，配置如下图：</p>
+<p><img src="/images/LeakCanary-Jenkins-Practice/1.jpg"></p>
+<h1 id="新建-Jenkins-Pipeline-项目，用于实现完整流程"><a href="#新建-Jenkins-Pipeline-项目，用于实现完整流程" class="headerlink" title="新建 Jenkins Pipeline 项目，用于实现完整流程"></a>新建 Jenkins Pipeline 项目，用于实现完整流程</h1><p>结合我司实际环境，Jenkins 项目的打包是在 master 节点上进行的，而跑 Monkey 的操作是在另一台服务器上进行的（这台服务器是 Jenkins 的一个从节点，搭建了 <a target="_blank" rel="noopener" href="https://github.com/openstf/stf">STF</a> 服务，连有多台测试机），记这个从节点的标签为 Linux-for-stf。</p>
+<p>Pipeline 的步骤如下图所示：</p>
+<p><img src="/images/LeakCanary-Jenkins-Practice/2.jpg"></p>
+<p>包括 5 个步骤：</p>
+<ol>
+<li>首先在 master 节点构建接入了 LeakCanary 的 apk 包</li>
+<li>然后将 apk 包拷贝到 STF 节点</li>
+<li>接着在 STF 节点安装 apk 包</li>
+<li>其次在 STF 节点上选择一台手机跑 Monkey 触发泄漏</li>
+<li>最后发送邮件提醒（项目是否构建成功）</li>
+</ol>
+<p>对应 Pipeline script 可以简化为：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">node(<span class="string">&#x27;master&#x27;</span>) &#123;</span><br><span class="line">    stage <span class="string">&#x27;build Job1&#x27;</span></span><br><span class="line">    build <span class="string">&#x27;Job1&#x27;</span></span><br><span class="line"></span><br><span class="line">    stage <span class="string">&#x27;scp apk to stf node&#x27;</span></span><br><span class="line">    <span class="keyword">def</span> apkDir=<span class="string">&quot;/home/test/.jenkins/jobs/Job1/workspace/app/build/outputs/apk&quot;</span></span><br><span class="line">    <span class="keyword">def</span> destDir=<span class="string">&quot;stf@linux-for-stf:/home/stf/jenkins/apks&quot;</span></span><br><span class="line">    sh <span class="string">&quot;scp $apkDir/test.apk $destDir&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">node(<span class="string">&#x27;Linux-for-stf&#x27;</span>) &#123;</span><br><span class="line">    stage <span class="string">&#x27;install apk&#x27;</span></span><br><span class="line">    <span class="keyword">def</span> device=<span class="string">&quot;ABCD1234&quot;</span></span><br><span class="line">    <span class="keyword">def</span> apkFile=<span class="string">&quot;/home/stf/jenkins/apks/test.apk&quot;</span></span><br><span class="line">    sh <span class="string">&quot;adb -s $device install -r $apkFile&quot;</span></span><br><span class="line"></span><br><span class="line">    stage <span class="string">&#x27;run monkey&#x27;</span></span><br><span class="line">    sh <span class="string">&quot;adb -s $device shell monkey -p com.example.ExampleApp -s 100 --ignore-crashes --ignore-timeouts --throttle 700 -v 10000&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">node(<span class="string">&#x27;master&#x27;</span>) &#123;</span><br><span class="line">    stage <span class="string">&#x27;send email&#x27;</span></span><br><span class="line">    mail <span class="attr">to:</span> <span class="string">&#x27;test@gmail.com&#x27;</span>,</span><br><span class="line">    <span class="symbol">subject:</span> <span class="string">&quot;Job &#x27;$&#123;env.JOB_NAME&#125;&#x27; ($&#123;env.BUILD_NUMBER&#125;) finished&quot;</span>,</span><br><span class="line">    <span class="symbol">body:</span> <span class="string">&quot;Please go to $&#123;env.BUILD_URL&#125; and verify the build&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里会遇到一个问题：这个 Pipeline 项目完成后会发送一封邮件，但如果中途某一步出了问题，就直接结束运行，从而导致成功可以收到邮件、失败却收不到邮件的情况。解决方法是，使用 <code>try catch</code>。改进的 Pipeline script 为：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    node(<span class="string">&#x27;master&#x27;</span>) &#123;</span><br><span class="line">        stage <span class="string">&#x27;build Job1&#x27;</span></span><br><span class="line">        build <span class="string">&#x27;Job1&#x27;</span></span><br><span class="line"></span><br><span class="line">        stage <span class="string">&#x27;scp apk to stf node&#x27;</span></span><br><span class="line">        <span class="keyword">def</span> apkDir=<span class="string">&quot;/home/test/.jenkins/jobs/Job1/workspace/app/build/outputs/apk&quot;</span></span><br><span class="line">        <span class="keyword">def</span> destDir=<span class="string">&quot;stf@linux-for-stf:/home/stf/jenkins/apks&quot;</span></span><br><span class="line">        sh <span class="string">&quot;scp $apkDir/test.apk $destDir&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    node(<span class="string">&#x27;Linux-for-stf&#x27;</span>) &#123;</span><br><span class="line">        stage <span class="string">&#x27;install apk&#x27;</span></span><br><span class="line">        <span class="keyword">def</span> device=<span class="string">&quot;ABCD1234&quot;</span></span><br><span class="line">        <span class="keyword">def</span> apkFile=<span class="string">&quot;/home/stf/jenkins/apks/test.apk&quot;</span></span><br><span class="line">        sh <span class="string">&quot;adb -s $device install -r $apkFile&quot;</span></span><br><span class="line"></span><br><span class="line">        stage <span class="string">&#x27;run monkey&#x27;</span></span><br><span class="line">        sh <span class="string">&quot;adb -s $device shell monkey -p com.example.ExampleApp -s 100 --ignore-crashes --ignore-timeouts --throttle 700 -v 10000&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    node(<span class="string">&#x27;master&#x27;</span>) &#123;</span><br><span class="line">        stage <span class="string">&#x27;send email&#x27;</span></span><br><span class="line">        mail <span class="attr">to:</span> <span class="string">&#x27;test@gmail.com&#x27;</span>,</span><br><span class="line">        <span class="symbol">subject:</span> <span class="string">&quot;Job &#x27;$&#123;env.JOB_NAME&#125;&#x27; ($&#123;env.BUILD_NUMBER&#125;) succeeded&quot;</span>,</span><br><span class="line">        <span class="symbol">body:</span> <span class="string">&quot;Please go to $&#123;env.BUILD_URL&#125; and verify the build&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    node(<span class="string">&#x27;master&#x27;</span>) &#123;</span><br><span class="line">        stage <span class="string">&#x27;send email&#x27;</span></span><br><span class="line">        echo <span class="string">&#x27;$e&#x27;</span></span><br><span class="line">        mail <span class="attr">to:</span> <span class="string">&#x27;test@gmail.com&#x27;</span>,</span><br><span class="line">        <span class="symbol">subject:</span> <span class="string">&quot;Job &#x27;$&#123;env.JOB_NAME&#125;&#x27; ($&#123;env.BUILD_NUMBER&#125;) failed&quot;</span>,</span><br><span class="line">        <span class="symbol">body:</span> <span class="string">&quot;Please go to $&#123;env.BUILD_URL&#125; and verify the build&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样持续了一段时间后发现，跑 Monkey 过程中经常会下拉状态栏，然后点击里面的快捷按钮，而且经常会点击到 WiFi 按钮，从而导致 WiFi 被关闭。WiFi 被关闭，意味着发现的泄漏信息无法上传到数据库，因此这个问题必须要解决。然而从网上搜索的结果来看并不理想，针对这个问题，大部分人都表示没有什么好的方法。</p>
+<p>好在有一个 GitHub 项目被我发现了，叫 <a target="_blank" rel="noopener" href="https://github.com/Orange-OpenSource/simiasque">simiasque</a>。这是一款 Android 软件，通过全局遮罩遮住状态栏位置来防止 Monkey 下拉状态栏，测试效果非常好。使用方法也很简单，安装 demo 下的 apk 文件，打开软件，点击 Hide status bar 按钮即可。更方便的是，作者也提供了启动和关闭的命令，分别是：</p>
+<p>开启：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am broadcast -a org.thisisafactory.simiasque.SET_OVERLAY --ez <span class="built_in">enable</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>关闭：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am broadcast -a org.thisisafactory.simiasque.SET_OVERLAY --ez <span class="built_in">enable</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<p>接下来要做的，就是在 Pipeline script 跑 Monkey 的命令之前加上安装和开启 simiasque 的命令，跑完 Monkey 后再加上关闭 simiasque 的命令即可。</p>
+<p>最终的 Pipeline script 大致是这样的：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    node(<span class="string">&#x27;master&#x27;</span>) &#123;</span><br><span class="line">        stage <span class="string">&#x27;build Job1&#x27;</span></span><br><span class="line">        build <span class="string">&#x27;Job1&#x27;</span></span><br><span class="line"></span><br><span class="line">        stage <span class="string">&#x27;scp apk to stf node&#x27;</span></span><br><span class="line">        <span class="keyword">def</span> apkDir=<span class="string">&quot;/home/test/.jenkins/jobs/Job1/workspace/app/build/outputs/apk&quot;</span></span><br><span class="line">        <span class="keyword">def</span> destDir=<span class="string">&quot;stf@linux-for-stf:/home/stf/jenkins/apks&quot;</span></span><br><span class="line">        sh <span class="string">&quot;scp $apkDir/test.apk $destDir&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    node(<span class="string">&#x27;Linux-for-stf&#x27;</span>) &#123;</span><br><span class="line">        stage <span class="string">&#x27;install apk&#x27;</span></span><br><span class="line">        <span class="keyword">def</span> device=<span class="string">&quot;ABCD1234&quot;</span></span><br><span class="line">        <span class="keyword">def</span> apkFile=<span class="string">&quot;/home/stf/jenkins/apks/test.apk&quot;</span></span><br><span class="line">        sh <span class="string">&quot;adb -s $device install -r $apkFile&quot;</span></span><br><span class="line"></span><br><span class="line">        stage <span class="string">&#x27;run monkey&#x27;</span></span><br><span class="line">        sh <span class="string">&quot;adb -s $device install -r /home/stf/jenkins/simiasque-debug.apk&quot;</span></span><br><span class="line">        sh <span class="string">&quot;adb -s $device shell am broadcast -a org.thisisafactory.simiasque.SET_OVERLAY --ez enable true&quot;</span></span><br><span class="line">        sh <span class="string">&quot;adb -s $device shell monkey -p com.example.ExampleApp -s 100 --ignore-crashes --ignore-timeouts --throttle 700 -v 10000&quot;</span></span><br><span class="line">        sh <span class="string">&quot;adb -s $device shell am broadcast -a org.thisisafactory.simiasque.SET_OVERLAY --ez enable false&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    node(<span class="string">&#x27;master&#x27;</span>) &#123;</span><br><span class="line">        stage <span class="string">&#x27;send email&#x27;</span></span><br><span class="line">        mail <span class="attr">to:</span> <span class="string">&#x27;test@gmail.com&#x27;</span>,</span><br><span class="line">        <span class="symbol">subject:</span> <span class="string">&quot;Job &#x27;$&#123;env.JOB_NAME&#125;&#x27; ($&#123;env.BUILD_NUMBER&#125;) succeeded&quot;</span>,</span><br><span class="line">        <span class="symbol">body:</span> <span class="string">&quot;Please go to $&#123;env.BUILD_URL&#125; and verify the build&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    node(<span class="string">&#x27;master&#x27;</span>) &#123;</span><br><span class="line">        stage <span class="string">&#x27;send email&#x27;</span></span><br><span class="line">        echo <span class="string">&#x27;$e&#x27;</span></span><br><span class="line">        mail <span class="attr">to:</span> <span class="string">&#x27;test@gmail.com&#x27;</span>,</span><br><span class="line">        <span class="symbol">subject:</span> <span class="string">&quot;Job &#x27;$&#123;env.JOB_NAME&#125;&#x27; ($&#123;env.BUILD_NUMBER&#125;) failed&quot;</span>,</span><br><span class="line">        <span class="symbol">body:</span> <span class="string">&quot;Please go to $&#123;env.BUILD_URL&#125; and verify the build&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>到此为止，Jenkins Pipeline 的步骤基本是完成了。接下来，设置好每天运行 1 次，泄漏信息尽收数据库之中。</p>
+<h1 id="后续流程"><a href="#后续流程" class="headerlink" title="后续流程"></a>后续流程</h1><p>以上流程完成后，LeakCanary+Jenkins 的内存泄漏监控实践基本上是完成了。但在公司的实际项目中，这样仅仅是发现和收集了泄漏信息，最关键的还是让研发修改这些问题。由于不同公司采用的 Bug 平台不尽相同，不同 Bug 平台的区别可能也很大，因此这里就不具体展开后面的步骤了。大体思路就是，定期将数据库中的泄漏信息提交到 Bug 平台上。至于实现方法，如果提供接口当然是直接用调用接口；如果不提供接口，也可以尝试直接向数据库添加信息。</p>
+<p>总之，发现内存泄漏的关键还是解决，如果不解决，上面所做的一切都是白费。</p>
+<p>当然，上面的一些方法可能并不完美，不过都是我在最近一段时间的工作中慢慢摸索得到的。如果你有更好的解决方案，欢迎交流。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ntflc WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Test/" rel="tag"># Test</a>
+              <a href="/tags/Jenkins/" rel="tag"># Jenkins</a>
+              <a href="/tags/LeakCanary/" rel="tag"># LeakCanary</a>
+              <a href="/tags/Monkey/" rel="tag"># Monkey</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/09/20/Fix-Problems-for-LeakCanary-and-Jenkins-Pipeline/" rel="prev" title="解决 LeakCanary 和 Jenkins Pipeline 中遇到的问题">
+                  <i class="fa fa-angle-left"></i> 解决 LeakCanary 和 Jenkins Pipeline 中遇到的问题
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/10/25/NGINX-for-Reverse-Proxy/" rel="next" title="使用 NGINX 为网站做反向代理">
+                  使用 NGINX 为网站做反向代理 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ntflc</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"ntflc","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

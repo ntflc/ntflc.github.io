@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="D9L_iPzvP6fvAKh3XTLCUIqbG8uCxYUgJv35bG1bkRE">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ntflc.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="上一篇文章 为 Android 软件接入 LeakCanary 实现内存泄漏检测 讲了如何为软件接入 LeakCanary 内存泄漏检测，这篇文章着重讲讲如何通过 Jenkins Pipeline 来做持续集成。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Jenkins Pipeline 为接入 LeakCanary 的软件做持续集成">
+<meta property="og:url" content="https://ntflc.com/2016/08/23/Jenkins-Pipeline-for-Leakcanary/index.html">
+<meta property="og:site_name" content="ntflc&#39;s blog">
+<meta property="og:description" content="上一篇文章 为 Android 软件接入 LeakCanary 实现内存泄漏检测 讲了如何为软件接入 LeakCanary 内存泄漏检测，这篇文章着重讲讲如何通过 Jenkins Pipeline 来做持续集成。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-08-23T03:04:52.000Z">
+<meta property="article:modified_time" content="2023-12-30T16:16:52.796Z">
+<meta property="article:author" content="ntflc">
+<meta property="article:tag" content="Test">
+<meta property="article:tag" content="Jenkins">
+<meta property="article:tag" content="LeakCanary">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://ntflc.com/2016/08/23/Jenkins-Pipeline-for-Leakcanary/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://ntflc.com/2016/08/23/Jenkins-Pipeline-for-Leakcanary/","path":"2016/08/23/Jenkins-Pipeline-for-Leakcanary/","title":"使用 Jenkins Pipeline 为接入 LeakCanary 的软件做持续集成"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用 Jenkins Pipeline 为接入 LeakCanary 的软件做持续集成 | ntflc's blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?804fc670bbeb813451fa072d0b70651a"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ntflc's blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Jenkins"><span class="nav-number">1.</span> <span class="nav-text">Jenkins</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pipeline"><span class="nav-number">2.</span> <span class="nav-text">Pipeline</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#STF-Smartphone-Test-Farm"><span class="nav-number">3.</span> <span class="nav-text">STF (Smartphone Test Farm)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Jenkins-Pipeline-%E4%B8%BA%E6%8E%A5%E5%85%A5-LeakCanary-%E7%9A%84%E8%BD%AF%E4%BB%B6%E5%81%9A%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90"><span class="nav-number">4.</span> <span class="nav-text">使用 Jenkins Pipeline 为接入 LeakCanary 的软件做持续集成</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">4.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%87%E7%A8%8B"><span class="nav-number">4.2.</span> <span class="nav-text">过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">4.3.</span> <span class="nav-text">新的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Leaks-%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%B9%B2%E6%89%B0"><span class="nav-number">4.3.1.</span> <span class="nav-text">1. Leaks 进程的干扰</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E8%B7%91-Monkey-%E8%BF%87%E7%A8%8B%E4%B8%AD%EF%BC%8CWiFi-%E8%A2%AB%E5%85%B3%E9%97%AD"><span class="nav-number">4.3.2.</span> <span class="nav-text">2、跑 Monkey 过程中，WiFi 被关闭</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%B8%80%E4%BA%9B%E7%89%B9%E6%AE%8A%E8%BD%AF%E4%BB%B6"><span class="nav-number">4.3.3.</span> <span class="nav-text">3. 一些特殊软件</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ntflc"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ntflc</p>
+  <div class="site-description" itemprop="description">Software QA Engineer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ntflc" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ntflc" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/feilichao/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;feilichao&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>LinkedIn</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/412070391" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;412070391" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/FeiLichao" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;FeiLichao" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ntflc.com/2016/08/23/Jenkins-Pipeline-for-Leakcanary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ntflc">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ntflc's blog">
+      <meta itemprop="description" content="Software QA Engineer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用 Jenkins Pipeline 为接入 LeakCanary 的软件做持续集成 | ntflc's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 Jenkins Pipeline 为接入 LeakCanary 的软件做持续集成
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2016-08-23 11:04:52" itemprop="dateCreated datePublished" datetime="2016-08-23T11:04:52+08:00">2016-08-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Test/" itemprop="url" rel="index"><span itemprop="name">Test</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2016/08/23/Jenkins-Pipeline-for-Leakcanary/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/23/Jenkins-Pipeline-for-Leakcanary/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>上一篇文章 <a href="/2016/08/22/LeakCanary-for-Android-App/">为 Android 软件接入 LeakCanary 实现内存泄漏检测</a> 讲了如何为软件接入 LeakCanary 内存泄漏检测，这篇文章着重讲讲如何通过 Jenkins Pipeline 来做持续集成。</p>
+<span id="more"></span>
+
+<h1 id="Jenkins"><a href="#Jenkins" class="headerlink" title="Jenkins"></a>Jenkins</h1><p>Jenkins（<a target="_blank" rel="noopener" href="https://jenkins.io/">https://jenkins.io</a>）是一个用 Java 编写的开源的持续集成工具，前身是 Hudson。在与 Oracle 发生争执后，项目从 Hudson 项目复刻。</p>
+<p>Jenkins 提供了软件开发的持续集成服务。它运行在 Servlet 容器中（例如 Apache Tomcat），支持软件配置管理（SCM）工具（包括 AccuRev SCM、CVS、Subversion、Git、Perforce、Clearcase 和 RTC），可以执行基于 Apache Ant 和 Apache Maven 的项目，以及任意的 Shell 脚本和 Windows 批处理命令。Jenkins 的主要开发者是川口耕介，是在 MIT 许可证下发布的自由软件。</p>
+<p>Jenkins 的扩展插件已经发布，能使非 Java 语言编写的项目也使用 Jenkins。对于大多数的版本控制系统和大的数据库，有与 Jenkins 集成的插件可用。许多构建（build）工具都是通过他们各自的插件提供支持。插件还可以改变 Jenkins 的外观，或添加新的功能。</p>
+<p>构建时可以生成各种格式的测试报告（JUnit 是被内建支持的，别的格式则需通过插件）。Jenkins 可以显示报表，生成趋势图，并在图形化界面中呈现它们。</p>
+<p>（以上内容来自维基百科词条：<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Jenkins_(%E8%BD%AF%E4%BB%B6)">Jenkins (软件)</a>）</p>
+<h1 id="Pipeline"><a href="#Pipeline" class="headerlink" title="Pipeline"></a>Pipeline</h1><p>对于常规的 Jenkins 任务，一般只能在一个节点完成一件事情。 Pipeline 的加入，让 Jenkins 从单一任务变成了流水线式的任务。Pipeline 是 Jenkins 的一个插件，需要自行安装。安装后，新建任务的时候就会看见多了一个 Pipeline 的选项。</p>
+<p>Pipeline 和主要构造内容是 Pipeline script，语法很简单，并且可以使用 Groovy 沙盒。常用命令有选择工作节点 <code>node(&#39;name_of_your_node&#39;)</code>，步骤 <code>stage &#39;name_of_your_stage&#39;</code>，构建已有的 Jenkins 任务 <code>build &#39;name_of_jenkins_job&#39;</code>，定义变量 <code>def str=&quot;Hello World&quot;</code>，执行 Shell 脚本 <code>sh &quot;shell_script&quot;</code>，输出提示语 <code>echo &#39;Hello World&#39;</code> 等等。下面给出一个简单的 Pipeline 的例子：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">node(<span class="string">&#x27;master&#x27;</span>) &#123;</span><br><span class="line">    stage <span class="string">&#x27;build Job1&#x27;</span></span><br><span class="line">    build <span class="string">&#x27;Job1&#x27;</span></span><br><span class="line"></span><br><span class="line">    stage <span class="string">&#x27;scp apk to stf node&#x27;</span></span><br><span class="line">    <span class="keyword">def</span> apkDir=<span class="string">&quot;/home/test/.jenkins/jobs/Job1/workspace/app/build/outputs/apk&quot;</span></span><br><span class="line">    <span class="keyword">def</span> destDir=<span class="string">&quot;stf@linux-for-stf:/home/stf/jenkins/apks&quot;</span></span><br><span class="line">    sh <span class="string">&quot;scp $apkDir/test.apk $destDir&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">node(<span class="string">&#x27;Linux-for-stf&#x27;</span>) &#123;</span><br><span class="line">    stage <span class="string">&#x27;install apk&#x27;</span></span><br><span class="line">    <span class="keyword">def</span> device=<span class="string">&quot;ABCD1234&quot;</span></span><br><span class="line">    <span class="keyword">def</span> apkFile=<span class="string">&quot;/home/stf/jenkins/apks/test.apk&quot;</span></span><br><span class="line">    sh <span class="string">&quot;adb -s $device install -r $apkFile&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个例子共有个 3 步骤：第 1 步，构建项目 Job1；第 2 步，将第 1 步生成 apk 文件拷贝到 Linux-for-stf 节点。前两步均在 Jenkins 的 master 节点执行。第 3 步，运行节点不再是 master 节点，而是 Linux-for-stf 节点，给指定手机安装刚才拷贝过来的 apk 文件。</p>
+<h1 id="STF-Smartphone-Test-Farm"><a href="#STF-Smartphone-Test-Farm" class="headerlink" title="STF (Smartphone Test Farm)"></a>STF (Smartphone Test Farm)</h1><p>STF (Smartphone Test Farm) 是 GitHub 上的一个开源项目（<a target="_blank" rel="noopener" href="https://github.com/openstf/stf">https://github.com/openstf/stf</a>），是一个通过浏览器来控制、调试手机的 WEB 软件。只需要一台 Linux 服务器，和数台手机，就可以通过浏览器远程操作这些手机了。对于一个公司的测试部门来说，STF 可以有效解决手机多、难以管理的问题。这里只是简单介绍一下，之后会单独写一篇关于 STF 的文章。</p>
+<p>在这里，STF 并不是必须的，只是因为我们公司的测试机全部连在 STF 服务器上，所以这里提一下。对于本篇文章，你完全可以将测试手机直接连在 Jenkins 服务器上，或者连在任意一个 Jenkins 节点上，反正后面涉及到的都是 <code>adb shell</code> 命令。</p>
+<h1 id="使用-Jenkins-Pipeline-为接入-LeakCanary-的软件做持续集成"><a href="#使用-Jenkins-Pipeline-为接入-LeakCanary-的软件做持续集成" class="headerlink" title="使用 Jenkins Pipeline 为接入 LeakCanary 的软件做持续集成"></a>使用 Jenkins Pipeline 为接入 LeakCanary 的软件做持续集成</h1><p>由于我在公司负责各产品的 LeakCanary 接入，同时也要负责接入后的管理，那么持续集成肯定是必不可少的环节。使用 Pipeline，我就可以将打包、安装、跑 Monkey 等步骤串在一起。</p>
+<p>我使用到的 Jenkins 节点有 2 个，一个是 master 主节点，一个是 Linux-for-stf 节点。前者是 Jenkins 的主服务器，负责打包等工作；后者是 STF 所在的服务器，连接有数台测试机。</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>这里主要分为 5 个步骤：</p>
+<ol>
+<li>在 master 节点构建接入了 LeakCanary 的 apk 包</li>
+<li>将 apk 包拷贝到 Linux-for-stf 节点</li>
+<li>在 Linux-for-stf 节点安装 apk 包</li>
+<li>选择 STF 中的一台手机跑 Monkey（用来发现泄漏信息，发现后自动上传到数据库）</li>
+<li>发送邮件</li>
+</ol>
+<p>其中，跑 Monkey 会遇到一些问题，后面会提到。</p>
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><p>最初，Pipeline script 大概如下：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">node(<span class="string">&#x27;master&#x27;</span>) &#123;</span><br><span class="line">    stage <span class="string">&#x27;build Job1&#x27;</span></span><br><span class="line">    build <span class="string">&#x27;Job1&#x27;</span></span><br><span class="line"></span><br><span class="line">    stage <span class="string">&#x27;scp apk to stf node&#x27;</span></span><br><span class="line">    <span class="keyword">def</span> apkDir=<span class="string">&quot;/home/test/.jenkins/jobs/Job1/workspace/app/build/outputs/apk&quot;</span></span><br><span class="line">    <span class="keyword">def</span> destDir=<span class="string">&quot;stf@linux-for-stf:/home/stf/jenkins/apks&quot;</span></span><br><span class="line">    sh <span class="string">&quot;scp $apkDir/test.apk $destDir&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">node(<span class="string">&#x27;Linux-for-stf&#x27;</span>) &#123;</span><br><span class="line">    stage <span class="string">&#x27;install apk&#x27;</span></span><br><span class="line">    <span class="keyword">def</span> device=<span class="string">&quot;ABCD1234&quot;</span></span><br><span class="line">    <span class="keyword">def</span> apkFile=<span class="string">&quot;/home/stf/jenkins/apks/test.apk&quot;</span></span><br><span class="line">    sh <span class="string">&quot;adb -s $device install -r $apkFile&quot;</span></span><br><span class="line"></span><br><span class="line">    stage <span class="string">&#x27;run monkey&#x27;</span></span><br><span class="line">    sh <span class="string">&quot;adb -s $device shell monkey -p com.example.ExampleApp -s 100 --ignore-crashes --ignore-timeouts --throttle 700 -v 10000&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">node(<span class="string">&#x27;master&#x27;</span>) &#123;</span><br><span class="line">    stage <span class="string">&#x27;send email&#x27;</span></span><br><span class="line">    mail <span class="attr">to:</span> <span class="string">&#x27;test@gmail.com&#x27;</span>,</span><br><span class="line">    <span class="symbol">subject:</span> <span class="string">&quot;Job &#x27;$&#123;env.JOB_NAME&#125;&#x27; ($&#123;env.BUILD_NUMBER&#125;) finished&quot;</span>,</span><br><span class="line">    <span class="symbol">body:</span> <span class="string">&quot;Please go to $&#123;env.BUILD_URL&#125; and verify the build&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后发现个问题，一旦中间某个过程失败了，就不会发出邮件了。于是查阅了资料，发现可以直接用 <code>try catch</code>，然后就诞生了下面这个版本：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    node(<span class="string">&#x27;master&#x27;</span>) &#123;</span><br><span class="line">        stage <span class="string">&#x27;build Job1&#x27;</span></span><br><span class="line">        build <span class="string">&#x27;Job1&#x27;</span></span><br><span class="line"></span><br><span class="line">        stage <span class="string">&#x27;scp apk to stf node&#x27;</span></span><br><span class="line">        <span class="keyword">def</span> apkDir=<span class="string">&quot;/home/test/.jenkins/jobs/Job1/workspace/app/build/outputs/apk&quot;</span></span><br><span class="line">        <span class="keyword">def</span> destDir=<span class="string">&quot;stf@linux-for-stf:/home/stf/jenkins/apks&quot;</span></span><br><span class="line">        sh <span class="string">&quot;scp $apkDir/test.apk $destDir&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    node(<span class="string">&#x27;Linux-for-stf&#x27;</span>) &#123;</span><br><span class="line">        stage <span class="string">&#x27;install apk&#x27;</span></span><br><span class="line">        <span class="keyword">def</span> device=<span class="string">&quot;ABCD1234&quot;</span></span><br><span class="line">        <span class="keyword">def</span> apkFile=<span class="string">&quot;/home/stf/jenkins/apks/test.apk&quot;</span></span><br><span class="line">        sh <span class="string">&quot;adb -s $device install -r $apkFile&quot;</span></span><br><span class="line"></span><br><span class="line">        stage <span class="string">&#x27;run monkey&#x27;</span></span><br><span class="line">        sh <span class="string">&quot;adb -s $device shell monkey -p com.example.ExampleApp -s 100 --ignore-crashes --ignore-timeouts --throttle 700 -v 10000&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    node(<span class="string">&#x27;master&#x27;</span>) &#123;</span><br><span class="line">        stage <span class="string">&#x27;send email&#x27;</span></span><br><span class="line">        mail <span class="attr">to:</span> <span class="string">&#x27;test@gmail.com&#x27;</span>,</span><br><span class="line">        <span class="symbol">subject:</span> <span class="string">&quot;Job &#x27;$&#123;env.JOB_NAME&#125;&#x27; ($&#123;env.BUILD_NUMBER&#125;) succeeded&quot;</span>,</span><br><span class="line">        <span class="symbol">body:</span> <span class="string">&quot;Please go to $&#123;env.BUILD_URL&#125; and verify the build&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    node(<span class="string">&#x27;master&#x27;</span>) &#123;</span><br><span class="line">        stage <span class="string">&#x27;send email&#x27;</span></span><br><span class="line">        mail <span class="attr">to:</span> <span class="string">&#x27;test@gmail.com&#x27;</span>,</span><br><span class="line">        <span class="symbol">subject:</span> <span class="string">&quot;Job &#x27;$&#123;env.JOB_NAME&#125;&#x27; ($&#123;env.BUILD_NUMBER&#125;) failed&quot;</span>,</span><br><span class="line">        <span class="symbol">body:</span> <span class="string">&quot;Please go to $&#123;env.BUILD_URL&#125; and verify the build&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样，无论成功失败，都会有邮件提醒，并且通过标题就能知道是否成功了。</p>
+<h2 id="新的问题"><a href="#新的问题" class="headerlink" title="新的问题"></a>新的问题</h2><h3 id="1-Leaks-进程的干扰"><a href="#1-Leaks-进程的干扰" class="headerlink" title="1. Leaks 进程的干扰"></a>1. Leaks 进程的干扰</h3><p>在跑 Monkey 的时候，我发现了一个新的问题。因为接入了 LeakCanary 的软件，会生成一个新的应用叫 Leaks，且包名与原软件包名一致，因此跑 Monkey 的时候，经常会进入 Leaks 里，甚至起始就进入。这个问题暂时还没有彻底解决，暂时想到的解决方法是，先使用 <code>adb shell am start</code> 开启软件本身的进程（进程名可以通过 <code>adb logcat</code> 获取，具体方法是，打开软件，然后在 logcat 里搜索 <code>cmp=</code>，然后自己识别下就能找到对应进程了），这样跑 Monkey 时即使进入 Leaks，还是会返回到软件本身的进程。因此产生了下面的版本：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    node(<span class="string">&#x27;master&#x27;</span>) &#123;</span><br><span class="line">        stage <span class="string">&#x27;build Job1&#x27;</span></span><br><span class="line">        build <span class="string">&#x27;Job1&#x27;</span></span><br><span class="line"></span><br><span class="line">        stage <span class="string">&#x27;scp apk to stf node&#x27;</span></span><br><span class="line">        <span class="keyword">def</span> apkDir=<span class="string">&quot;/home/test/.jenkins/jobs/Job1/workspace/app/build/outputs/apk&quot;</span></span><br><span class="line">        <span class="keyword">def</span> destDir=<span class="string">&quot;stf@linux-for-stf:/home/stf/jenkins/apks&quot;</span></span><br><span class="line">        sh <span class="string">&quot;scp $apkDir/test.apk $destDir&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    node(<span class="string">&#x27;Linux-for-stf&#x27;</span>) &#123;</span><br><span class="line">        stage <span class="string">&#x27;install apk&#x27;</span></span><br><span class="line">        <span class="keyword">def</span> device=<span class="string">&quot;ABCD1234&quot;</span></span><br><span class="line">        <span class="keyword">def</span> apkFile=<span class="string">&quot;/home/stf/jenkins/apks/test.apk&quot;</span></span><br><span class="line">        sh <span class="string">&quot;adb -s $device install -r $apkFile&quot;</span></span><br><span class="line"></span><br><span class="line">        stage <span class="string">&#x27;run monkey&#x27;</span></span><br><span class="line">        sh <span class="string">&quot;adb -s $device shell am start -n com.example.ExampleApp/.MainActivity&quot;</span></span><br><span class="line">        sh <span class="string">&quot;adb -s $device shell monkey -p com.example.ExampleApp -s 100 --ignore-crashes --ignore-timeouts --throttle 700 -v 10000&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    node(<span class="string">&#x27;master&#x27;</span>) &#123;</span><br><span class="line">        stage <span class="string">&#x27;send email&#x27;</span></span><br><span class="line">        mail <span class="attr">to:</span> <span class="string">&#x27;test@gmail.com&#x27;</span>,</span><br><span class="line">        <span class="symbol">subject:</span> <span class="string">&quot;Job &#x27;$&#123;env.JOB_NAME&#125;&#x27; ($&#123;env.BUILD_NUMBER&#125;) succeeded&quot;</span>,</span><br><span class="line">        <span class="symbol">body:</span> <span class="string">&quot;Please go to $&#123;env.BUILD_URL&#125; and verify the build&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    node(<span class="string">&#x27;master&#x27;</span>) &#123;</span><br><span class="line">        stage <span class="string">&#x27;send email&#x27;</span></span><br><span class="line">        mail <span class="attr">to:</span> <span class="string">&#x27;test@gmail.com&#x27;</span>,</span><br><span class="line">        <span class="symbol">subject:</span> <span class="string">&quot;Job &#x27;$&#123;env.JOB_NAME&#125;&#x27; ($&#123;env.BUILD_NUMBER&#125;) failed&quot;</span>,</span><br><span class="line">        <span class="symbol">body:</span> <span class="string">&quot;Please go to $&#123;env.BUILD_URL&#125; and verify the build&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但这终究只是个妥协了的办法。其中也尝试过 CrashMonkey4Android（<a target="_blank" rel="noopener" href="https://testerhome.com/topics/2698">https://testerhome.com/topics/2698</a>），这是 TesterHome 上一位大神做的基于 CTS 框架的改良版 Monkey，可以限制只在某个进程中跑 Monkey，这样就可以避免进入 Leaks 的进程。但由于各种各样的问题，这个方案被停掉了。如果你有其他解决方案，欢迎留言讨论。</p>
+<h3 id="2、跑-Monkey-过程中，WiFi-被关闭"><a href="#2、跑-Monkey-过程中，WiFi-被关闭" class="headerlink" title="2、跑 Monkey 过程中，WiFi 被关闭"></a>2、跑 Monkey 过程中，WiFi 被关闭</h3><p>因为接入 LeakCanary 时，我们在发现泄漏信息后，会自动将其上传到数据库。如果 WiFi 被关闭，就没法上传了。现在的解决方案也只是临时性的，就是在每次跑 Monkey 前，使用 UIAutomator 先判断 WiFi 状态，如果关闭则开启 WiFi。对于已经 Root 的手机，这一步可以直接用 <code>adb shell svc wifi enable</code> 解决。但考虑到我们公司的大部分测试机没有 Root，因此只是使用 UIAutomator 模拟打开 WiFi。</p>
+<p>关于 UIAutomator，这里不做介绍，感兴趣的可以自行搜索。这里提供我写的打开 WiFi 的 UIAutomator 代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.android.uiautomator.core.UiObject;</span><br><span class="line"><span class="keyword">import</span> com.android.uiautomator.core.UiObjectNotFoundException;</span><br><span class="line"><span class="keyword">import</span> com.android.uiautomator.core.UiScrollable;</span><br><span class="line"><span class="keyword">import</span> com.android.uiautomator.core.UiSelector;</span><br><span class="line"><span class="keyword">import</span> com.android.uiautomator.testrunner.UiAutomatorTestCase;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.os.RemoteException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainTest</span> <span class="keyword">extends</span> <span class="title class_">UiAutomatorTestCase</span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testCase</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException, UiObjectNotFoundException &#123;</span><br><span class="line">		wakeUpDevice();</span><br><span class="line">		getUiDevice().pressHome();</span><br><span class="line">		openSettings();</span><br><span class="line">		turnOnWifi();</span><br><span class="line">		getUiDevice().pressHome();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">wakeUpDevice</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException &#123;</span><br><span class="line">		<span class="keyword">if</span> (!getUiDevice().isScreenOn()) &#123;</span><br><span class="line">			getUiDevice().wakeUp();</span><br><span class="line">			getUiDevice().swipe(<span class="number">100</span>, <span class="number">1500</span>, <span class="number">980</span>, <span class="number">1500</span>, <span class="number">20</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">openSettings</span><span class="params">()</span> <span class="keyword">throws</span> UiObjectNotFoundException &#123;</span><br><span class="line">		<span class="comment">// 下拉快速设置</span></span><br><span class="line">		getUiDevice().openQuickSettings();</span><br><span class="line">		sleep(<span class="number">1000</span>);</span><br><span class="line">		<span class="type">UiSelector</span> <span class="variable">settingsSelector</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UiSelector</span>().resourceId(<span class="string">&quot;com.android.systemui:id/settings_button&quot;</span>);</span><br><span class="line">		<span class="type">UiObject</span> <span class="variable">settingsButton</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UiObject</span>(settingsSelector);</span><br><span class="line">		settingsButton.click();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">turnOnWifi</span><span class="params">()</span> <span class="keyword">throws</span> UiObjectNotFoundException &#123;</span><br><span class="line">		<span class="comment">// 新建UiScrollable类</span></span><br><span class="line">		<span class="type">UiScrollable</span> <span class="variable">scroll</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UiScrollable</span>(<span class="keyword">new</span> <span class="title class_">UiSelector</span>().scrollable(<span class="literal">true</span>));</span><br><span class="line">		<span class="comment">// 滑动选择并点击WLAN</span></span><br><span class="line">		<span class="type">UiObject</span> <span class="variable">wifiItem</span> <span class="operator">=</span> scroll.getChildByText(<span class="keyword">new</span> <span class="title class_">UiSelector</span>().className(<span class="string">&quot;android.widget.TextView&quot;</span>), <span class="string">&quot;WLAN&quot;</span>);</span><br><span class="line">		wifiItem.clickAndWaitForNewWindow();</span><br><span class="line">		<span class="comment">// 等待3秒以防止页面未加载完成</span></span><br><span class="line">		sleep(<span class="number">3000</span>);</span><br><span class="line">		<span class="comment">// 选择Wifi开关</span></span><br><span class="line">		<span class="type">UiSelector</span> <span class="variable">wifiSwitchSelector</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UiSelector</span>().resourceId(<span class="string">&quot;com.android.settings:id/switch_widget&quot;</span>);</span><br><span class="line">		<span class="type">UiObject</span> <span class="variable">wifiSwitchButton</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UiObject</span>(wifiSwitchSelector);</span><br><span class="line">		<span class="comment">// 判断Wifi是否开启，如果未开启则开启</span></span><br><span class="line">		<span class="keyword">if</span> (!wifiSwitchButton.isChecked()) &#123;</span><br><span class="line">			wifiSwitchButton.click();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于不同 Android 手机的下拉栏不同，所以此代码并不通用。</p>
+<p>然后，将打包好的 jar 包放到 Linux-for-stf 节点，再在 Pipeline script 中加入 UIAutomator 的部分，即变成下面这个版本：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    node(<span class="string">&#x27;master&#x27;</span>) &#123;</span><br><span class="line">        stage <span class="string">&#x27;build Job1&#x27;</span></span><br><span class="line">        build <span class="string">&#x27;Job1&#x27;</span></span><br><span class="line"></span><br><span class="line">        stage <span class="string">&#x27;scp files to stf node&#x27;</span></span><br><span class="line">        <span class="keyword">def</span> apkDir=<span class="string">&quot;/home/test/.jenkins/jobs/Job1/workspace/app/build/outputs/apk&quot;</span></span><br><span class="line">        <span class="keyword">def</span> destDir=<span class="string">&quot;stf@linux-for-stf:/home/stf/jenkins/apks&quot;</span></span><br><span class="line">        sh <span class="string">&quot;scp $apkDir/test.apk $destDir&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    node(<span class="string">&#x27;Linux-for-stf&#x27;</span>) &#123;</span><br><span class="line">        stage <span class="string">&#x27;install apk&#x27;</span></span><br><span class="line">        <span class="keyword">def</span> device=<span class="string">&quot;ABCD1234&quot;</span></span><br><span class="line">        <span class="keyword">def</span> apkFile=<span class="string">&quot;/home/stf/jenkins/apks/test.apk&quot;</span></span><br><span class="line">        sh <span class="string">&quot;adb -s $device install -r $apkFile&quot;</span></span><br><span class="line"></span><br><span class="line">        stage <span class="string">&#x27;run monkey&#x27;</span></span><br><span class="line">        sh <span class="string">&quot;adb -s $device push /home/stf/jenkins/TurnOnWifi.jar /data/local/tmp&quot;</span></span><br><span class="line">        sh <span class="string">&quot;adb -s $device shell uiautomator runtest TurnOnWifi.jar -c com.ntflc.MainTest&quot;</span></span><br><span class="line">        sleep <span class="number">3</span></span><br><span class="line">        sh <span class="string">&quot;adb -s $device shell am start -n com.example.ExampleApp/.MainActivity&quot;</span></span><br><span class="line">        sleep <span class="number">3</span></span><br><span class="line">        sh <span class="string">&quot;adb -s $device shell monkey -p com.example.ExampleApp -s 100 --ignore-crashes --ignore-timeouts --throttle 700 -v 10000&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    node(<span class="string">&#x27;master&#x27;</span>) &#123;</span><br><span class="line">        stage <span class="string">&#x27;send email&#x27;</span></span><br><span class="line">        mail <span class="attr">to:</span> <span class="string">&#x27;test@gmail.com&#x27;</span>,</span><br><span class="line">        <span class="symbol">subject:</span> <span class="string">&quot;Job &#x27;$&#123;env.JOB_NAME&#125;&#x27; ($&#123;env.BUILD_NUMBER&#125;) succeeded&quot;</span>,</span><br><span class="line">        <span class="symbol">body:</span> <span class="string">&quot;Please go to $&#123;env.BUILD_URL&#125; and verify the build&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    node(<span class="string">&#x27;master&#x27;</span>) &#123;</span><br><span class="line">        stage <span class="string">&#x27;send email&#x27;</span></span><br><span class="line">        mail <span class="attr">to:</span> <span class="string">&#x27;test@gmail.com&#x27;</span>,</span><br><span class="line">        <span class="symbol">subject:</span> <span class="string">&quot;Job &#x27;$&#123;env.JOB_NAME&#125;&#x27; ($&#123;env.BUILD_NUMBER&#125;) failed&quot;</span>,</span><br><span class="line">        <span class="symbol">body:</span> <span class="string">&quot;Please go to $&#123;env.BUILD_URL&#125; and verify the build&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-一些特殊软件"><a href="#3-一些特殊软件" class="headerlink" title="3. 一些特殊软件"></a>3. 一些特殊软件</h3><p>由于有些软件的特殊性质，比如锁屏类、桌面类软件，直接用 Monkey 会有各种各样的问题。对于这类软件，没有统一的解决方法，只能具体问题具体分析。这里我就不提供具体方案了。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ntflc WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Test/" rel="tag"># Test</a>
+              <a href="/tags/Jenkins/" rel="tag"># Jenkins</a>
+              <a href="/tags/LeakCanary/" rel="tag"># LeakCanary</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/08/22/LeakCanary-for-Android-App/" rel="prev" title="为 Android 软件接入 LeakCanary 实现内存泄漏检测">
+                  <i class="fa fa-angle-left"></i> 为 Android 软件接入 LeakCanary 实现内存泄漏检测
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/08/23/Install-STF-in-Ubuntu/" rel="next" title="在 Ubuntu 下安装 STF">
+                  在 Ubuntu 下安装 STF <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ntflc</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"ntflc","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

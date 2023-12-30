@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="D9L_iPzvP6fvAKh3XTLCUIqbG8uCxYUgJv35bG1bkRE">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ntflc.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="上篇文章讲的是 &#x2F;system&#x2F;customize&#x2F;ACC 下的修改，这篇文章主要是 &#x2F;system&#x2F;customize&#x2F;CID 下的。 CID 目录下也是一个名为 default.xml 的文件，一般修改不多，主要是系统语言的设置。下面直接讲重点。 PS：部分地区 RUU 的 ACC、CID 目录下会有 default.xml 以外的 XML 文件，名字都是不同地区的 CID，比如 HTC__0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sense 7 常用修改：CID 配置">
+<meta property="og:url" content="https://ntflc.com/2015/12/27/CID-Modification-for-Sense-7/index.html">
+<meta property="og:site_name" content="ntflc&#39;s blog">
+<meta property="og:description" content="上篇文章讲的是 &#x2F;system&#x2F;customize&#x2F;ACC 下的修改，这篇文章主要是 &#x2F;system&#x2F;customize&#x2F;CID 下的。 CID 目录下也是一个名为 default.xml 的文件，一般修改不多，主要是系统语言的设置。下面直接讲重点。 PS：部分地区 RUU 的 ACC、CID 目录下会有 default.xml 以外的 XML 文件，名字都是不同地区的 CID，比如 HTC__0">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2015-12-27T13:34:21.000Z">
+<meta property="article:modified_time" content="2023-12-30T15:40:07.814Z">
+<meta property="article:author" content="ntflc">
+<meta property="article:tag" content="Tutorial">
+<meta property="article:tag" content="HTC Sense">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://ntflc.com/2015/12/27/CID-Modification-for-Sense-7/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://ntflc.com/2015/12/27/CID-Modification-for-Sense-7/","path":"2015/12/27/CID-Modification-for-Sense-7/","title":"Sense 7 常用修改：CID 配置"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Sense 7 常用修改：CID 配置 | ntflc's blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?804fc670bbeb813451fa072d0b70651a"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ntflc's blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E5%8F%AF%E9%80%89%E8%AF%AD%E8%A8%80%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">系统可选语言配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%BA%E5%88%B6%E8%BD%AF%E4%BB%B6%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF%E6%98%BE%E7%A4%BA"><span class="nav-number">2.</span> <span class="nav-text">强制软件版本信息显示</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E5%85%81%E8%AE%B8%E5%AE%89%E8%A3%85%E6%9C%AA%E7%9F%A5%E6%BA%90%E5%BA%94%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">默认允许安装未知源应用</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ntflc"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ntflc</p>
+  <div class="site-description" itemprop="description">Software QA Engineer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ntflc" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ntflc" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/feilichao/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;feilichao&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>LinkedIn</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/412070391" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;412070391" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/FeiLichao" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;FeiLichao" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ntflc.com/2015/12/27/CID-Modification-for-Sense-7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ntflc">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ntflc's blog">
+      <meta itemprop="description" content="Software QA Engineer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Sense 7 常用修改：CID 配置 | ntflc's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Sense 7 常用修改：CID 配置
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2015-12-27 21:34:21" itemprop="dateCreated datePublished" datetime="2015-12-27T21:34:21+08:00">2015-12-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Tutorial/" itemprop="url" rel="index"><span itemprop="name">Tutorial</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2015/12/27/CID-Modification-for-Sense-7/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/12/27/CID-Modification-for-Sense-7/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>上篇文章讲的是 <code>/system/customize/ACC</code> 下的修改，这篇文章主要是 <code>/system/customize/CID</code> 下的。</p>
+<p>CID 目录下也是一个名为 <code>default.xml</code> 的文件，一般修改不多，主要是系统语言的设置。下面直接讲重点。</p>
+<p>PS：部分地区 RUU 的 ACC、CID 目录下会有 <code>default.xml</code> 以外的 XML 文件，名字都是不同地区的 CID，比如 <code>HTC__001.xml</code>，系统会根据手机 CID 码（此 CID 非本篇提到的 CID 配置目录）匹配，如果匹配上就读取对应的 XML 文件，如果没有就读取 <code>default.xml</code>。一般做第三方 ROM 会考虑删除其他 XML 文件，只留 <code>default.xml</code>。</p>
+<span id="more"></span>
+
+<h1 id="系统可选语言配置"><a href="#系统可选语言配置" class="headerlink" title="系统可选语言配置"></a>系统可选语言配置</h1><p>搜索 <code>&lt;module name=&quot;locale&quot;&gt;</code>，找到类似于下面的一段代码：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">module</span> <span class="attr">name</span>=<span class="string">&quot;locale&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">function</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">set</span> <span class="attr">name</span>=<span class="string">&quot;single&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;total_list&quot;</span>&gt;</span>ar_US;bg_US;cs_US;da_US;de_US;el_US;en_US;es_US;et_US;fa_US;fi_US;fr_US;hr_US;hu_US;in_US;it_US;iw_US;ja_US;kk_US;ko_US;lt_US;lv_US;nb_US;nl_US;pl_US;pt_US;ro_US;ru_US;sk_US;sl_US;sr_US;sv_US;th_US;tr_US;uk_US;vi_US;zh_CN;zh_TW;<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;ar_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;bg_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;cs_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;da_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;de_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;el_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;en_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;es_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;et_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;fa_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;fi_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;fr_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;hr_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;hu_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;in_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;it_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;iw_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;ja_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;kk_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;ko_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;lt_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;lv_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;nb_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;nl_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;pl_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;pt_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;ro_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;ru_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sk_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sl_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sr_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sv_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;th_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;tr_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;uk_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;vi_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;zh_CN&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;zh_TW&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">set</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这一段就是用来配置系统可选语言的。其中 <code>total_list</code> 的值为所有语言，不同语言之间用 <code>;</code> 隔开。接来下数行就列出这些语言。</p>
+<p>一般我做 ROM 只保留简体中文、繁体中文和英文，所以一般配置如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">module</span> <span class="attr">name</span>=<span class="string">&quot;locale&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">function</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">set</span> <span class="attr">name</span>=<span class="string">&quot;single&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;total_list&quot;</span>&gt;</span>en_US;zh_CN;zh_TW;<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;en_US&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;zh_CN&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">type</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">name</span>=<span class="string">&quot;zh_TW&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">set</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>当然，这个因人而异，你也可以把所有语言都留着。不过这里的配置仅仅是提供设置中可选的语言，具体显示还得依赖各个 apk，如果 apk 本身没有这个语言支持，则显示默认语言。</p>
+<h1 id="强制软件版本信息显示"><a href="#强制软件版本信息显示" class="headerlink" title="强制软件版本信息显示"></a>强制软件版本信息显示</h1><p>搜索 <code>&lt;module name=&quot;locale&quot;&gt;</code>，找到类似于下面的一段代码：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">module</span> <span class="attr">name</span>=<span class="string">&quot;deviceData1&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">function</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">set</span> <span class="attr">name</span>=<span class="string">&quot;single&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;sw_number&quot;</span>&gt;</span>NA<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">set</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果 <code>sw_number</code> 值为 <code>NA</code>，则设置——关于——软件信息——软件版本显示的是 <code>build.prop</code> 中的值（具体后面文章会讲），如果不为 <code>NA</code>，则会强制显示为该值。强制显示是指，比如这里设为 NTFLC ROM 1.0，则下次不清数据刷值为 NTFLC ROM 2.0 的 ROM，设置里还是显示 NTFLC ROM 1.0。只有清除数据才会显示为新值。一般，国行官方系统会修改这里的值，比如 M9 国行联通版就设置其为 1.0.0.M9w。</p>
+<p>一般还是建议将 ROM 版本信息写在 <code>build.prop</code> 中，否则用户不清数据升级到新版本，设置里还显示老版本号，会以为自己没升级成功。</p>
+<h1 id="默认允许安装未知源应用"><a href="#默认允许安装未知源应用" class="headerlink" title="默认允许安装未知源应用"></a>默认允许安装未知源应用</h1><p>搜索 <code>SettingsProvider</code>，找到类似于下面的一段代码：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">category</span> <span class="attr">name</span>=<span class="string">&quot;SettingsProvider&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">module</span> <span class="attr">name</span>=<span class="string">&quot;res&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">function</span> <span class="attr">name</span>=<span class="string">&quot;values&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">set</span> <span class="attr">name</span>=<span class="string">&quot;single&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;def_htc_mobile_network_on&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;def_2g_on&quot;</span>&gt;</span>3<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">set</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">category</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">set</span> <span class="attr">name</span>=<span class="string">&quot;single&quot;</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">set</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>之间添加：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;def_install_non_market_apps&quot;</span>&gt;</span>1<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>加上此项后，设置——安全——未知源默认勾选，这样安装非 Google Play 应用就不会提示去设置允许未知源了。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ntflc WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Tutorial/" rel="tag"># Tutorial</a>
+              <a href="/tags/HTC-Sense/" rel="tag"># HTC Sense</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2015/12/27/ACC-Modification-for-Sense-7/" rel="prev" title="Sense 7 常用修改：ACC 配置">
+                  <i class="fa fa-angle-left"></i> Sense 7 常用修改：ACC 配置
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2015/12/27/MNS-Modification-for-Sense-7/" rel="next" title="Sense 7 常用修改：MNS 配置">
+                  Sense 7 常用修改：MNS 配置 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ntflc</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"ntflc","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

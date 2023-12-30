@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="D9L_iPzvP6fvAKh3XTLCUIqbG8uCxYUgJv35bG1bkRE">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ntflc.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="群晖 NAS 买了一年，主要就用来挂挂 PT 站，多少有些暴殄天物。恰好最近想将智能家居从米家迁移到 HomeKit，了解到了 Home Assistant，发现群晖也支持，于是折腾了一番。这里记录一下折腾过程，希望能给爱折腾的人一些帮助。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="群晖安装 Home Assistant 及配置（接入米家及 WOL）">
+<meta property="og:url" content="https://ntflc.com/2021/06/27/Synology-Install-Home-Assistant-and-Configure/index.html">
+<meta property="og:site_name" content="ntflc&#39;s blog">
+<meta property="og:description" content="群晖 NAS 买了一年，主要就用来挂挂 PT 站，多少有些暴殄天物。恰好最近想将智能家居从米家迁移到 HomeKit，了解到了 Home Assistant，发现群晖也支持，于是折腾了一番。这里记录一下折腾过程，希望能给爱折腾的人一些帮助。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Install-Home-Assistant-and-Configure/1.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Install-Home-Assistant-and-Configure/2.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Install-Home-Assistant-and-Configure/3.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Install-Home-Assistant-and-Configure/4.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Install-Home-Assistant-and-Configure/5.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Install-Home-Assistant-and-Configure/6.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Install-Home-Assistant-and-Configure/7.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Install-Home-Assistant-and-Configure/8.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Install-Home-Assistant-and-Configure/9.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Install-Home-Assistant-and-Configure/10.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Install-Home-Assistant-and-Configure/11.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Install-Home-Assistant-and-Configure/12.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Install-Home-Assistant-and-Configure/13.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Install-Home-Assistant-and-Configure/14.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Install-Home-Assistant-and-Configure/15.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Install-Home-Assistant-and-Configure/16.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Install-Home-Assistant-and-Configure/17.jpg">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Install-Home-Assistant-and-Configure/18.jpg">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Install-Home-Assistant-and-Configure/19.jpg">
+<meta property="article:published_time" content="2021-06-27T07:53:07.000Z">
+<meta property="article:modified_time" content="2023-12-30T18:13:49.277Z">
+<meta property="article:author" content="ntflc">
+<meta property="article:tag" content="NAS">
+<meta property="article:tag" content="Synology">
+<meta property="article:tag" content="HomeAssistant">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ntflc.com/images/Synology-Install-Home-Assistant-and-Configure/1.png">
+
+
+<link rel="canonical" href="https://ntflc.com/2021/06/27/Synology-Install-Home-Assistant-and-Configure/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://ntflc.com/2021/06/27/Synology-Install-Home-Assistant-and-Configure/","path":"2021/06/27/Synology-Install-Home-Assistant-and-Configure/","title":"群晖安装 Home Assistant 及配置（接入米家及 WOL）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>群晖安装 Home Assistant 及配置（接入米家及 WOL） | ntflc's blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?804fc670bbeb813451fa072d0b70651a"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ntflc's blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-Home-Assistant"><span class="nav-number">1.</span> <span class="nav-text">安装 Home Assistant</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-Home-Assistant"><span class="nav-number">2.</span> <span class="nav-text">配置 Home Assistant</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A5%E5%85%A5%E7%B1%B3%E5%AE%B6%E8%AE%BE%E5%A4%87"><span class="nav-number">2.1.</span> <span class="nav-text">接入米家设备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E7%B1%B3%E5%AE%B6%E8%AE%BE%E5%A4%87-token"><span class="nav-number">2.1.1.</span> <span class="nav-text">获取米家设备 token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E7%B1%B3%E5%AE%B6%E6%99%BA%E8%83%BD%E6%8F%92%E5%BA%A7"><span class="nav-number">2.1.2.</span> <span class="nav-text">添加米家智能插座</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E7%9F%B3%E5%A4%B4%E6%89%AB%E5%9C%B0%E6%9C%BA%E5%99%A8%E4%BA%BA"><span class="nav-number">2.1.3.</span> <span class="nav-text">添加石头扫地机器人</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A5%E5%85%A5-WOL"><span class="nav-number">2.2.</span> <span class="nav-text">接入 WOL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%90%AF-WOL"><span class="nav-number">2.2.1.</span> <span class="nav-text">开启 WOL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E7%BD%91%E5%8D%A1-MAC-%E5%9C%B0%E5%9D%80"><span class="nav-number">2.2.2.</span> <span class="nav-text">获取网卡 MAC 地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0-WOL"><span class="nav-number">2.2.3.</span> <span class="nav-text">添加 WOL</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%A5%E5%85%A5-HomeKit"><span class="nav-number">3.</span> <span class="nav-text">接入 HomeKit</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ntflc"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ntflc</p>
+  <div class="site-description" itemprop="description">Software QA Engineer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ntflc" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ntflc" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/feilichao/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;feilichao&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>LinkedIn</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/412070391" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;412070391" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/FeiLichao" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;FeiLichao" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ntflc.com/2021/06/27/Synology-Install-Home-Assistant-and-Configure/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ntflc">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ntflc's blog">
+      <meta itemprop="description" content="Software QA Engineer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="群晖安装 Home Assistant 及配置（接入米家及 WOL） | ntflc's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          群晖安装 Home Assistant 及配置（接入米家及 WOL）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-06-27 15:53:07" itemprop="dateCreated datePublished" datetime="2021-06-27T15:53:07+08:00">2021-06-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/NAS/" itemprop="url" rel="index"><span itemprop="name">NAS</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2021/06/27/Synology-Install-Home-Assistant-and-Configure/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/06/27/Synology-Install-Home-Assistant-and-Configure/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>群晖 NAS 买了一年，主要就用来挂挂 PT 站，多少有些暴殄天物。恰好最近想将智能家居从米家迁移到 HomeKit，了解到了 Home Assistant，发现群晖也支持，于是折腾了一番。这里记录一下折腾过程，希望能给爱折腾的人一些帮助。</p>
+<span id="more"></span>
+
+<h1 id="安装-Home-Assistant"><a href="#安装-Home-Assistant" class="headerlink" title="安装 Home Assistant"></a>安装 Home Assistant</h1><p>在套件中心安装 Docker 并启动。这一步很简单，就不多介绍了。</p>
+<p>打开 Docker，在 <code>注册表</code> 中搜索 <code>homeassistant</code>，选择第一项 <code>homeassistant/home-assistant</code>，然后点击 <code>下载</code>，标签选择 <code>latest</code>。由于 Home Assistant 镜像较大，下载需要一段时间，请耐心等待。</p>
+<p><img src="/images/Synology-Install-Home-Assistant-and-Configure/1.png"></p>
+<p><img src="/images/Synology-Install-Home-Assistant-and-Configure/2.png"></p>
+<p>点击左侧 <code>映像</code>，选中刚才下载的 <code>homeassistant/home-assistant:latest</code>，点击 <code>启动</code>。</p>
+<p><img src="/images/Synology-Install-Home-Assistant-and-Configure/3.png"></p>
+<p>接下来的配置可参考如下：</p>
+<ol>
+<li>容器名称按个人喜好填写，这里以 <code>homeassistant</code> 为例。<br><img src="/images/Synology-Install-Home-Assistant-and-Configure/4.png"></li>
+<li>点击 <code>高级设置</code>，勾选 <code>启用自动重新启动</code>。<br><img src="/images/Synology-Install-Home-Assistant-and-Configure/5.png"></li>
+<li>点击顶部 <code>卷</code> 标签，然后点击 <code>添加文件夹</code>，选择 <code>docker/homeassistant</code>，装载路径填写 <code>/config</code>。<br><img src="/images/Synology-Install-Home-Assistant-and-Configure/6.png"></li>
+<li>点击顶部 <code>网络</code> 标签，勾选 <code>使用与 Docker Host 相同的网络</code>。<br><img src="/images/Synology-Install-Home-Assistant-and-Configure/7.png"></li>
+<li>点击顶部 <code>环境</code> 标签，然后点击 <code>新增</code>，可变填写 <code>TZ</code>，值填写 <code>Asia/Shanghai</code>。<br><img src="/images/Synology-Install-Home-Assistant-and-Configure/8.png"></li>
+</ol>
+<p>点击 <code>应用</code> 后会在 <code>容器</code> 中生成一条记录，点击右侧开关标签即可启动 Home Assistant。</p>
+<p><img src="/images/Synology-Install-Home-Assistant-and-Configure/9.png"></p>
+<h1 id="配置-Home-Assistant"><a href="#配置-Home-Assistant" class="headerlink" title="配置 Home Assistant"></a>配置 Home Assistant</h1><p>此时启动的 Home Assistant 没有任何设备，这里需要编辑 Home Assistant 配置文件，添加相应设备。</p>
+<p>Home Assistant 配置文件的路径是 <code>/docker/homeassistant/congifuration.yaml</code>，建议在套件中心安装 <code>文本编辑器</code>，即可右击直接在 DSM 中编辑。</p>
+<p><img src="/images/Synology-Install-Home-Assistant-and-Configure/10.png"></p>
+<p>配置文件修改后，可能需要重启 Home Assistant，只需在 Docker 的 <code>容器</code> 中点击开关即可。</p>
+<h2 id="接入米家设备"><a href="#接入米家设备" class="headerlink" title="接入米家设备"></a>接入米家设备</h2><p>由于我的部分智能家居设备同时支持米家和 HomeKit，这里着重介绍不支持 HomeKit 的两个设备：米家智能插座和石头扫地机器人。</p>
+<h3 id="获取米家设备-token"><a href="#获取米家设备-token" class="headerlink" title="获取米家设备 token"></a>获取米家设备 token</h3><p>想要通过 Home Assistant 控制米家设备，需要获取米家设备的 token。网上有很多方法介绍，大部分是使用 Android 手机或模拟器安装特定版本的米家，比较麻烦。</p>
+<p>这里介绍一个开源项目 <a target="_blank" rel="noopener" href="https://github.com/PiotrMachowski/Xiaomi-cloud-tokens-extractor">PiotrMachowski&#x2F;Xiaomi-cloud-tokens-extractor</a>，是由 Python 编写的，支持多平台。只需要输入米家账号密码，即可获取所有设备的 ip 和 token。可能有人会担心安全问题，由于项目是开源的，可以自行查看源码。该项目主要是调用米家的接口登录并获取设备的 ip 和 token。如果不放心，也可以根据源码中的接口自行调用。</p>
+<p>具体操作就不详述了，总之获取到 token 后，就可以继续添加设备了。</p>
+<h3 id="添加米家智能插座"><a href="#添加米家智能插座" class="headerlink" title="添加米家智能插座"></a>添加米家智能插座</h3><p>在 <code>congifuration.yaml</code> 中添加如下配置信息：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">switch:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">platform:</span> <span class="string">xiaomi_miio</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">&quot;插座&quot;</span></span><br><span class="line">    <span class="attr">host:</span> <span class="number">192.168</span><span class="number">.2</span><span class="number">.10</span></span><br><span class="line">    <span class="attr">token:</span> <span class="string">1234567890abcdef1234567890abcdef</span></span><br></pre></td></tr></table></figure>
+
+<p>这里配置信息的 <code>host</code> 和 <code>token</code> 只是示例，实际配置时需改为自己设备的相应信息。说明如下：</p>
+<ul>
+<li><code>switch</code> 为设备类型，这里是开关</li>
+<li><code>platform</code> 为平台，这里需为 <code>xiaomi_miio</code></li>
+<li><code>name</code> 为设备名称，可以自定义，建议简单明了，以便后续 Hey Siri 指令更方便顺口</li>
+<li><code>host</code> 为设备 IP</li>
+<li><code>token</code> 为设备 token</li>
+</ul>
+<h3 id="添加石头扫地机器人"><a href="#添加石头扫地机器人" class="headerlink" title="添加石头扫地机器人"></a>添加石头扫地机器人</h3><p>在 <code>congifuration.yaml</code> 中添加如下配置信息：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">vacuum:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">platform:</span> <span class="string">xiaomi_miio</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">&quot;扫地机器人&quot;</span></span><br><span class="line">    <span class="attr">host:</span> <span class="number">192.168</span><span class="number">.2</span><span class="number">.11</span></span><br><span class="line">    <span class="attr">token:</span> <span class="string">1234567890abcdef1234567890abcdef</span></span><br></pre></td></tr></table></figure>
+
+<p>同样，这里配置信息的 <code>host</code> 和 <code>token</code> 只是示例，实际配置时需改为自己设备的相应信息。说明如下：</p>
+<ul>
+<li><code>vacuum</code> 为设备类型，这里是扫地机</li>
+<li><code>platform</code> 为平台，这里需为 <code>xiaomi_miio</code></li>
+<li><code>name</code> 为设备名称，可以自定义，建议简单明了，以便后续 Hey Siri 指令更方便顺口</li>
+<li><code>host</code> 为设备 IP</li>
+<li><code>token</code> 为设备 token</li>
+</ul>
+<h2 id="接入-WOL"><a href="#接入-WOL" class="headerlink" title="接入 WOL"></a>接入 WOL</h2><p>Wake-on-LAN 简称 WOL 或 WoL，中文多译为“网络唤醒”、“远程唤醒”技术。WOL 是一种技术，同时也是该技术的规范标准，它的功效在于让休眠状态或关机状态的电脑，透过局域网的另一台电脑对其发令，使其唤醒、恢复成运作状态，或从关机状态转成引导状态。（本段摘自维基百科）</p>
+<h3 id="开启-WOL"><a href="#开启-WOL" class="headerlink" title="开启 WOL"></a>开启 WOL</h3><p>WOL 的配置主要分为两部分：主板 BIOS 和网卡。</p>
+<p>主板 BIOS 由于不同品牌的配置不同，这里不做过多介绍，大家可以根据自己主板的型号搜索。BIOS 配置的关键词是 <code>WOL</code> 或 <code>网络唤醒</code>，设为开启即可。</p>
+<p>网卡配置这里以 Windows 10 系统为例：</p>
+<ol>
+<li>右击 <code>此电脑</code>，点击 <code>管理</code>。</li>
+<li>在 <code>设备管理器</code> 的 <code>网络适配器</code> 中找到网卡设备，右击点击 <code>属性</code>。<br><img src="/images/Synology-Install-Home-Assistant-and-Configure/11.png"></li>
+<li>点击顶部 <code>高级</code> 标签，将属性 <code>Shutdown Wake-On-Lan</code> 和 <code>Wake on Magic Packet</code> 的值设为 <code>Enable</code>。<br><img src="/images/Synology-Install-Home-Assistant-and-Configure/12.png"></li>
+<li>点击顶部 <code>电源管理</code> 标签，勾选 <code>允许此设备唤醒计算机</code>。<br><img src="/images/Synology-Install-Home-Assistant-and-Configure/13.png"></li>
+</ol>
+<p>这样 WOL 就配置完了。</p>
+<h3 id="获取网卡-MAC-地址"><a href="#获取网卡-MAC-地址" class="headerlink" title="获取网卡 MAC 地址"></a>获取网卡 MAC 地址</h3><p>获取网卡 MAC 地址的方法很多，可以在路由器、系统中获取，这里以 Windows 10 设置为例。</p>
+<ol>
+<li>打开 Windows 10 的系统设置，点击 <code>网络和 Internet</code>。<br><img src="/images/Synology-Install-Home-Assistant-and-Configure/14.png"></li>
+<li>点击已连接到 Internet 设备的 <code>属性</code>。<br><img src="/images/Synology-Install-Home-Assistant-and-Configure/15.png"></li>
+<li>滑动到底部，获取 <code>物理地址(MAC)</code>。<br><img src="/images/Synology-Install-Home-Assistant-and-Configure/16.png"></li>
+</ol>
+<h3 id="添加-WOL"><a href="#添加-WOL" class="headerlink" title="添加 WOL"></a>添加 WOL</h3><p>在 <code>congifuration.yaml</code> 中添加如下配置信息：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">switch:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">platform:</span> <span class="string">wake_on_lan</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">&quot;电脑&quot;</span></span><br><span class="line">    <span class="attr">mac:</span> <span class="string">&quot;0A:1B:3C:4D:5E:6F&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果之前已经配置过 <code>switch</code>，可以直接在之前的 <code>switch</code> 里添加第 2 至 4 行。配置信息的 <code>mac</code>，只是示例，实际配置时需改为自己设备的相应信息。说明如下：</p>
+<ul>
+<li><code>switch</code> 为设备类型，这里是开关（实际只有开是有效的，关并不会关闭设备）</li>
+<li><code>platform</code> 为平台，这里需为 <code>wake_on_lan</code></li>
+<li><code>name</code> 为设备名称，可以自定义，建议简单明了，以便后续 Hey Siri 指令更方便顺口</li>
+<li><code>mac</code> 为网卡 MAC 地址（注意格式）</li>
+</ul>
+<hr>
+<p>至此，米家设备和 WOL 都接入成功。此时在 Home Assistant 的概览中就可以看到这些设备了。</p>
+<p><img src="/images/Synology-Install-Home-Assistant-and-Configure/17.jpg"></p>
+<h1 id="接入-HomeKit"><a href="#接入-HomeKit" class="headerlink" title="接入 HomeKit"></a>接入 HomeKit</h1><p>在 Home Assistant 的 <code>配置</code>-<code>集成</code> 中，默认会添加 HomeKit。如果没有自动添加，点击右下角 <code>添加集成</code>，选择 <code>HomeKit</code> 并勾选要包含的域（全选即可）即可。</p>
+<p>此时打开 iOS 设备的家庭 App，在 <code>家庭设置</code> 的 <code>中枢与桥接</code> 中可以看到 Home Assistant 中的设备。在家庭 App 里也可以直接控制这些设备。</p>
+<div class="group-picture"><div class="group-picture-row"><div class="group-picture-column"><img src="/images/Synology-Install-Home-Assistant-and-Configure/18.jpg"></div><div class="group-picture-column"><img src="/images/Synology-Install-Home-Assistant-and-Configure/19.jpg"></div></div></div>
+
+<hr>
+<p>至此，本文就告一段落了。如果家里有 HomePod 设备，此时就可以通过 Hey Siri 控制这些设备了。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ntflc WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/NAS/" rel="tag"># NAS</a>
+              <a href="/tags/Synology/" rel="tag"># Synology</a>
+              <a href="/tags/HomeAssistant/" rel="tag"># HomeAssistant</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/06/14/Synology-DSM-7-Install-qBittorrent-and-Migrate-Data/" rel="prev" title="群晖 DSM 7.0 安装 qBittorrent 及迁移数据">
+                  <i class="fa fa-angle-left"></i> 群晖 DSM 7.0 安装 qBittorrent 及迁移数据
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/08/26/Overview-of-Working-at-Meituan/" rel="next" title="随笔：回顾美团这五年">
+                  随笔：回顾美团这五年 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ntflc</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"ntflc","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

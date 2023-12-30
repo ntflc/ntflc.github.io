@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="D9L_iPzvP6fvAKh3XTLCUIqbG8uCxYUgJv35bG1bkRE">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ntflc.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="WebPageTest 最新版本（17.08）的一个新功能，是增加了一个新的支持多平台的 Agent 端：wptagent。  The biggest change by far is a new cross-platform agent (wptagent) that supports Linux, Windows, Mac and Android testing. Eventually wpt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 macOS 下搭建 WebPageTest 私有实例">
+<meta property="og:url" content="https://ntflc.com/2017/09/27/Install-WebPageTest-on-macOS/index.html">
+<meta property="og:site_name" content="ntflc&#39;s blog">
+<meta property="og:description" content="WebPageTest 最新版本（17.08）的一个新功能，是增加了一个新的支持多平台的 Agent 端：wptagent。  The biggest change by far is a new cross-platform agent (wptagent) that supports Linux, Windows, Mac and Android testing. Eventually wpt">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ntflc.com/images/Install-WebPageTest-on-macOS/1.jpg">
+<meta property="og:image" content="https://ntflc.com/images/Install-WebPageTest-on-macOS/2.jpg">
+<meta property="article:published_time" content="2017-09-27T02:31:24.000Z">
+<meta property="article:modified_time" content="2023-12-30T17:31:04.639Z">
+<meta property="article:author" content="ntflc">
+<meta property="article:tag" content="Test">
+<meta property="article:tag" content="WebPageTest">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ntflc.com/images/Install-WebPageTest-on-macOS/1.jpg">
+
+
+<link rel="canonical" href="https://ntflc.com/2017/09/27/Install-WebPageTest-on-macOS/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://ntflc.com/2017/09/27/Install-WebPageTest-on-macOS/","path":"2017/09/27/Install-WebPageTest-on-macOS/","title":"在 macOS 下搭建 WebPageTest 私有实例"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>在 macOS 下搭建 WebPageTest 私有实例 | ntflc's blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?804fc670bbeb813451fa072d0b70651a"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ntflc's blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-brew"><span class="nav-number">1.</span> <span class="nav-text">安装 brew</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-Apache-2-4"><span class="nav-number">2.</span> <span class="nav-text">安装 Apache 2.4</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E7%AC%AC%E4%B8%89%E6%96%B9%E4%BB%93%E5%BA%93"><span class="nav-number">2.1.</span> <span class="nav-text">添加第三方仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E5%B9%B6%E7%A7%BB%E9%99%A4%E8%87%AA%E5%B8%A6-Apache-%E8%87%AA%E5%8A%A8%E5%8A%A0%E8%BD%BD%E8%84%9A%E6%9C%AC"><span class="nav-number">2.2.</span> <span class="nav-text">关闭并移除自带 Apache 自动加载脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-Apache"><span class="nav-number">2.3.</span> <span class="nav-text">安装 Apache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-Apache"><span class="nav-number">2.4.</span> <span class="nav-text">配置 Apache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8-Apache"><span class="nav-number">2.5.</span> <span class="nav-text">启动 Apache</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-PHP-7"><span class="nav-number">3.</span> <span class="nav-text">安装 PHP 7</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E7%AC%AC%E4%B8%89%E6%96%B9%E4%BB%93%E5%BA%93-1"><span class="nav-number">3.1.</span> <span class="nav-text">添加第三方仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="nav-number">3.2.</span> <span class="nav-text">安装依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-PHP"><span class="nav-number">3.3.</span> <span class="nav-text">安装 PHP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-PHP"><span class="nav-number">3.4.</span> <span class="nav-text">配置 PHP</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Apache-%E6%94%AF%E6%8C%81-PHP"><span class="nav-number">4.</span> <span class="nav-text">Apache 支持 PHP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0-PHP-%E6%A8%A1%E5%9D%97"><span class="nav-number">4.1.</span> <span class="nav-text">添加 PHP 模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E4%B8%BB%E9%A1%B5-index-php"><span class="nav-number">4.2.</span> <span class="nav-text">添加主页 index.php</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0-PHP-%E6%94%AF%E6%8C%81"><span class="nav-number">4.3.</span> <span class="nav-text">添加 PHP 支持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%95%88%E6%9E%9C"><span class="nav-number">4.4.</span> <span class="nav-text">测试效果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E5%B9%B6%E5%90%AF%E5%8A%A8-WebPageTest"><span class="nav-number">5.</span> <span class="nav-text">下载并启动 WebPageTest</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-WebPageTest-%E4%BE%9D%E8%B5%96"><span class="nav-number">6.</span> <span class="nav-text">安装 WebPageTest 依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-APC"><span class="nav-number">6.1.</span> <span class="nav-text">安装 APC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-FFmpeg"><span class="nav-number">6.2.</span> <span class="nav-text">安装 FFmpeg</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-ImageMagick"><span class="nav-number">6.3.</span> <span class="nav-text">安装 ImageMagick</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-ExifTool"><span class="nav-number">6.4.</span> <span class="nav-text">安装 ExifTool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-Python-2-7-%E5%8F%8A%E7%9B%B8%E5%85%B3%E4%BE%9D%E8%B5%96%E5%8C%85"><span class="nav-number">6.5.</span> <span class="nav-text">安装 Python 2.7 及相关依赖包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-brew-%E5%AE%89%E8%A3%85-Python-2-7"><span class="nav-number">6.5.1.</span> <span class="nav-text">使用 brew 安装 Python 2.7</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-pip-%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%E5%8C%85"><span class="nav-number">6.5.2.</span> <span class="nav-text">使用 pip 安装依赖包</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-WebPageTest-%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="nav-number">7.</span> <span class="nav-text">配置 WebPageTest 服务端</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">7.1.</span> <span class="nav-text">设置配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-location-ini"><span class="nav-number">7.2.</span> <span class="nav-text">修改 location.ini</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C-WebPageTest-%E6%B5%8B%E8%AF%95%E7%AB%AF"><span class="nav-number">8.</span> <span class="nav-text">运行 WebPageTest 测试端</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">8.1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#macOS-%E6%B5%8B%E8%AF%95%E7%AB%AF"><span class="nav-number">8.2.</span> <span class="nav-text">macOS 测试端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-%E6%B5%8B%E8%AF%95%E7%AB%AF"><span class="nav-number">8.3.</span> <span class="nav-text">Android 测试端</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ntflc"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ntflc</p>
+  <div class="site-description" itemprop="description">Software QA Engineer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ntflc" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ntflc" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/feilichao/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;feilichao&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>LinkedIn</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/412070391" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;412070391" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/FeiLichao" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;FeiLichao" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ntflc.com/2017/09/27/Install-WebPageTest-on-macOS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ntflc">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ntflc's blog">
+      <meta itemprop="description" content="Software QA Engineer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="在 macOS 下搭建 WebPageTest 私有实例 | ntflc's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          在 macOS 下搭建 WebPageTest 私有实例
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-09-27 10:31:24" itemprop="dateCreated datePublished" datetime="2017-09-27T10:31:24+08:00">2017-09-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Test/" itemprop="url" rel="index"><span itemprop="name">Test</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2017/09/27/Install-WebPageTest-on-macOS/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/27/Install-WebPageTest-on-macOS/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>WebPageTest 最新版本（<a target="_blank" rel="noopener" href="https://github.com/WPO-Foundation/webpagetest/releases/tag/WebPageTest-17.08">17.08</a>）的一个新功能，是增加了一个新的支持多平台的 Agent 端：<a target="_blank" rel="noopener" href="https://github.com/WPO-Foundation/wptagent">wptagent</a>。</p>
+<blockquote>
+<p>The biggest change by far is a new cross-platform agent (wptagent) that supports Linux, Windows, Mac and Android testing. Eventually wptdriver will be deprecated and all testing will be moved to the new agent.</p>
+</blockquote>
+<p>得益于此，我们终于可以在 macOS 系统下搭建 WebPageTest 环境，不用再依赖 Windows 虚拟机了。而且，新的 wptagent 还支持 Android 设备（无需 root）。本文将介绍 macOS 系统下如何搭建 WebPageTest 服务端、测试端，以及如何使用 Android 设备进行测试。</p>
+<p>虽然 macOS 自带 Apache 和 PHP，但我还是习惯于自己配置一套新环境，因此以下教程基于非自带 Apache 和 PHP。</p>
+<span id="more"></span>
+
+<h1 id="安装-brew"><a href="#安装-brew" class="headerlink" title="安装 brew"></a>安装 brew</h1><p>brew（又叫 Homebrew）是 macOS 平台最有名的第三方包管理工具。由于 brew 几乎人人必备，因此这里不做过多介绍。没有用过的可以查看官网：<a target="_blank" rel="noopener" href="https://brew.sh/">https://brew.sh/</a>，里面有中文教程。</p>
+<h1 id="安装-Apache-2-4"><a href="#安装-Apache-2-4" class="headerlink" title="安装 Apache 2.4"></a>安装 Apache 2.4</h1><h2 id="添加第三方仓库"><a href="#添加第三方仓库" class="headerlink" title="添加第三方仓库"></a>添加第三方仓库</h2><p>由于 Apache 不在 brew 官方仓库中，因此需要添加第三方仓库。终端执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew tap homebrew/apache</span><br></pre></td></tr></table></figure>
+
+<h2 id="关闭并移除自带-Apache-自动加载脚本"><a href="#关闭并移除自带-Apache-自动加载脚本" class="headerlink" title="关闭并移除自带 Apache 自动加载脚本"></a>关闭并移除自带 Apache 自动加载脚本</h2><p>终端执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apachectl stop</span><br><span class="line">sudo launchctl unload -w /System/Library/LaunchDaemons/org.apache.httpd.plist 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装-Apache"><a href="#安装-Apache" class="headerlink" title="安装 Apache"></a>安装 Apache</h2><p>终端执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install httpd24 --with-privileged-ports --with-http2</span><br></pre></td></tr></table></figure>
+
+<p>安装需要一段时间，大概1-3分钟，安装后会看到这样的提示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/Cellar/httpd24/2.4.27: 212 files, 4.4M, built in 1 minute 45 seconds</span><br></pre></td></tr></table></figure>
+
+<p>这里的路径（此处是 <code>/usr/local/Cellar/httpd24/2.4.27</code>）需要记住，如果你的路径与此不同，则下面的操作需要自行修改路径：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">cp</span> -v /usr/local/Cellar/httpd24/2.4.27/homebrew.mxcl.httpd24.plist /Library/LaunchDaemons</span><br><span class="line">sudo <span class="built_in">chown</span> -v root:wheel /Library/LaunchDaemons/homebrew.mxcl.httpd24.plist</span><br><span class="line">sudo <span class="built_in">chmod</span> -v 644 /Library/LaunchDaemons/homebrew.mxcl.httpd24.plist</span><br><span class="line">sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.httpd24.plist</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置-Apache"><a href="#配置-Apache" class="headerlink" title="配置 Apache"></a>配置 Apache</h2><p>安装后，配置文件在 <code>/usr/local/etc/apache2/2.4/httpd.conf</code> 下。修改该文件：</p>
+<ul>
+<li>174 行左右，将 <code>#LoadModule rewrite_module libexec/mod_rewrite.so</code> 取消注释</li>
+<li>185 行左右，将 <code>User daemon</code> 改为 <code>User your_user_name</code>（<code>your_user_name</code> 为用户名）</li>
+<li>186 行左右，将 <code>Group daemon</code> 改为 <code>Group staff</code></li>
+<li>216 行左右，将 <code>#ServerName www.example.com:80</code> 改为 <code>ServerName 0.0.0.0:80</code></li>
+<li>240 行左右，将 <code>DocumentRoot &quot;/usr/local/var/www/htdocs&quot;</code> 改为 <code>DocumentRoot &quot;/Users/your_user_name/WebPageTest/www&quot;</code>（<code>your_user_name</code> 为用户名，此处路径可自行确定）</li>
+<li>241 行左右，将 <code>&lt;Directory &quot;/usr/local/var/www/htdocs&quot;&gt;</code> 改为 <code>&lt;Directory &quot;/Users/your_user_name/WebPageTest/www&quot;&gt;</code>（与上一条的路径一致）</li>
+<li>261 行左右，将 <code>AllowOverride None</code> 改为 <code>AllowOverride All</code></li>
+</ul>
+<h2 id="启动-Apache"><a href="#启动-Apache" class="headerlink" title="启动 Apache"></a>启动 Apache</h2><ol>
+<li>创建路径 <code>/Users/your_user_name/WebPageTest/www</code></li>
+<li>创建 <code>index.html</code> 文件，内容随意，如 <code>&lt;p&gt;Hello World&lt;p&gt;</code></li>
+<li>在终端中输入 <code>sudo apachectl -k restart</code> 重启 Apache 服务</li>
+<li>打开浏览器，输入 <code>localhost</code>，显示 <code>Hello World</code>（即第2步的 <code>index.html</code>）说明 Apache 启动成功</li>
+</ol>
+<h1 id="安装-PHP-7"><a href="#安装-PHP-7" class="headerlink" title="安装 PHP 7"></a>安装 PHP 7</h1><h2 id="添加第三方仓库-1"><a href="#添加第三方仓库-1" class="headerlink" title="添加第三方仓库"></a>添加第三方仓库</h2><p>由于 PHP 不在 brew 官方仓库中，因此需要添加第三方仓库。终端执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew tap homebrew/php</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><p>安装 Xcode 的 Command Line Tool。终端执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcode-select --install</span><br></pre></td></tr></table></figure>
+
+<p>根据提示安装即可。</p>
+<h2 id="安装-PHP"><a href="#安装-PHP" class="headerlink" title="安装 PHP"></a>安装 PHP</h2><p>这里以 PHP 7.1 为例。终端执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install php71 --with-httpd24</span><br></pre></td></tr></table></figure>
+
+<p>安装后建立链接：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew <span class="built_in">link</span> php71</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置-PHP"><a href="#配置-PHP" class="headerlink" title="配置 PHP"></a>配置 PHP</h2><p>安装后，配置文件在 <code>/usr/local/etc/php/7.1/php.ini</code> 下。修改该文件：</p>
+<ul>
+<li>404 行左右，将 <code>memory_limit = 128M</code> 改为 <code>memory_limit = 256M</code></li>
+<li>671 行左右，将 <code>post_max_size = 8M</code> 改为 <code>post_max_size = 10M</code></li>
+<li>824 行左右，将 <code>upload_max_filesize = 2M</code> 改为 <code>upload_max_filesize = 10M</code></li>
+</ul>
+<p>以上修改主要是为了满足 WebPageTest 的推荐配置，可根据实际情况修改。</p>
+<h1 id="Apache-支持-PHP"><a href="#Apache-支持-PHP" class="headerlink" title="Apache 支持 PHP"></a>Apache 支持 PHP</h1><h2 id="添加-PHP-模块"><a href="#添加-PHP-模块" class="headerlink" title="添加 PHP 模块"></a>添加 PHP 模块</h2><p>在 Apache 配置文件 <code>/usr/local/etc/apache2/2.4/httpd.conf</code> 的 175 行左右（即一堆 <code>#LoadModule xxx</code> 后）添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LoadModule php7_module /usr/local/opt/php71/libexec/apache2/libphp7.so</span><br></pre></td></tr></table></figure>
+
+<h2 id="添加主页-index-php"><a href="#添加主页-index-php" class="headerlink" title="添加主页 index.php"></a>添加主页 index.php</h2><p>在 Apache 配置文件 <code>/usr/local/etc/apache2/2.4/httpd.conf</code> 的 273 行左右，即：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;IfModule dir_module&gt;</span><br><span class="line">    DirectoryIndex index.html</span><br><span class="line">&lt;/IfModule&gt;</span><br></pre></td></tr></table></figure>
+
+<p>中，在 <code>index.html</code> 前添加 <code>index.php</code>，即：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;IfModule dir_module&gt;</span><br><span class="line">    DirectoryIndex index.php index.html</span><br><span class="line">&lt;/IfModule&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="添加-PHP-支持"><a href="#添加-PHP-支持" class="headerlink" title="添加 PHP 支持"></a>添加 PHP 支持</h2><p>在 Apache 配置文件 <code>/usr/local/etc/apache2/2.4/httpd.conf</code> 的 277 行左右（即上一步的位置后面）添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;FilesMatch \.php$&gt;</span><br><span class="line">    SetHandler application/x-httpd-php</span><br><span class="line">&lt;/FilesMatch&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试效果"><a href="#测试效果" class="headerlink" title="测试效果"></a>测试效果</h2><p>在 <code>/Users/your_user_name/WebPageTest/www</code> 下创建 <code>index.php</code>，代码为：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="title function_ invoke__">phpinfo</span>();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>重启 Apache，浏览器访问 <code>localhost</code> 看到下图即为配置成功：</p>
+<p><img src="/images/Install-WebPageTest-on-macOS/1.jpg"></p>
+<h1 id="下载并启动-WebPageTest"><a href="#下载并启动-WebPageTest" class="headerlink" title="下载并启动 WebPageTest"></a>下载并启动 WebPageTest</h1><p>WebPageTest GitHub：<a target="_blank" rel="noopener" href="https://github.com/WPO-Foundation/webpagetest">https://github.com/WPO-Foundation/webpagetest</a></p>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://github.com/WPO-Foundation/webpagetest/releases">https://github.com/WPO-Foundation/webpagetest/releases</a></p>
+<p>下载最新版本即可，这里以 <a target="_blank" rel="noopener" href="https://github.com/WPO-Foundation/webpagetest/releases/download/WebPageTest-17.08/webpagetest_17.08.zip">webpagetest_17.08.zip</a> 为例。</p>
+<p>下载后解压，得到 <code>www</code>、<code>agent</code>、<code>wptagent</code> 等目录，其中 <code>www</code> 为服务端，<code>agent</code> 为 Windows 测试端（本次不使用），<code>wptagent</code> 为最新的多平台测试端（也就是本次使用的测试端）。将 <code>www</code> 和 <code>wptagent</code> 文件夹（前者是服务端，后者是测试端）移动到 <code>/Users/your_user_name/WebPageTest</code> 下，重启 Apache。打开浏览器，访问 <code>localhost/install</code> 如下图：</p>
+<p><img src="/images/Install-WebPageTest-on-macOS/2.jpg"></p>
+<p>接来下就是根据提示信息安装相关依赖。</p>
+<h1 id="安装-WebPageTest-依赖"><a href="#安装-WebPageTest-依赖" class="headerlink" title="安装 WebPageTest 依赖"></a>安装 WebPageTest 依赖</h1><h2 id="安装-APC"><a href="#安装-APC" class="headerlink" title="安装 APC"></a>安装 APC</h2><p>终端执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install php71-apcu</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装-FFmpeg"><a href="#安装-FFmpeg" class="headerlink" title="安装 FFmpeg"></a>安装 FFmpeg</h2><p>终端执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install ffmpeg</span><br></pre></td></tr></table></figure>
+
+<p>如果提示已经安装某个版本，需升级（否则可能导致录视频失败）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew upgrade ffmpeg</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装-ImageMagick"><a href="#安装-ImageMagick" class="headerlink" title="安装 ImageMagick"></a>安装 ImageMagick</h2><p>终端执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install imagemagick</span><br></pre></td></tr></table></figure>
+
+<p>如果提示已经安装某个版本，需升级（否则可能导致截图失败）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew upgrade imagemagick</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装-ExifTool"><a href="#安装-ExifTool" class="headerlink" title="安装 ExifTool"></a>安装 ExifTool</h2><p>终端执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install exiftool</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装-Python-2-7-及相关依赖包"><a href="#安装-Python-2-7-及相关依赖包" class="headerlink" title="安装 Python 2.7 及相关依赖包"></a>安装 Python 2.7 及相关依赖包</h2><p>macOS 已经自带 Python 2.7.10。但由于自带 Python 默认没有 pip，且为了避免影响系统，这里自行安装 Python 2.7。</p>
+<h3 id="使用-brew-安装-Python-2-7"><a href="#使用-brew-安装-Python-2-7" class="headerlink" title="使用 brew 安装 Python 2.7"></a>使用 brew 安装 Python 2.7</h3><ol>
+<li>终端执行：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install python</span><br></pre></td></tr></table></figure></li>
+<li>安装完毕后，执行：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python --version</span><br></pre></td></tr></table></figure>
+查看版本是否为 2.7.14（即新安装的版本是否替代了系统自带版本）。如果还是 2.7.10 则需要继续以下步骤</li>
+<li>终端执行：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/paths</span><br></pre></td></tr></table></figure>
+查看 <code>/usr/local/bin</code> 是否在 <code>/usr/bin</code> 前面。如果不在，将 <code>/usr/local/bin</code> 移到 <code>/usr/bin</code> 前面</li>
+<li>终端执行：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> -l /usr/local/bin | grep python</span><br></pre></td></tr></table></figure>
+查看是否存在 pip 和 python。如果不存在，记录 pip2 和 python2 的软链接路径，执行：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/local/bin</span><br><span class="line"><span class="built_in">ln</span> -s ../Cellar/python/2.7.14/bin/pip2 pip</span><br><span class="line"><span class="built_in">ln</span> -s ../Cellar/python/2.7.14/bin/python2 python</span><br></pre></td></tr></table></figure>
+注意，这里的路径一定要以实际情况（即 <code>pip2</code> 和 <code>python2</code> 的软链接路径）为准</li>
+<li>再次执行：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python --version</span><br></pre></td></tr></table></figure>
+此时版本应该是新安装的版本了。</li>
+</ol>
+<h3 id="使用-pip-安装依赖包"><a href="#使用-pip-安装依赖包" class="headerlink" title="使用 pip 安装依赖包"></a>使用 pip 安装依赖包</h3><p>终端执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install convert compare Pillow pyssim dateutils dnspython monotonic psutil requests ujson</span><br></pre></td></tr></table></figure>
+
+<h1 id="配置-WebPageTest-服务端"><a href="#配置-WebPageTest-服务端" class="headerlink" title="配置 WebPageTest 服务端"></a>配置 WebPageTest 服务端</h1><h2 id="设置配置文件"><a href="#设置配置文件" class="headerlink" title="设置配置文件"></a>设置配置文件</h2><p>将 <code>www/settings</code> 目录和 <code>www/settings/custom_metrics</code> 目录下 <code>.sample</code> 复制一份，并删除 <code>.sample</code> 后缀。</p>
+<p>由于使用非 macOS 自带 Apache 且路径为用户路径，因此无需对 Installation Check 页面 Filesystem 下的文件夹进行权限修改。</p>
+<h2 id="修改-location-ini"><a href="#修改-location-ini" class="headerlink" title="修改 location.ini"></a>修改 location.ini</h2><p>此处提供一个例子，以两个测试端为例：测试端 1（Test_PC）为 macOS 平台，包括 Chrome 和 Firefox 浏览器；测试端 2（Test_Mobile）为 Android 平台，包括 Chrome 浏览器。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">; 以下为测试地点，即 WebPageTest 首页 Test Location 中的选项</span></span><br><span class="line"><span class="comment">; key 包括 1、2、3... 和 default</span></span><br><span class="line"><span class="comment">; 1、2、3... 的 value 为对应地点名（不能重复）</span></span><br><span class="line"><span class="comment">; default 的 value 对应默认地点名</span></span><br><span class="line"><span class="section">[locations]</span></span><br><span class="line"><span class="attr">1</span>=Test_PC</span><br><span class="line"><span class="attr">2</span>=Test_Mobile</span><br><span class="line"><span class="attr">default</span>=Test_PC</span><br><span class="line"></span><br><span class="line"><span class="comment">; 以下为测试地点的详情项，locations 中每一个 value 都应该对应这里的一个 section</span></span><br><span class="line"><span class="comment">; key 包括 1、2、3... 和 label、group，label 为该地点的标签名，group 为组信息</span></span><br><span class="line"><span class="comment">; 1、2、3... 的 value 为对应浏览器节点名（不建议直接用浏览器名，以免多个地点的浏览器名重复）</span></span><br><span class="line"><span class="comment">; label 的 value 随意填写，只要不与其他地点的值重复就行（对应 WebPageTest 首页 Test Location 下拉框中每个组下的选项）</span></span><br><span class="line"><span class="comment">; group 的 value 随意填写，可与其他地点的值重复（对应 WebPageTest 首页 Test Location 下拉框中的组）</span></span><br><span class="line"><span class="comment">; 这里 Test_PC 以 Firefox 和 Chrome 为例</span></span><br><span class="line"><span class="section">[Test_PC]</span></span><br><span class="line"><span class="attr">1</span>=WPT_Firefox</span><br><span class="line"><span class="attr">2</span>=WPT_Chrome</span><br><span class="line"><span class="attr">label</span>=macOS</span><br><span class="line"><span class="attr">group</span>=Desktop</span><br><span class="line"></span><br><span class="line"><span class="section">[Test_Mobile]</span></span><br><span class="line"><span class="attr">1</span>=Android_Chrome</span><br><span class="line"><span class="attr">label</span>=Android Chrome</span><br><span class="line"><span class="attr">group</span>=Mobile</span><br><span class="line"></span><br><span class="line"><span class="comment">; 以下为浏览器的详情项，测试地点详细项中的每一个浏览器节点名都应该对应这里的一个 section</span></span><br><span class="line"><span class="comment">; key 包括 browser 和 label</span></span><br><span class="line"><span class="comment">; browser 的 value 为浏览器名，同一个浏览器节点下不得重复（对应 WebPageTest 首页 Browser 下拉框中的选项）</span></span><br><span class="line"><span class="comment">; label 的 value 随意填写，只要不与其他 label 重复就行</span></span><br><span class="line"><span class="section">[WPT_Firefox]</span></span><br><span class="line"><span class="attr">browser</span>=Firefox</span><br><span class="line"><span class="attr">label</span>=<span class="string">&quot;macOS - Firefox&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="section">[WPT_Chrome]</span></span><br><span class="line"><span class="attr">browser</span>=Chrome</span><br><span class="line"><span class="attr">label</span>=<span class="string">&quot;macOS - Chrome&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="section">[Android_Chrome]</span></span><br><span class="line"><span class="attr">browser</span>=Chrome</span><br><span class="line"><span class="attr">label</span>=<span class="string">&quot;Android - HTC One M9&quot;</span></span><br><span class="line"><span class="attr">type</span>=nodejs,mobile</span><br><span class="line"><span class="attr">connectivity</span>=<span class="string">&quot;WiFi&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="运行-WebPageTest-测试端"><a href="#运行-WebPageTest-测试端" class="headerlink" title="运行 WebPageTest 测试端"></a>运行 WebPageTest 测试端</h1><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>终端执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo visudo</span><br></pre></td></tr></table></figure>
+
+<p>此时进入 vim 编辑模式（等同于 <code>sudo vim /etc/sudoers</code>，但后者即使 sudo 也会提示无编辑权限），找到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root        ALL = (ALL) ALL</span><br><span class="line">%admin      ALL = (ALL) ALL</span><br></pre></td></tr></table></figure>
+
+<p>在下面添加一行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">your_user_name ALL = (ALL) NOPASSWD:ALL</span><br></pre></td></tr></table></figure>
+
+<p>此操作完成后，再执行 sudo 命令就不需要输入密码了。此操作为官网文档推荐操作：</p>
+<blockquote>
+<p>It is recommended that the agent itself not run as admin&#x2F;root but that it can elevate without prompting which means disabling UAC on windows or adding the user account to the sudoers file on Linux and OSX (NOPASSWD in visudo).</p>
+</blockquote>
+<h2 id="macOS-测试端"><a href="#macOS-测试端" class="headerlink" title="macOS 测试端"></a>macOS 测试端</h2><p>终端执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/WebPageTest/wptagent</span><br><span class="line">python wptagent.py -vvvv --server http://127.0.0.1/work/ --location WPT_Chrome</span><br></pre></td></tr></table></figure>
+
+<p><strong>说明：</strong></p>
+<ol>
+<li>wptagent 依赖于 Python 2.7，不支持 Python 3.x</li>
+<li><code>-vvvv</code> 是日志的显示级别，可根据实际情况添加该参数</li>
+<li><code>--server</code> 是必填项，后面跟服务端地址（需要加 <code>http://</code> 且加 <code>/work/</code>）</li>
+<li><code>--location</code> 是必填项，后面跟服务单配置的地点名（此处应该为浏览器节点名）</li>
+<li>执行此命令后，如果开启最高日志级别，会先看到 <code>Waiting for Idle...</code>，稍等一段时间即可。如果等待时间过长，可以 Ctrl+C 停止，重新执行一次</li>
+<li>Chrome 和 Firefox 正常安装（不更改名称），无需做任何配置（无需修改 <code>browsers.ini</code>），wptagent 会自动去相应路径调起浏览器</li>
+</ol>
+<p><strong>注意：</strong></p>
+<ol>
+<li>测试时，如果已经运行了 Chrome 或 Firefox 浏览器，已经打开的标签页会被关闭，请提前做好准备</li>
+<li>只有 Chrome 浏览器支持修改 Headers（包括 Script 中 <code>setCookie</code> 命令）</li>
+</ol>
+<h2 id="Android-测试端"><a href="#Android-测试端" class="headerlink" title="Android 测试端"></a>Android 测试端</h2><p>终端执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/WebPageTest/wptagent</span><br><span class="line">python wptagent.py -vvvv --server http://127.0.0.1/work/ --location Android_Chrome --android</span><br></pre></td></tr></table></figure>
+
+<p><strong>说明：</strong></p>
+<ol>
+<li>wptagent 依赖于 Python 2.7，不支持 Python 3.x；Android 设备作为测试端还依赖于 adb，这里不赘述</li>
+<li><code>-vvvv</code> 是日志的显示级别，可根据实际情况添加该参数</li>
+<li><code>--server</code> 是必填项，后面跟服务端地址（需要加 <code>http://</code> 且加 <code>/work/</code>）</li>
+<li><code>--location</code> 是必填项，后面跟服务单配置的地点名（此处应该为浏览器节点名）</li>
+<li><code>--android</code> 代表测试端是 Android 设备</li>
+<li>如果有多台设备（<code>adb devices</code> 有多个结果），需要带上 <code>--device</code> 参数，后面跟 Android SN 码（即 <code>adb devices</code> 的中的设备编码）</li>
+<li>Android 端仅 Chrome 支持全功能，需提前安装好 Chrome 浏览器</li>
+</ol>
+<p><strong>注意：</strong></p>
+<ol>
+<li><p>如果报错 <code>AttributeError: &#39;Process&#39; object has no attribute &#39;cpu_affinity&#39;</code>，编辑 <code>wptagent/internal/adb.py</code>，搜索 <code>proc.cpu_affinity([0])</code>，将 <code>proc.cpu_affinity([0])</code> 注释，并添加 <code>pass</code>（注意缩进）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">start</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot; Do some startup check to make sure adb is installed&quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">import</span> psutil</span><br><span class="line">        ret = <span class="literal">False</span></span><br><span class="line">        out = self.run(self.build_adb_command([<span class="string">&#x27;devices&#x27;</span>]))</span><br><span class="line">        <span class="keyword">if</span> out <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            ret = <span class="literal">True</span></span><br><span class="line">            <span class="comment"># Set the CPU affinity for adb which helps avoid hangs</span></span><br><span class="line">            <span class="keyword">for</span> proc <span class="keyword">in</span> psutil.process_iter():</span><br><span class="line">                <span class="keyword">if</span> proc.name() == <span class="string">&quot;adb.exe&quot;</span> <span class="keyword">or</span> proc.name() == <span class="string">&quot;adb&quot;</span> <span class="keyword">or</span> proc.name() == <span class="string">&quot;adb-arm&quot;</span>:</span><br><span class="line">                    <span class="comment"># proc.cpu_affinity([0])</span></span><br><span class="line">                    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure></li>
+<li><p>如果提示 <code>Device not ready, high temperature</code>，编辑 <code>wptagent/internal/adb.py</code>，搜索 <code>if &#39;temp&#39; in battery and battery[&#39;temp&#39;] &gt;</code>，将 <code>&gt; 36.0</code> 改大，如 <code>&gt; 40.0</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="string">&#x27;level&#x27;</span> <span class="keyword">in</span> battery <span class="keyword">and</span> battery[<span class="string">&#x27;level&#x27;</span>] &lt; <span class="number">50</span>:</span><br><span class="line">    logging.info(<span class="string">&quot;Device not ready, low battery: %d %%&quot;</span>, battery[<span class="string">&#x27;level&#x27;</span>])</span><br><span class="line">    is_ready = <span class="literal">False</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&#x27;temp&#x27;</span> <span class="keyword">in</span> battery <span class="keyword">and</span> battery[<span class="string">&#x27;temp&#x27;</span>] &gt; <span class="number">36.0</span>:</span><br><span class="line">    logging.info(<span class="string">&quot;Device not ready, high temperature: %0.1f degrees&quot;</span>, battery[<span class="string">&#x27;temp&#x27;</span>])</span><br><span class="line">    is_ready = <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+<p>同理，如果提示 <code>Device not ready, low battery</code>，将上面 <code>&lt; 50</code> 改低，如 <code>&lt; 20</code></p>
+</li>
+</ol>
+<hr>
+<p>参考文档：<a target="_blank" rel="noopener" href="https://github.com/nodejh/nodejh.github.io/issues/25">在 MacOS Sierra 上安装 Apache 和多个版本的 PHP</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ntflc WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Test/" rel="tag"># Test</a>
+              <a href="/tags/WebPageTest/" rel="tag"># WebPageTest</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/06/04/Install-WebPageTest-on-Windows/" rel="prev" title="在 Windows 下搭建 WebPageTest 私有实例">
+                  <i class="fa fa-angle-left"></i> 在 Windows 下搭建 WebPageTest 私有实例
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/01/10/Overview-of-2017/" rel="next" title="回顾 2017">
+                  回顾 2017 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ntflc</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"ntflc","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

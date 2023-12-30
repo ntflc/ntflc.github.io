@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="D9L_iPzvP6fvAKh3XTLCUIqbG8uCxYUgJv35bG1bkRE">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ntflc.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="由于工作需要，从去年年底开始就在琢磨 WEB 自动化，去网上一搜就搜到了 Selenium。在这几个月的实践中，对 Selenium 也有了逐步的了解和自己的认识。一些基础的东西这里就不再赘述了，网上一搜一把，建议自行搜素。由于我更熟悉 Python 语言，所以本文均是基于 Python 的。建议刚接触 Selenium 的人多看官方文档，Python 版的地址如下：http:&#x2F;&#x2F;selenium">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于 Python 的 Selenium 自动化实践心得">
+<meta property="og:url" content="https://ntflc.com/2017/03/17/Selenium-Practice-with-Python/index.html">
+<meta property="og:site_name" content="ntflc&#39;s blog">
+<meta property="og:description" content="由于工作需要，从去年年底开始就在琢磨 WEB 自动化，去网上一搜就搜到了 Selenium。在这几个月的实践中，对 Selenium 也有了逐步的了解和自己的认识。一些基础的东西这里就不再赘述了，网上一搜一把，建议自行搜素。由于我更熟悉 Python 语言，所以本文均是基于 Python 的。建议刚接触 Selenium 的人多看官方文档，Python 版的地址如下：http:&#x2F;&#x2F;selenium">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-03-17T06:20:14.000Z">
+<meta property="article:modified_time" content="2023-12-30T17:00:12.158Z">
+<meta property="article:author" content="ntflc">
+<meta property="article:tag" content="Test">
+<meta property="article:tag" content="Selenium">
+<meta property="article:tag" content="WebDriver">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://ntflc.com/2017/03/17/Selenium-Practice-with-Python/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://ntflc.com/2017/03/17/Selenium-Practice-with-Python/","path":"2017/03/17/Selenium-Practice-with-Python/","title":"基于 Python 的 Selenium 自动化实践心得"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>基于 Python 的 Selenium 自动化实践心得 | ntflc's blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?804fc670bbeb813451fa072d0b70651a"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ntflc's blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Selenium-%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">Selenium 常用操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E5%92%8C%E5%85%B3%E9%97%AD-Selenium-WebDriver"><span class="nav-number">1.1.</span> <span class="nav-text">启动和关闭 Selenium WebDriver</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A-Tab-%E9%A1%B5%E9%9D%A2%E7%9A%84%E5%88%87%E6%8D%A2"><span class="nav-number">1.2.</span> <span class="nav-text">多 Tab 页面的切换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iFrame-%E7%9A%84%E8%B7%B3%E8%BD%AC"><span class="nav-number">1.3.</span> <span class="nav-text">iFrame 的跳转</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E6%8B%89%E6%A1%86%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-number">1.4.</span> <span class="nav-text">下拉框的选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6"><span class="nav-number">1.5.</span> <span class="nav-text">上传文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AD%89%E5%BE%85"><span class="nav-number">1.6.</span> <span class="nav-text">等待</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C"><span class="nav-number">1.7.</span> <span class="nav-text">其他常见操作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%97%A0%E7%95%8C%E9%9D%A2%E4%BD%BF%E7%94%A8-Selenium"><span class="nav-number">2.</span> <span class="nav-text">无界面使用 Selenium</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A0%E9%9C%80%E7%95%8C%E9%9D%A2%E7%9A%84-WebDriver%EF%BC%9APhantomJS"><span class="nav-number">2.1.</span> <span class="nav-text">无需界面的 WebDriver：PhantomJS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E6%8B%9F%E7%94%9F%E6%88%90%E7%95%8C%E9%9D%A2"><span class="nav-number">2.2.</span> <span class="nav-text">模拟生成界面</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ntflc"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ntflc</p>
+  <div class="site-description" itemprop="description">Software QA Engineer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ntflc" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ntflc" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/feilichao/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;feilichao&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>LinkedIn</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/412070391" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;412070391" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/FeiLichao" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;FeiLichao" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ntflc.com/2017/03/17/Selenium-Practice-with-Python/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ntflc">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ntflc's blog">
+      <meta itemprop="description" content="Software QA Engineer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="基于 Python 的 Selenium 自动化实践心得 | ntflc's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于 Python 的 Selenium 自动化实践心得
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-03-17 14:20:14" itemprop="dateCreated datePublished" datetime="2017-03-17T14:20:14+08:00">2017-03-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Test/" itemprop="url" rel="index"><span itemprop="name">Test</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2017/03/17/Selenium-Practice-with-Python/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/03/17/Selenium-Practice-with-Python/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>由于工作需要，从去年年底开始就在琢磨 WEB 自动化，去网上一搜就搜到了 Selenium。在这几个月的实践中，对 Selenium 也有了逐步的了解和自己的认识。一些基础的东西这里就不再赘述了，网上一搜一把，建议自行搜素。由于我更熟悉 Python 语言，所以本文均是基于 Python 的。建议刚接触 Selenium 的人多看官方文档，Python 版的地址如下：<a target="_blank" rel="noopener" href="http://selenium-python.readthedocs.io/">http://selenium-python.readthedocs.io/</a>。</p>
+<span id="more"></span>
+
+<h1 id="Selenium-常用操作"><a href="#Selenium-常用操作" class="headerlink" title="Selenium 常用操作"></a>Selenium 常用操作</h1><h2 id="启动和关闭-Selenium-WebDriver"><a href="#启动和关闭-Selenium-WebDriver" class="headerlink" title="启动和关闭 Selenium WebDriver"></a>启动和关闭 Selenium WebDriver</h2><p>在 Python 中，启动 Selenium WebDriver（这里以 Chrome WebDriver 为例）的方法如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动 WebDriver</span></span><br><span class="line">browser = webdriver.Chrome()</span><br><span class="line"><span class="comment"># 打开网站</span></span><br><span class="line">browser.get(<span class="string">&quot;https://www.google.com&quot;</span>)</span><br><span class="line"><span class="comment"># 关闭 WebDriver</span></span><br><span class="line">browser.quit()</span><br></pre></td></tr></table></figure>
+
+<p>其中，使用 Chrome WebDriver 需要安装 Chrome 浏览器，并下载 Chrome WebDriver，并将 Chrome WebDriver 文件所在路径加到系统 PATH 中。如果不方便添加 PATH，可以在 <code>webdriver.Chrome()</code> 中填入绝对路径，如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">browser = webdriver.Chrome(<span class="string">&quot;/Users/ntflc/webdriver/chromedriver&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="多-Tab-页面的切换"><a href="#多-Tab-页面的切换" class="headerlink" title="多 Tab 页面的切换"></a>多 Tab 页面的切换</h2><p>有的时候，自动化测试需要在多个 Tab 页面中切换。为了解决页面切换问题，我采用的方法是：新建页面时，记录该 Tab 页面的 handle:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">open_new_tab_and_switch</span>(<span class="params">browser</span>):</span><br><span class="line">    <span class="comment"># 获取当前 Tab 页数</span></span><br><span class="line">    handle_cnt = <span class="built_in">len</span>(browser.window_handles)</span><br><span class="line">    <span class="comment"># 新建 Tab 页面</span></span><br><span class="line">    browser.execute_script(<span class="string">&quot;window.open(&#x27;about:blank&#x27;, &#x27;_blank&#x27;);&quot;</span>)</span><br><span class="line">    <span class="comment"># 跳转到新建的 Tab 页面</span></span><br><span class="line">    browser.switch_to.window(browser.window_handles[handle_cnt])</span><br><span class="line">    <span class="comment"># 获取当前 Tab 页面的 handle</span></span><br><span class="line">    current_handle = browser.current_window_handle</span><br><span class="line">    <span class="comment"># 返回当前 Tab 页面的 handle</span></span><br><span class="line">    <span class="keyword">return</span> current_handle</span><br></pre></td></tr></table></figure>
+
+<p>每次针对某个 Tab 页面操作时，使用 <code>browser.switch_to.window(handle)</code> 跳回对应 Tab 页面。</p>
+<h2 id="iFrame-的跳转"><a href="#iFrame-的跳转" class="headerlink" title="iFrame 的跳转"></a>iFrame 的跳转</h2><p>刚使用 Selenium 的时候，经常会遇到一个问题，明明这个元素可见，但就是定位不到。这种时候，可以看看该元素是否在 iFrame 之中，如果在，需要先跳转到这个 iFrame 中才行，如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 跳转到 XPath 为 xpath 的 iFrame 中</span></span><br><span class="line">browser.switch_to.frame(browser.find_element_by_xpath(xpath))</span><br></pre></td></tr></table></figure>
+
+<p>同时需要注意的是，如果后续操作不在该 iFrame 中，记得要跳回原页面。</p>
+<h2 id="下拉框的选择"><a href="#下拉框的选择" class="headerlink" title="下拉框的选择"></a>下拉框的选择</h2><p>对于下拉框，有时可以粗暴地用 <code>send_keys(value)</code> 来选择，但很多时候这样并不行，具体方法如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium.webdriver.support.ui <span class="keyword">import</span> Select</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将 XPath 为 xpath 的下拉框选择值为 value 的选项</span></span><br><span class="line">Select(browser.find_element_by_xpath(xpath).select_by_value(value)</span><br></pre></td></tr></table></figure>
+
+<h2 id="上传文件"><a href="#上传文件" class="headerlink" title="上传文件"></a>上传文件</h2><p>对于部分需要涉及到上传文件的地方，比如上传头像，其实原理就是找到对应的 input 元素，通过 <code>send_keys()</code> 将文件路径传递，如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">browser.find_element_by_xpath(xpath).send_keys(path_of_file)</span><br></pre></td></tr></table></figure>
+
+<p>其中，<code>xpath</code> 为 input 元素的 XPath，<code>path_of_file</code> 为文件的路径。</p>
+<h2 id="等待"><a href="#等待" class="headerlink" title="等待"></a>等待</h2><p>刚接触 Selenium 的人经常会遇到这样的困惑：为什么我手动一行一行执行的时候正常，写到一个文件中执行就报错？原因是，前一行执行完，但页面却没有加载好，导致执行后一行时，相关元素还没有加载出来。起初，大家可能会想到 <code>time.sleep()</code>，但这毕竟不是一个好方法。后来查阅文档发现，Selenium 已经提供了等待相关的函数。</p>
+<p>我这里总结了我常用的几个：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support.ui <span class="keyword">import</span> WebDriverWait</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support <span class="keyword">import</span> expected_conditions <span class="keyword">as</span> ec</span><br><span class="line"></span><br><span class="line"><span class="comment"># 等待 sec 秒，直到页面标题为 title</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    WebDriverWait(browser, sec).until(</span><br><span class="line">        ec.title_is(title)</span><br><span class="line">    )</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span> e</span><br><span class="line"></span><br><span class="line"><span class="comment"># 等待 sec 秒，直到 Xpath 为 xpath 的元素可见</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    WebDriverWait(browser, sec).until(</span><br><span class="line">        ec.visibility_of_element_located((By.XPATH, xpath))</span><br><span class="line">    )</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span> e</span><br><span class="line"></span><br><span class="line"><span class="comment"># 等待 sec 秒，直到 Xpath 为 xpath 的元素不可见</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    WebDriverWait(browser, sec).until(</span><br><span class="line">        ec.invisibility_of_element_located((By.XPATH, xpath))</span><br><span class="line">    )</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span> e</span><br><span class="line"></span><br><span class="line"><span class="comment"># 等待 sec 秒，直到 Xpath 为 xpath 的元素展现</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    WebDriverWait(browser, sec).until(</span><br><span class="line">        ec.presence_of_element_located((By.XPATH, xpath))</span><br><span class="line">    )</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span> e</span><br><span class="line"></span><br><span class="line"><span class="comment"># 等待 sec 秒，直到 Xpath 为 xpath 的元素中的值为 text</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    WebDriverWait(browser, sec).until(</span><br><span class="line">        ec.text_to_be_present_in_element_value((By.XPATH, xpath), text)</span><br><span class="line">    )</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span> e</span><br></pre></td></tr></table></figure>
+
+<h2 id="其他常见操作"><a href="#其他常见操作" class="headerlink" title="其他常见操作"></a>其他常见操作</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置 WebDriver 窗口页面分辨率为 1280x720</span></span><br><span class="line">browser.set_window_size(<span class="string">&quot;1280&quot;</span>, <span class="string">&quot;720&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取当前页面 url</span></span><br><span class="line">browser.current_url</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取当前 handle 的 index</span></span><br><span class="line">browser.window_handles.index(handle)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清空 XPath 为 xpath 的元素</span></span><br><span class="line">browser.find_element_by_xpath(xpath).clear()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将 val 输入到 XPath 为 xpath 的元素中</span></span><br><span class="line">browser.find_element_by_xpath(xpath).send_keys(val)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 点击 XPath 为 xpath 的元素</span></span><br><span class="line">browser.find_element_by_xpath(xpath).click()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取 XPath 为 xpath 的元素的参数 key 的值</span></span><br><span class="line">browser.find_element_by_xpath(xpath).get_attribute(key)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取 XPath 为 xpath 的元素的的值</span></span><br><span class="line">browser.find_element_by_xpath(xpath).text</span><br><span class="line"></span><br><span class="line"><span class="comment"># 点击坐标 (x,y)</span></span><br><span class="line">element = browser.find_element_by_xpath(<span class="string">&quot;//body&quot;</span>)</span><br><span class="line">action = webdriver.common.action_chains.ActionChains(browser)</span><br><span class="line">action.move_to_element_with_offset(element, x, y)</span><br><span class="line">action.click()</span><br><span class="line">action.perform()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取当前浏览器的 User Agent 值</span></span><br><span class="line">browser.execute_script(<span class="string">&quot;return navigator.userAgent&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="无界面使用-Selenium"><a href="#无界面使用-Selenium" class="headerlink" title="无界面使用 Selenium"></a>无界面使用 Selenium</h1><p>Selenium WebDriver 大多要求有界面，如果通过 ssh 远程操作，或者在 Jenkins 上部署，当运行到 <code>browser = webdriver.Chrome()</code> 的时候，就会报错。解决方法有两类：使用无需界面的 WebDriver、模拟生成界面。</p>
+<h2 id="无需界面的-WebDriver：PhantomJS"><a href="#无需界面的-WebDriver：PhantomJS" class="headerlink" title="无需界面的 WebDriver：PhantomJS"></a>无需界面的 WebDriver：PhantomJS</h2><p>PhantomJS 是一个脚本化的无界面 WebKit，需要下载对应的 WebDriver，启动方法为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">browser = webdriver.PhantomJS()</span><br></pre></td></tr></table></figure>
+
+<p>但是，由于个人测试的时候，发现使用 PhantomJS WebDriver 代替 Chrome WebDriver 时，部分代码执行出错，因此放弃了。</p>
+<h2 id="模拟生成界面"><a href="#模拟生成界面" class="headerlink" title="模拟生成界面"></a>模拟生成界面</h2><p>这个是我现在项目使用的方法，可以模拟出一个界面，适用于将项目部署到 Jenkins 上。具体方法为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyvirtualdisplay <span class="keyword">import</span> Display</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成模拟界面，分辨率为 1280x720</span></span><br><span class="line">display = Display(visible=<span class="literal">False</span>, size=(<span class="number">1280</span>, <span class="number">720</span>))</span><br><span class="line">display.start()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭模拟界面</span></span><br><span class="line">display.stop()</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ntflc WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Test/" rel="tag"># Test</a>
+              <a href="/tags/Selenium/" rel="tag"># Selenium</a>
+              <a href="/tags/WebDriver/" rel="tag"># WebDriver</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/01/02/Overview-of-2016/" rel="prev" title="回顾 2016">
+                  <i class="fa fa-angle-left"></i> 回顾 2016
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/04/24/Essay-20170424/" rel="next" title="随笔：写在离开猎豹后">
+                  随笔：写在离开猎豹后 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ntflc</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"ntflc","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

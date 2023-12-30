@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="D9L_iPzvP6fvAKh3XTLCUIqbG8uCxYUgJv35bG1bkRE">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ntflc.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="LeakCanary 是一款检测 Android 内存泄漏的开源类库，GitHub 地址为：https:&#x2F;&#x2F;github.com&#x2F;square&#x2F;leakcanary。LeakCanary 的方便之处在于，只需要在 Android 软件代码中做一点微小的改动，就可以实现内存泄漏的检测。甚至对于测试人员来说，即使你并不是特别熟悉代码（但起码懂一点），也可以做到对软件的接入。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为 Android 软件接入 LeakCanary 实现内存泄漏检测">
+<meta property="og:url" content="https://ntflc.com/2016/08/22/LeakCanary-for-Android-App/index.html">
+<meta property="og:site_name" content="ntflc&#39;s blog">
+<meta property="og:description" content="LeakCanary 是一款检测 Android 内存泄漏的开源类库，GitHub 地址为：https:&#x2F;&#x2F;github.com&#x2F;square&#x2F;leakcanary。LeakCanary 的方便之处在于，只需要在 Android 软件代码中做一点微小的改动，就可以实现内存泄漏的检测。甚至对于测试人员来说，即使你并不是特别熟悉代码（但起码懂一点），也可以做到对软件的接入。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://github.com/square/leakcanary/raw/master/assets/icon_512.png">
+<meta property="og:image" content="http://i1.buimg.com/567571/022ce389c36ca4d6.png">
+<meta property="article:published_time" content="2016-08-22T06:04:20.000Z">
+<meta property="article:modified_time" content="2023-12-30T16:07:26.877Z">
+<meta property="article:author" content="ntflc">
+<meta property="article:tag" content="Test">
+<meta property="article:tag" content="LeakCanary">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/square/leakcanary/raw/master/assets/icon_512.png">
+
+
+<link rel="canonical" href="https://ntflc.com/2016/08/22/LeakCanary-for-Android-App/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://ntflc.com/2016/08/22/LeakCanary-for-Android-App/","path":"2016/08/22/LeakCanary-for-Android-App/","title":"为 Android 软件接入 LeakCanary 实现内存泄漏检测"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>为 Android 软件接入 LeakCanary 实现内存泄漏检测 | ntflc's blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?804fc670bbeb813451fa072d0b70651a"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ntflc's blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%B4%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="nav-number">1.</span> <span class="nav-text">说在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%8E%A5%E5%85%A5-LeakCanary"><span class="nav-number">2.</span> <span class="nav-text">如何接入 LeakCanary</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%98%E6%96%B9%E6%95%99%E7%A8%8B"><span class="nav-number">2.1.</span> <span class="nav-text">官方教程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E8%BF%9B%E4%B8%80%E6%AD%A5"><span class="nav-number">2.2.</span> <span class="nav-text">更进一步</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%A5%E5%85%A5-LeakCanary-%E5%8F%AF%E8%83%BD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91"><span class="nav-number">3.</span> <span class="nav-text">接入 LeakCanary 可能遇到的坑</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ntflc"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ntflc</p>
+  <div class="site-description" itemprop="description">Software QA Engineer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ntflc" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ntflc" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/feilichao/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;feilichao&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>LinkedIn</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/412070391" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;412070391" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/FeiLichao" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;FeiLichao" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ntflc.com/2016/08/22/LeakCanary-for-Android-App/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ntflc">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ntflc's blog">
+      <meta itemprop="description" content="Software QA Engineer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="为 Android 软件接入 LeakCanary 实现内存泄漏检测 | ntflc's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          为 Android 软件接入 LeakCanary 实现内存泄漏检测
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2016-08-22 14:04:20" itemprop="dateCreated datePublished" datetime="2016-08-22T14:04:20+08:00">2016-08-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Test/" itemprop="url" rel="index"><span itemprop="name">Test</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2016/08/22/LeakCanary-for-Android-App/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/22/LeakCanary-for-Android-App/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>LeakCanary 是一款检测 Android 内存泄漏的开源类库，GitHub 地址为：<a target="_blank" rel="noopener" href="https://github.com/square/leakcanary">https://github.com/square/leakcanary</a>。LeakCanary 的方便之处在于，只需要在 Android 软件代码中做一点微小的改动，就可以实现内存泄漏的检测。甚至对于测试人员来说，即使你并不是特别熟悉代码（但起码懂一点），也可以做到对软件的接入。</p>
+<span id="more"></span>
+
+<h1 id="说在前面"><a href="#说在前面" class="headerlink" title="说在前面"></a>说在前面</h1><p>我是因为工作原因接触到 LeakCanary，因为负责公司各产品的 LeakCanary 接入，因此对如何接入和接入中可能遇到的问题有一定的理解。我在做 LeakCanary 接入前，并没怎么接触过 Java 和 Android 软件打包，但有一定代码基础（C&#x2F;C++、Python、Shell 脚本）。如果你对代码一窍不通，那么在做接入时可能会遇到一些困难。</p>
+<p>本文主要介绍 LeakCanary 的接入方法，和可能遇到的各种坑。不对 LeakCanary 的原理和如何修复发现的内存泄漏问题做解答，请见谅。</p>
+<h1 id="如何接入-LeakCanary"><a href="#如何接入-LeakCanary" class="headerlink" title="如何接入 LeakCanary"></a>如何接入 LeakCanary</h1><h2 id="官方教程"><a href="#官方教程" class="headerlink" title="官方教程"></a>官方教程</h2><p>官方教程说的很简单，主要是两步：</p>
+<p>1、在你软件的 <code>build.gradle</code>（一般情况，此处的 <code>build.gradle</code> 不是根目录下的那个，而且软件文件夹下的，通常是 app 文件夹；但也有一些软件结构比较特殊，根目录下的 <code>build.gradle</code> 就是此处需要添加的）中，添加 dependencies：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    debugCompile <span class="string">&#x27;com.squareup.leakcanary:leakcanary-android:1.4-beta2&#x27;</span></span><br><span class="line">    releaseCompile <span class="string">&#x27;com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2&#x27;</span></span><br><span class="line">    testCompile <span class="string">&#x27;com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、在你软件的入口类（通常都继承了 Application 类，一般可以在 <code>AndroidManifest.xml</code> 中 <code>&lt;application android:name=&quot;xxx&quot;...</code> 中找到）的 OnCreate 函数下添加 <code>LeakCanary.install(this);</code>，即：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ExampleApplication</span> <span class="keyword">extends</span> <span class="title class_">Application</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate();</span><br><span class="line">        LeakCanary.install(<span class="built_in">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>完成了这两步，打包后安装后，你会发现多了一个叫 Leaks 的软件，图标如下：</p>
+<p><img src="https://github.com/square/leakcanary/raw/master/assets/icon_512.png"></p>
+<p>其包名和你软件的包名一致，这样最简单的 LeakCanary 接入就完成了。</p>
+<h2 id="更进一步"><a href="#更进一步" class="headerlink" title="更进一步"></a>更进一步</h2><p>按照官方教程接入 LeakCanary 后，当出现内存泄漏问题后，下拉通知里会多出一条形如 <code>xxxActivity leaked xx KB</code> 的通知，点击后进入该条泄漏信息的详细页面，如下图所示：</p>
+<p><img src="http://i1.buimg.com/567571/022ce389c36ca4d6.png"></p>
+<p>但是，更多时候，我们希望泄漏的信息能够直接上传到数据库，这样就更方便做后续的处理。好在 LeakCanary 已经提供了一个方法，就是继承 <code>DisplayLeakService</code> 类。</p>
+<p><strong>1. 创建一个 <code>LeakUploadService</code> 类，位置一般在软件入口类所在的包下，让其继承 <code>DisplayLeakService</code> 类：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LeakUploadService</span> <span class="keyword">extends</span> <span class="title class_">DisplayLeakService</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">afterDefaultHandling</span><span class="params">(HeapDump heapDump, AnalysisResult result, String leakInfo)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!result.leakFound || result.excludedLeak)&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 下面是上传到数据库的代码</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中，leakInfo 为泄漏信息，形如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">In com.example.leakcanary:1.0:1.</span><br><span class="line">* com.example.leakcanary.MainActivity has leaked:</span><br><span class="line">* GC ROOT thread java.lang.Thread.&lt;Java Local&gt; (named &#x27;AsyncTask #3&#x27;)</span><br><span class="line">* references com.example.leakcanary.MainActivity$2.this$0 (anonymous subclass of android.os.AsyncTask)</span><br><span class="line">* leaks com.example.leakcanary.MainActivity instance</span><br><span class="line"></span><br><span class="line">* Retaining: 131 KB.</span><br><span class="line">* Reference Key: 53591da9-6668-423c-90d1-ff83a797d94a</span><br><span class="line">* Device: HTC htc HTC M9w himauhl_htccn_chs_2</span><br><span class="line">* Android Version: 6.0 API: 23 LeakCanary: 1.4-SNAPSHOT 44787a1</span><br><span class="line">* Durations: watch=5140ms, gc=172ms, heap dump=1381ms, analysis=18835ms</span><br><span class="line"></span><br><span class="line">* Details:</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>你可以将整个 leakInfo 全部上传到数据库，也可以先对其做一些处理。比如我在上传前，会先处理出泄漏的类名、软件包名、软件版本和泄漏信息。当然，你也可以处理出泄漏的大小等等。</p>
+<p>对于上面的泄漏信息，通过以下处理：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">className</span> <span class="operator">=</span> result.className.toString();</span><br><span class="line"><span class="type">String</span> <span class="variable">pkgName</span> <span class="operator">=</span> leakInfo.trim().split(<span class="string">&quot;:&quot;</span>)[<span class="number">0</span>].split(<span class="string">&quot; &quot;</span>)[<span class="number">1</span>]</span><br><span class="line"><span class="type">String</span> <span class="variable">pkgVer</span> <span class="operator">=</span> leakInfo.trim().split(<span class="string">&quot;:&quot;</span>)[<span class="number">1</span>]</span><br><span class="line"><span class="type">String</span> <span class="variable">leakDetail</span> <span class="operator">=</span> leakInfo.split(<span class="string">&quot;\n\n&quot;</span>)[<span class="number">0</span>] + <span class="string">&quot;\n\n&quot;</span> + leakInfo.split(<span class="string">&quot;\n\n&quot;</span>)[<span class="number">1</span>];</span><br></pre></td></tr></table></figure>
+
+<p>可以得到 <code>className</code> 为 <code>com.example.leakcanary.MainActivity</code>、<code>pkgName</code> 为 <code>com.example.leakcanary</code>、<code>pkgVer</code> 为 <code>1.0</code>、<code>leakDetail</code> 为 <code>* Details:</code> 以上的部分。</p>
+<p>同时，为了排除重复泄漏数据的干扰，我们还设置了一个 leakKey。但是，关于这个 leakKey 的算法，至今还在不断改进中。最初负责这块的同事认为，同一个类泄漏的内容都一样，所以是将 <code>className.hashCode() &amp; 0x7FFFFFFF</code> 作为 leakKey。后来发现，同一个类泄漏的内容，GC ROOT 可能完全不同，而且同一 GC ROOT 下的 leak trace 可能也有很大不同，当时也咨询了研发，证实了此事。因此当时将 leakKey 的算法改成了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String[] infoDetailArray = leakInfo.trim().split(<span class="string">&quot;\n\n&quot;</span>)[<span class="number">0</span>].split(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line"><span class="type">String</span> <span class="variable">infoDetail</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; infoDetailArray.length; i++) &#123;</span><br><span class="line">    infoDetail += infoDetailArray[i];</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">Integer</span> <span class="variable">leakKey</span> <span class="operator">=</span> infoDetail.trim().hashCode() &amp; <span class="number">0x7FFFFFFF</span>;</span><br></pre></td></tr></table></figure>
+
+<p>但是这样一来，又出问题了。部分泄漏信息中包含一些数组信息，而有一些 leak trace 仅仅是中间某处 [] 内的值不同，但 leak trace 整理结构都是一样的。最后现在采用的方法是，去掉上面 <code>infoDetail</code> 里所有 [] 中的数字，即：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">String[] infoDetailArray = leakInfo.trim().split(<span class="string">&quot;\n\n&quot;</span>)[<span class="number">0</span>].split(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line"><span class="type">String</span> <span class="variable">infoDetail</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; infoDetailArray.length; i++) &#123;</span><br><span class="line">    infoDetail += infoDetailArray[i];</span><br><span class="line">&#125;</span><br><span class="line">infoDetail = infoDetail.replaceAll(<span class="string">&quot;\\[\\d*\\]&quot;</span>, <span class="string">&quot;[]&quot;</span>);</span><br><span class="line"><span class="type">Integet</span> <span class="variable">leakKey</span> <span class="operator">=</span> infoDetail.trim().hashCode() &amp; <span class="number">0x7FFFFFFF</span>;</span><br></pre></td></tr></table></figure>
+
+<p>也就是加了一句 <code>infoDetail = infoDetail.replaceAll(&quot;\\[\\d*\\]&quot;, &quot;[]&quot;);</code>。现在暂时采用这个算法来计算 leakKey，不排除后续再修改，如果你有更好的方法，欢迎留言讨论。</p>
+<p><strong>2. 在 AndroidManifest.xml 中注册 service</strong></p>
+<p>上面的 <code>LeakUploadService</code> 类完成后，需要在 AndroidManifest.xml 中注册这个 service，在 <code>&lt;application android:name=&quot;xxx&quot;&gt;</code> 和 <code>&lt;/application&gt;</code> 之间添加 <code>&lt;service android:name=&quot;xxx.LeakUploadService&quot;/&gt;</code> 即可。其中 <code>xxx.LeakUploadService</code> 中的 <code>xxx</code> 替换为 <code>LeakUploadService</code> 所在的包名。</p>
+<p><strong>3. 修改入口类</strong></p>
+<p>前面讲到官方接入方法是在入口类的 OnCreate 函数下添加 <code>LeakCanary.install(this);</code>，这里需要做一个修改，改成：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ExampleApplication</span> <span class="keyword">extends</span> <span class="title class_">Application</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> RefWatcher refWatcher;</span><br><span class="line">    <span class="keyword">protected</span> RefWatcher <span class="title function_">installLeakCanary</span><span class="params">()</span>&#123;<span class="keyword">return</span> LeakCanary.install(<span class="built_in">this</span>, LeakUploadService.class, AndroidExcludedRefs.createAppDefaults().build());&#125;</span><br><span class="line">    <span class="meta">@Override</span> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate();</span><br><span class="line">        refWatcher = installLeakCanary();        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样，再出现内存泄漏，就会自动将泄漏信息上传到数据库了。</p>
+<p>为了后续做持续集成，这里可以将所有修改写成一个 Shell 脚本，每次打包前执行一次，具体不再做演示。</p>
+<h1 id="接入-LeakCanary-可能遇到的坑"><a href="#接入-LeakCanary-可能遇到的坑" class="headerlink" title="接入 LeakCanary 可能遇到的坑"></a>接入 LeakCanary 可能遇到的坑</h1><p>由于我在公司负责各个产品的 LeakCanary 接入，因此接触到了各种代码结构的软件，接入过程中也遇到了各种各样的问题，这里做个总结。</p>
+<p><strong>1. uses-sdk:minSdkVersion 1 cannot be smaller than version 8 declared in library [com.squareup.leakcanary:leakcanary-android:1.4-beta2]</strong></p>
+<p>这是我接入第一个软件时遇到的问题，原因是这个软件包的结构特别混乱，包含了一堆 sdk，每个支持的 Android 版本还不一致。解决方法是，在 <code>AndroidManifest.xml</code> 中添加 <code>&lt;uses-sdk tools:overrideLibrary=&quot;com.squareup.leakcanary&quot;/&gt;</code>。即：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">&quot;http://schemas.android.com/tools&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">...</span></span></span><br><span class="line"><span class="tag">    &lt;<span class="attr">uses-sdk</span> <span class="attr">tools:overrideLibrary</span>=<span class="string">&quot;com.squareup.leakcanary&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">application</span> <span class="attr">...</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>2. 找不到继承 Application 的入口类</strong></p>
+<p>这个问题也是我在接入第一个软件时最初遇到的问题，由于软件包结构混乱，没有找到入口类。所以当时的解决方案是，询问研发找到主 Activity，在这个 Activity 中接入 LeakCanary。</p>
+<p>其中 <code>LeakCanary.install(this)</code> 需要改成 <code>LeakCanary.install(this.getApplication())</code></p>
+<p><strong>3. The number of method references in a .dex file cannot exceed 64K</strong></p>
+<p>这是典型的 64K 问题，具体 Google 官方给了解决方案，地址是：<a target="_blank" rel="noopener" href="https://developer.android.com/studio/build/multidex.html">https://developer.android.com/studio/build/multidex.html</a></p>
+<p>简单来说，需要在 build.gradle 中添加 <code>multiDexEnabled true</code>，并在 dependencies 中加入 <code>compile &#39;com.android.support:multidex:1.0.0&#39;</code>，具体如下：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    compileSdkVersion <span class="number">21</span></span><br><span class="line">    buildToolsVersion <span class="string">&quot;21.1.0&quot;</span></span><br><span class="line"></span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        ...</span><br><span class="line">        minSdkVersion <span class="number">14</span></span><br><span class="line">        targetSdkVersion <span class="number">21</span></span><br><span class="line">        ...</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Enabling multidex support.</span></span><br><span class="line">        multiDexEnabled <span class="keyword">true</span></span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">  <span class="keyword">compile</span> <span class="string">&#x27;com.android.support:multidex:1.0.0&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同时，还需要在 <code>AndroidManifest.xml</code> 中添加 multidex 的依赖库：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">package</span>=<span class="string">&quot;com.example.android.multidex.myapplication&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">        <span class="attr">...</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:name</span>=<span class="string">&quot;android.support.multidex.MultiDexApplication&quot;</span>&gt;</span></span><br><span class="line">        ...</span><br><span class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>最后，将继承 Application 类，改成继承 MultiDexApplication 类；重载 <code>attachBaseContext()</code>，并调用 <code>MultiDex.install(this)</code>。即：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">attachBaseContext</span><span class="params">(Context base)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>.attachBaseContext(base);</span><br><span class="line">    MultiDex.install(<span class="built_in">this</span>);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>4. 接入完成后，运行软件发生崩溃：java.lang.RuntimeException: Unknown Process com.example.ExampleApp:leakcanary</strong></p>
+<p>这是我遇到最崩溃的问题，当时网上各种找，各种问同事都没有解决。最后是找了负责这款软件的研发才找到问题的根源：研发对未知进程做了限制，此处 LeakCanary 被识别为未知进程，无法初始化。</p>
+<p>具体解决方案就不赘述了，不同的软件做的限制也不一样。遇到这种问题，直接找对应的研发帮忙解决。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ntflc WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Test/" rel="tag"># Test</a>
+              <a href="/tags/LeakCanary/" rel="tag"># LeakCanary</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/04/08/Changing-Weibo-Source-to-HTC-10/" rel="prev" title="修改微博尾巴为『来自 HTC 10』">
+                  <i class="fa fa-angle-left"></i> 修改微博尾巴为『来自 HTC 10』
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/08/23/Jenkins-Pipeline-for-Leakcanary/" rel="next" title="使用 Jenkins Pipeline 为接入 LeakCanary 的软件做持续集成">
+                  使用 Jenkins Pipeline 为接入 LeakCanary 的软件做持续集成 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ntflc</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"ntflc","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

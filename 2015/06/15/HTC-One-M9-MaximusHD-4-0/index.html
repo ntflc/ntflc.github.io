@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="D9L_iPzvP6fvAKh3XTLCUIqbG8uCxYUgJv35bG1bkRE">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ntflc.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="ROM 引读 感谢 @大款小总、@HTC-G11-black、@溜達哙ル（溜达会儿）、@519ljh（阿飞）、@Dave、@久龙颜、@Billgates-li、@kufeen 等人的支持与帮助。 感谢 MaximusHD 原作者 LlabTooFeR。 MaximusHD 原版地址：http:&#x2F;&#x2F;forum.xda-developers.com&#x2F;one-m9&#x2F;development&#x2F;rom-ma">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MaximusHD 4.0 本地化">
+<meta property="og:url" content="https://ntflc.com/2015/06/15/HTC-One-M9-MaximusHD-4-0/index.html">
+<meta property="og:site_name" content="ntflc&#39;s blog">
+<meta property="og:description" content="ROM 引读 感谢 @大款小总、@HTC-G11-black、@溜達哙ル（溜达会儿）、@519ljh（阿飞）、@Dave、@久龙颜、@Billgates-li、@kufeen 等人的支持与帮助。 感谢 MaximusHD 原作者 LlabTooFeR。 MaximusHD 原版地址：http:&#x2F;&#x2F;forum.xda-developers.com&#x2F;one-m9&#x2F;development&#x2F;rom-ma">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i.imgur.com/XhWBAib.png">
+<meta property="og:image" content="http://ww2.sinaimg.cn/bmiddle/68e1aca9jw1eswu27f8nwj20u01hcgqt.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/bmiddle/68e1aca9jw1eswu28399lj20u01hcgst.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/bmiddle/68e1aca9jw1eswu28k13oj20u01hcapr.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/bmiddle/68e1aca9jw1eswu28xlkwj20u01hck0h.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/bmiddle/68e1aca9jw1eswu29asg3j20u01hcwuf.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/bmiddle/68e1aca9jw1eswu29tgp4j20u01hcwhw.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/bmiddle/68e1aca9jw1eswu2a396kj20u01hc0wi.jpg">
+<meta property="article:published_time" content="2015-06-15T02:47:30.000Z">
+<meta property="article:modified_time" content="2023-12-30T14:06:21.581Z">
+<meta property="article:author" content="ntflc">
+<meta property="article:tag" content="M9">
+<meta property="article:tag" content="ROM">
+<meta property="article:tag" content="MaximusHD">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.imgur.com/XhWBAib.png">
+
+
+<link rel="canonical" href="https://ntflc.com/2015/06/15/HTC-One-M9-MaximusHD-4-0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://ntflc.com/2015/06/15/HTC-One-M9-MaximusHD-4-0/","path":"2015/06/15/HTC-One-M9-MaximusHD-4-0/","title":"MaximusHD 4.0 本地化"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MaximusHD 4.0 本地化 | ntflc's blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?804fc670bbeb813451fa072d0b70651a"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ntflc's blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ROM-%E5%BC%95%E8%AF%BB"><span class="nav-number">1.</span> <span class="nav-text">ROM 引读</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ROM-%E4%BF%A1%E6%81%AF"><span class="nav-number">2.</span> <span class="nav-text">ROM 信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%94%AF%E6%8C%81%E7%89%88%E6%9C%AC"><span class="nav-number">3.</span> <span class="nav-text">支持版本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">4.</span> <span class="nav-text">注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BA%E4%BB%B6%E8%A6%81%E6%B1%82"><span class="nav-number">4.1.</span> <span class="nav-text">固件要求</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ROM-%E4%BB%8B%E7%BB%8D"><span class="nav-number">5.</span> <span class="nav-text">ROM 介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E5%8C%96%E4%BF%AE%E6%94%B9%E5%86%85%E5%AE%B9"><span class="nav-number">5.1.</span> <span class="nav-text">本地化修改内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%B7%E5%85%A5"><span class="nav-number">5.2.</span> <span class="nav-text">如何刷入</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BUG-%E7%9B%B8%E5%85%B3"><span class="nav-number">6.</span> <span class="nav-text">BUG 相关</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E9%A1%BB%E7%9F%A5"><span class="nav-number">7.</span> <span class="nav-text">使用须知</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ROM-%E4%B8%8B%E8%BD%BD"><span class="nav-number">8.</span> <span class="nav-text">ROM 下载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ROM-%E6%88%AA%E5%9B%BE"><span class="nav-number">9.</span> <span class="nav-text">ROM 截图</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ntflc"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ntflc</p>
+  <div class="site-description" itemprop="description">Software QA Engineer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ntflc" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ntflc" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/feilichao/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;feilichao&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>LinkedIn</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/412070391" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;412070391" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/FeiLichao" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;FeiLichao" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ntflc.com/2015/06/15/HTC-One-M9-MaximusHD-4-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ntflc">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ntflc's blog">
+      <meta itemprop="description" content="Software QA Engineer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MaximusHD 4.0 本地化 | ntflc's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MaximusHD 4.0 本地化
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2015-06-15 10:47:30" itemprop="dateCreated datePublished" datetime="2015-06-15T10:47:30+08:00">2015-06-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/ROM/" itemprop="url" rel="index"><span itemprop="name">ROM</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2015/06/15/HTC-One-M9-MaximusHD-4-0/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/06/15/HTC-One-M9-MaximusHD-4-0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><img src="http://i.imgur.com/XhWBAib.png"></p>
+<h1 id="ROM-引读"><a href="#ROM-引读" class="headerlink" title="ROM 引读"></a>ROM 引读</h1><ul>
+<li>感谢 @大款小总、@HTC-G11-black、@溜達哙ル（溜达会儿）、@519ljh（阿飞）、@Dave、@久龙颜、@Billgates-li、@kufeen 等人的支持与帮助。</li>
+<li>感谢 MaximusHD 原作者 LlabTooFeR。</li>
+<li>MaximusHD 原版地址：<a target="_blank" rel="noopener" href="http://forum.xda-developers.com/one-m9/development/rom-maximushd-1-0-0-android-5-0-2-sense-t3076909">http://forum.xda-developers.com/one-m9/development/rom-maximushd-1-0-0-android-5-0-2-sense-t3076909</a></li>
+<li>认识我的人都知道，我在 M7 和 M8 的时候一直都是以本地化毒蛇 ROM 为主的，因为那时自己一直在用毒蛇 ROM。但随着 Sense 的升级，感觉毒蛇越来越臃肿，于是想借着换 M9 的同时，换换口味。MaximusHD 我之前也有做过，接近于官方 ROM，比较稳定，但也没有工具箱之类的选项。</li>
+</ul>
+<h1 id="ROM-信息"><a href="#ROM-信息" class="headerlink" title="ROM 信息"></a>ROM 信息</h1><blockquote>
+<p>ROM 名称：MaximusHD 4.0.0 本地化<br>ROM 版本：Android 5.0.2 + Sense 7.0<br>基于版本：MaximusHD 4.0.0<br>适配机型：HTC One M9 单卡国际版<br>ROM 作者：越昂超英（ntflc）<br>发布时间：2015 年 6 月 8 日</p>
+</blockquote>
+<span id="more"></span>
+
+<h1 id="支持版本"><a href="#支持版本" class="headerlink" title="支持版本"></a>支持版本</h1><ul>
+<li><strong><font color=red>本 ROM 适用于 HTC One M9 单卡国际版（htc_himauhl）</font></strong>，包括美版（无锁版、开发者版、AT&amp;T 版、T-Mobile 版）、欧版、亚太版、港版、台版、国行联通版等单卡通用版。本人测试机型为台版。</li>
+<li><strong><font color=red>不支持 Sprint 版、Verizon 版等非国际版本。</font></strong></li>
+</ul>
+<h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><ol>
+<li>请使用 TWRP Recovery 2.8.6.4 CT 版或 2.8.6.1 官方版刷入本 ROM。</li>
+<li>第一次开机会执行升级，需要一定时间，请提前保证电量充足。</li>
+<li>开机后，请进入 Wi-Fi，点击右上角菜单键，选择高级，然后关闭始终扫描。</li>
+<li>如果你没有选择清除 Google 服务相关组件，建议第一次开机时将 SIM 卡移除以跳过 Google 验证。</li>
+</ol>
+<h2 id="固件要求"><a href="#固件要求" class="headerlink" title="固件要求"></a>固件要求</h2><ul>
+<li><strong><font color=#4169e1>由于本 ROM 基于 1.40.401.8，所以需要提前将固件版本升级至 1.40.xxx.x。不升级固件可能会导致各种问题！</font></strong></li>
+<li><strong><font color=#4169e1>现在已经推送 1.40 的机型有台版（1.40.709.4）、国行（1.40.1405.8）、欧版（1.40.401.8）。版主 kufeen 提供了台版固件：<a target="_blank" rel="noopener" href="http://bbs.gfan.com/android-7967148-1-1.html">http://bbs.gfan.com/android-7967148-1-1.html</a>。台版、国行、欧版如果已经 OTA 到 1.40 的可以直接刷 ROM。</font></strong></li>
+<li><strong><font color=#4169e1>如果你已经 S-OFF，可以刷入 MaximusHD 原作者 LlabTooFeR 提供的未签名的欧版 1.40.401.8 固件：<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1jGgojrw">http://pan.baidu.com/s/1jGgojrw</a>。</font></strong></li>
+<li><strong><font color=#4169e1>刷固件的教程请看这里：<a target="_blank" rel="noopener" href="http://bbs.gfan.com/android-7943814-1-1.html">http://bbs.gfan.com/android-7943814-1-1.html</a>。</font></strong></li>
+</ul>
+<h1 id="ROM-介绍"><a href="#ROM-介绍" class="headerlink" title="ROM 介绍"></a>ROM 介绍</h1><h2 id="本地化修改内容"><a href="#本地化修改内容" class="headerlink" title="本地化修改内容"></a>本地化修改内容</h2><ul>
+<li>【系统】</li>
+<li>Aroma 刷机选项中可选开启 China Sense 特性，具体如下：</li>
+<li>拨号、相册、时钟等自带软件变为 China Sense 风格（短信由于暂不完善，暂时强制关闭了 China Sense 特性）</li>
+<li>桌面任意位置下滑显示下拉通知</li>
+<li>下拉快速设置里增加亮度条</li>
+<li>关闭下拉通知按键移到通知最下方</li>
+<li>多任务界面显示 RAM 占用情况和一键清理按钮，支持任务锁定</li>
+<li>……</li>
+<li>【状态栏】</li>
+<li>加入下拉农历显示，支持年份显示</li>
+<li>打开联通 H+（HSPAP）显示，去除不联网时小对勾</li>
+<li>更改 4G 图标为 4GLTE</li>
+<li>【通话】</li>
+<li>加入来去电归属地显示</li>
+<li>归属地数据库为国行 M9 内置数据，在此基础上增加运营商和服务号显示（感谢 @Dave 提供的修改思路和服务号数据）</li>
+<li>支持通话手动或自动录音（手动录音方法：通话时点击菜单—开始录制，其中自动录音需在 Aroma 刷机选项中选择开启）</li>
+<li>支持 IP 拨号、黑名单</li>
+<li>【桌面】</li>
+<li>强制修改 BlinkFeed 新闻源为国内</li>
+<li>BlinkFeed 图片铺满</li>
+<li>主题直接用邮箱登陆即可下载，不再被墙</li>
+<li>【音乐】</li>
+<li>加入国行音乐组件，封面图、歌词自动连接酷我源</li>
+<li>【其他】</li>
+<li>更换天气定位为国行位置组件，解决 Google 定位无法使用的问题</li>
+<li>由于国内天气源问题较多，故天气源还是默认的 ACCU</li>
+<li>修改 GPS 配置为国行默认配置</li>
+<li>加入高级电源管理（APM）</li>
+<li>加入电源历史记录时间显示</li>
+<li>加入国内主流邮件支持</li>
+<li>加入滑动关屏，左滑或右滑底部虚拟按键即可关闭屏幕（需在 Aroma 选项中选择开启）</li>
+<li>修改机型识别为 HTC M9w，关于微博尾巴的问题请看这个帖子：<a target="_blank" rel="noopener" href="http://bbs.gfan.com/android-7964351-1-1.html">http://bbs.gfan.com/android-7964351-1-1.html</a></li>
+<li>加入国行微博、微信组件，自行安装微博、微信后可在 BlinkFeed 中显示</li>
+<li>【语言】</li>
+<li>精简语言选择 [English (United States)、中文（简体）、中文 繁体（台湾）]</li>
+<li>精简键盘选择（English、拼音）</li>
+<li>开机默认显示中文</li>
+<li>【刷机】</li>
+<li>修改、汉化 Aroma 刷机界面</li>
+<li>加入移除 Google 服务组件、开启滑动关屏、开启 China Sense、开启通话自动录音选项</li>
+<li>【内置软件】</li>
+<li>data&#x2F;app 下共有 4 个程序，为推广软件，不喜可直接卸载</li>
+<li>四个推广软件分别为猎豹清理大师、百度手机助手、搜狗输入法、UC 浏览器，如果支持我，请至少插卡联网运行一次</li>
+<li>由于 M9 多了一个 apppreload 分区，当数据清空时，有一定几率恢复该分区的应用。因此，刷完后本 ROM 后可能会出现以上没有列出的应用，但可以卸载，这类软件就是 apppreload 分区的，为 HTC 预装。（如：欧版为 Facebook 和 HTC 社区）</li>
+</ul>
+<h2 id="如何刷入"><a href="#如何刷入" class="headerlink" title="如何刷入"></a>如何刷入</h2><ul>
+<li>首先确保已官解或者已 S-OFF</li>
+<li>确保固件版本已经升级为 1.40.xxx.x（具体看上方蓝字部分）</li>
+<li>刷入 TWRP Recovery 2.8.6.1 官方版</li>
+<li>将下载的 ROM 放入内置存储或外置存储</li>
+<li>进入 TWRP Recovery</li>
+<li>无需进入 Wipe 选项执行清除数据，直接点击 Install 并选择 ROM 包开刷</li>
+<li>根据 Aroma 界面的提示一步一步操作（其中有一步是数据清除，建议选择，否则可能会导致各种问题）</li>
+<li>刷机完毕！</li>
+<li>（注意：如果非 S-OFF 用户刷完无法开机，请单刷 boot.img）</li>
+</ul>
+<h1 id="BUG-相关"><a href="#BUG-相关" class="headerlink" title="BUG 相关"></a>BUG 相关</h1><ul>
+<li>暂未发现</li>
+</ul>
+<h1 id="使用须知"><a href="#使用须知" class="headerlink" title="使用须知"></a>使用须知</h1><ul>
+<li>本 ROM 基于 HTC One M9 单卡国际版制作，请核对您的机型后酌情刷入</li>
+<li>本固件已经过本人实机测试，如您未注意本文中提到的相关注意事项，所造成的一切后果与作者无关</li>
+<li>本固件为个人兴趣爱好所做，欢迎其他论坛注名转载，严禁不注明原作者的恶意转载<br><strong><font color=red>转载时请保留本人网盘地址（以防后续更新等问题），禁止保存到自己网盘发布</font></strong><br>如有发现未经原作者许可盗用本固件进行非法的或其他盈利性质的用途，本人保留追究版权责任的权利</li>
+<li>如果您有什么更好的建议或您在使用过程中遇到什么问题请通过新浪微博 <a target="_blank" rel="noopener" href="http://weibo.com/412070391">@越昂超英</a> 联系我</li>
+<li>最后提醒大家：刷机有风险，选择需谨慎</li>
+</ul>
+<h1 id="ROM-下载"><a href="#ROM-下载" class="headerlink" title="ROM 下载"></a>ROM 下载</h1><p><strong><font color=red>请确认分享网盘的用户名为 412070391。</font></strong></p>
+<p><a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1gdu7zof">http://pan.baidu.com/s/1gdu7zof</a></p>
+<p>下载后请注意校验文件信息，文件校验信息放在网盘里。</p>
+<h1 id="ROM-截图"><a href="#ROM-截图" class="headerlink" title="ROM 截图"></a>ROM 截图</h1><p><img src="http://ww2.sinaimg.cn/bmiddle/68e1aca9jw1eswu27f8nwj20u01hcgqt.jpg"><br><img src="http://ww2.sinaimg.cn/bmiddle/68e1aca9jw1eswu28399lj20u01hcgst.jpg"><br><img src="http://ww1.sinaimg.cn/bmiddle/68e1aca9jw1eswu28k13oj20u01hcapr.jpg"><br><img src="http://ww4.sinaimg.cn/bmiddle/68e1aca9jw1eswu28xlkwj20u01hck0h.jpg"><br><img src="http://ww4.sinaimg.cn/bmiddle/68e1aca9jw1eswu29asg3j20u01hcwuf.jpg"><br><img src="http://ww4.sinaimg.cn/bmiddle/68e1aca9jw1eswu29tgp4j20u01hcwhw.jpg"><br><img src="http://ww2.sinaimg.cn/bmiddle/68e1aca9jw1eswu2a396kj20u01hc0wi.jpg"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ntflc WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/M9/" rel="tag"># M9</a>
+              <a href="/tags/ROM/" rel="tag"># ROM</a>
+              <a href="/tags/MaximusHD/" rel="tag"># MaximusHD</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2015/06/15/hello-world/" rel="prev" title="Hello World!">
+                  <i class="fa fa-angle-left"></i> Hello World!
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2015/06/15/HTC-Weibo-App/" rel="next" title="HTC 官方微博客户端，支持 M9 尾巴显示">
+                  HTC 官方微博客户端，支持 M9 尾巴显示 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ntflc</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"ntflc","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
