@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="D9L_iPzvP6fvAKh3XTLCUIqbG8uCxYUgJv35bG1bkRE">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ntflc.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="21 年的时候，给群晖装了 Home Assistant，接入了几个米家设备和台式机 WOL，当时还写了篇博客 群晖安装 Home Assistant 及配置（接入米家及 WOL）。两年过去了，Home Assistant 升级了不少内容（比如内置了 Xiaomi Miio，不再需要手动改配置文件），我也住进了新家，有不少新设备需要接入。借着最近再次折腾，再来写篇进阶指南。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="群晖 Home Assistant 进阶指南">
+<meta property="og:url" content="https://ntflc.com/2023/12/31/Synology-Home-Assistant-Advanced-Usage/index.html">
+<meta property="og:site_name" content="ntflc&#39;s blog">
+<meta property="og:description" content="21 年的时候，给群晖装了 Home Assistant，接入了几个米家设备和台式机 WOL，当时还写了篇博客 群晖安装 Home Assistant 及配置（接入米家及 WOL）。两年过去了，Home Assistant 升级了不少内容（比如内置了 Xiaomi Miio，不再需要手动改配置文件），我也住进了新家，有不少新设备需要接入。借着最近再次折腾，再来写篇进阶指南。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Home-Assistant-Advanced-Usage/1.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Home-Assistant-Advanced-Usage/2.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Home-Assistant-Advanced-Usage/3.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Home-Assistant-Advanced-Usage/4.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Home-Assistant-Advanced-Usage/5.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Home-Assistant-Advanced-Usage/6.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Home-Assistant-Advanced-Usage/7.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Home-Assistant-Advanced-Usage/8.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Home-Assistant-Advanced-Usage/9.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Home-Assistant-Advanced-Usage/10.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Home-Assistant-Advanced-Usage/11.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Home-Assistant-Advanced-Usage/12.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Home-Assistant-Advanced-Usage/13.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Home-Assistant-Advanced-Usage/14.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Home-Assistant-Advanced-Usage/15.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Home-Assistant-Advanced-Usage/16.png">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Home-Assistant-Advanced-Usage/17.jpg">
+<meta property="og:image" content="https://ntflc.com/images/Synology-Home-Assistant-Advanced-Usage/18.jpg">
+<meta property="article:published_time" content="2023-12-31T05:00:35.000Z">
+<meta property="article:modified_time" content="2023-12-31T06:21:40.257Z">
+<meta property="article:author" content="ntflc">
+<meta property="article:tag" content="NAS">
+<meta property="article:tag" content="Synology">
+<meta property="article:tag" content="HomeAssistant">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ntflc.com/images/Synology-Home-Assistant-Advanced-Usage/1.png">
+
+
+<link rel="canonical" href="https://ntflc.com/2023/12/31/Synology-Home-Assistant-Advanced-Usage/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://ntflc.com/2023/12/31/Synology-Home-Assistant-Advanced-Usage/","path":"2023/12/31/Synology-Home-Assistant-Advanced-Usage/","title":"群晖 Home Assistant 进阶指南"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>群晖 Home Assistant 进阶指南 | ntflc's blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?804fc670bbeb813451fa072d0b70651a"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ntflc's blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%87%E7%BA%A7-Home-Assistant-%E7%89%88%E6%9C%AC"><span class="nav-number">1.</span> <span class="nav-text">升级 Home Assistant 版本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-HACS"><span class="nav-number">2.</span> <span class="nav-text">安装 HACS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-Xiaomi-Miot-Auto"><span class="nav-number">3.</span> <span class="nav-text">安装 Xiaomi Miot Auto</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0-HomeKit-%E8%AE%BE%E5%A4%87"><span class="nav-number">4.</span> <span class="nav-text">更新 HomeKit 设备</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ntflc"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">ntflc</p>
+  <div class="site-description" itemprop="description">Software QA Engineer</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ntflc" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ntflc" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/feilichao/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;feilichao&#x2F;" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>LinkedIn</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/412070391" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;412070391" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/FeiLichao" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;FeiLichao" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ntflc.com/2023/12/31/Synology-Home-Assistant-Advanced-Usage/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ntflc">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ntflc's blog">
+      <meta itemprop="description" content="Software QA Engineer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="群晖 Home Assistant 进阶指南 | ntflc's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          群晖 Home Assistant 进阶指南
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-12-31 13:00:35" itemprop="dateCreated datePublished" datetime="2023-12-31T13:00:35+08:00">2023-12-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/NAS/" itemprop="url" rel="index"><span itemprop="name">NAS</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2023/12/31/Synology-Home-Assistant-Advanced-Usage/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2023/12/31/Synology-Home-Assistant-Advanced-Usage/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>21 年的时候，给群晖装了 Home Assistant，接入了几个米家设备和台式机 WOL，当时还写了篇博客 <a href="/2021/06/27/Synology-Install-Home-Assistant-and-Configure/">群晖安装 Home Assistant 及配置（接入米家及 WOL）</a>。两年过去了，Home Assistant 升级了不少内容（比如内置了 Xiaomi Miio，不再需要手动改配置文件），我也住进了新家，有不少新设备需要接入。借着最近再次折腾，再来写篇进阶指南。</p>
+<span id="more"></span>
+
+<h1 id="升级-Home-Assistant-版本"><a href="#升级-Home-Assistant-版本" class="headerlink" title="升级 Home Assistant 版本"></a>升级 Home Assistant 版本</h1><p>之前在群晖上安装的是 Docker 版的 Home Assistant，无法使用自带的版本升级。但其实通过 Docker 升级也不麻烦：</p>
+<ol>
+<li>打开 Container Manager，点击左侧 Image。如果有新版本，直接点击 Update 下载最新镜像。<br><img src="/images/Synology-Home-Assistant-Advanced-Usage/1.png"><br>如果你的群晖或 Container Manager 版本较低，不支持 Image 更新功能，也可以点击左侧 Registry，搜索 <code>homeassistant</code>，重新下载最新镜像。</li>
+<li>点击左侧 Container，右击 Home Assistant 对应容器，点击 Stop 停止容器。<br><img src="/images/Synology-Home-Assistant-Advanced-Usage/2.png"></li>
+<li>待容器停止后，点击 Reset 重置容器。重置容器并不会丢失 Home Assistant 的数据。</li>
+<li>待重置完成，点击 Start 启动容器。</li>
+</ol>
+<p>至此，Home Assistant 就升级完毕了。</p>
+<h1 id="安装-HACS"><a href="#安装-HACS" class="headerlink" title="安装 HACS"></a>安装 HACS</h1><p>HACS (Home Assistant Community Store)，是 Home Assistant 的第三方应用商店，支持大量第三方插件。官网是 <a target="_blank" rel="noopener" href="https://hacs.xyz/">https://hacs.xyz/</a>，上面也有安装教程。我这里采用的是手动安装，你也可以按照官网的文档直接运行 SSH 脚本安装。</p>
+<ol>
+<li>在 Home Assistant 配置根目录（<code>/docker/homeassistant</code>）创建 <code>custom_components</code> 目录。<br><img src="/images/Synology-Home-Assistant-Advanced-Usage/3.png"></li>
+<li>在 <a target="_blank" rel="noopener" href="https://github.com/hacs/integration/releases">https://github.com/hacs/integration/releases</a> 下载最新版本的 <code>hacs.zip</code>，将解压后的 <code>hacs</code> 文件夹移动到 <code>/docker/homeassistant/custom_components</code> 下。<br><img src="/images/Synology-Home-Assistant-Advanced-Usage/4.png"></li>
+<li>进入 Home Assistant，点击左下角 Settings，进入 Devices &amp; services，点击右下角 ADD INTEGRATION，搜索 <code>HACS</code> 并点击。<br><img src="/images/Synology-Home-Assistant-Advanced-Usage/5.png"></li>
+<li>勾选前 4 项，第 5 项根据个人情况勾选。<br><img src="/images/Synology-Home-Assistant-Advanced-Usage/6.png"></li>
+<li>点击链接，输入 8 位验证码，授权 GitHub。<br><img src="/images/Synology-Home-Assistant-Advanced-Usage/7.png"><br><img src="/images/Synology-Home-Assistant-Advanced-Usage/8.png"></li>
+<li>完成后看到如下画面，HACS 就安装完毕了。<br><img src="/images/Synology-Home-Assistant-Advanced-Usage/9.png"></li>
+<li>刷新页面，左侧应该能看到 HACS 入口了。<br><img src="/images/Synology-Home-Assistant-Advanced-Usage/10.png"></li>
+</ol>
+<h1 id="安装-Xiaomi-Miot-Auto"><a href="#安装-Xiaomi-Miot-Auto" class="headerlink" title="安装 Xiaomi Miot Auto"></a>安装 Xiaomi Miot Auto</h1><p>虽然 Home Assistant 已经内置了 Xiaomi Miio，但支持的设备有限。Xiaomi Miot Auto 是一款第三方插件，基于 miot 协议，可以将大部分米家设备（不局限于小米）自动接入 Home Assistant。该项目的 GitHub 地址：<a target="_blank" rel="noopener" href="https://github.com/al-one/hass-xiaomi-miot">https://github.com/al-one/hass-xiaomi-miot</a>，里面有中文文档。这里简单讲下如何通过 HACS 安装。</p>
+<ol>
+<li>进入 Home Assistant，点击左侧 HACS，进入 Integrations，点击右下角 EXPLORE &amp; DOWNLOAD REPOSITORIES，搜索 <code>Xiaomi Miot Auto</code> 并点击，最后点击右下角 DOWNLOAD 下载。</li>
+<li>点击左下角 Settings，进入 Devices &amp; services，点击右下角 ADD INTEGRATION，搜索 <code>Xiaomi Miot Auto</code> 并点击。</li>
+<li>Action 建议选择第一项 <code>Add devices using Mi Account (账号集成)</code>。<br><img src="/images/Synology-Home-Assistant-Advanced-Usage/11.png"></li>
+<li>输入米家账号、密码，选择对应区域，Connection mode 选择 <code>Automatic (自动模式)</code>，并提交。<br><img src="/images/Synology-Home-Assistant-Advanced-Usage/12.png"></li>
+<li>Filter cloud devices 可根据个人情况选择。如果想接入大部分设备，可选择 <code>Exclude (排除)</code> 并勾选排除掉的设备；如果只想接入个别设备，可选择 <code>Include (包含)</code> 并勾选对应设备。<br><img src="/images/Synology-Home-Assistant-Advanced-Usage/13.png"></li>
+<li>回到 Integrations，可以在 Configured 中看到 Xiaomi Miot Auto 模块和对应设备了。<br><img src="/images/Synology-Home-Assistant-Advanced-Usage/14.png"></li>
+</ol>
+<h1 id="更新-HomeKit-设备"><a href="#更新-HomeKit-设备" class="headerlink" title="更新 HomeKit 设备"></a>更新 HomeKit 设备</h1><p>Home Assistant 新增或删除设备后，HomeKit 中的设备并不会自动更新。这里需要手动更新下 HomeKit Bridge 的配置。</p>
+<ol>
+<li>进入 Home Assistant，点击左下角 Settings，进入 Devices &amp; services，点击 HomeKit Bridge。</li>
+<li>点击 CONFIGURE，HomeKit Mode 选择 <code>bridge</code>，Inclusion Mode 根据个人情况选择。<br><img src="/images/Synology-Home-Assistant-Advanced-Usage/15.png"><br><img src="/images/Synology-Home-Assistant-Advanced-Usage/16.png"></li>
+<li>选择需要接入或排除的设备，点击 SUBMIT。</li>
+<li>打开 iOS 的 Home App，此时设备已更新为上一步选择的设备。</li>
+</ol>
+<hr>
+<p>至此，本文告一段落。折腾 Home Assistant 还是挺有乐趣的，但如果不想折腾，还是尽量买支持 HomeKit 的设备吧。这里列一下本人购买的智能家居设备：</p>
+<ul>
+<li>支持 HomeKit 的：<ul>
+<li>Aqara 空调伴侣 P3</li>
+<li>Aqara 智能窗帘电机 Zigbee</li>
+<li>Aqara 智能管状电机</li>
+<li>小米智能门锁 X</li>
+<li>Yeelight 光璨智能吸顶灯</li>
+</ul>
+</li>
+<li>不支持 HomeKit 但可以通过 Home Assistant 接入的：<ul>
+<li>石头扫拖机器人 G20</li>
+<li>Yeelight 智能浴霸 Pro（S20）</li>
+<li>Yeelight 智能凉霸</li>
+<li>Yeelight 皓白智能 LED 面板灯</li>
+<li>米家智能晾衣机 1S</li>
+</ul>
+</li>
+</ul>
+<div class="group-picture"><div class="group-picture-row"><div class="group-picture-column"><img src="/images/Synology-Home-Assistant-Advanced-Usage/17.jpg"></div><div class="group-picture-column"><img src="/images/Synology-Home-Assistant-Advanced-Usage/18.jpg"></div></div></div>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="ntflc WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/NAS/" rel="tag"># NAS</a>
+              <a href="/tags/Synology/" rel="tag"># Synology</a>
+              <a href="/tags/HomeAssistant/" rel="tag"># HomeAssistant</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/12/17/Overview-of-2022/" rel="prev" title="回顾 2022">
+                  <i class="fa fa-angle-left"></i> 回顾 2022
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ntflc</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"ntflc","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

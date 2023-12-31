@@ -126,7 +126,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -168,6 +168,110 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://ntflc.com/2015/12/26/SEPolicy-Modification-for-Android-6-0-Root/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="ntflc">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ntflc's blog">
+      <meta itemprop="description" content="Software QA Engineer">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | ntflc's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2015/12/26/SEPolicy-Modification-for-Android-6-0-Root/" class="post-title-link" itemprop="url">Android 6.0 Root 必备：修改 sepolicy</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2015-12-26 16:48:57" itemprop="dateCreated datePublished" datetime="2015-12-26T16:48:57+08:00">2015-12-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Tutorial/" itemprop="url" rel="index"><span itemprop="name">Tutorial</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2015/12/26/SEPolicy-Modification-for-Android-6-0-Root/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/12/26/SEPolicy-Modification-for-Android-6-0-Root/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>从 Android 6.0 开始，Root 变得没有以前那么容易了。6.0 之前，对于 HTC 手机，Root 其实很简单，只需要官方解锁，刷入第三方 Recovery（如 TWRP Recovery），然后通过 Recovery 刷入 SuperSU 包即可。</p>
+<p>然而，到了 6.0，如果还是这么做，手机会卡第一屏。这是由于 Google 对 Android 6.0 修改了新的安全机制导致的。解决卡屏的方法，SuperSU 的作者已经给出，就是给 boot.img 里 ramdisk 下的 sepolicy 打补丁。</p>
+<p>虽然，最新测试版的 SuperSU 已经试图加入自动修改 sepolicy，但现在还处于早期，可能会存在不稳定因素。而且 2.6x 的 SuperSU 不再将 <code>su</code> 和 <code>SuperSU.apk</code> 放在 <code>/system</code> 下，而是转而放到 <code>/data</code> 下，这样会导致一旦 wipe data，Root 就没了。</p>
+<p>（这里提供 2.6x 版本 SuperSU 的主帖，想研究的可以去看下：<a target="_blank" rel="noopener" href="http://forum.xda-developers.com/apps/supersu/wip-android-6-0-marshmellow-t3219344">http://forum.xda-developers.com/apps/supersu/wip-android-6-0-marshmellow-t3219344</a>）</p>
+<p>因此，在 SuperSU 新版进入正式阶段，现在比较好的方法还是 SuperSU 2.52 配修改版 boot.img（即 sepolicy 打过补丁的 boot.img）。</p>
+<p>下面就来讲下 sepolicy 的修改方法。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2015/12/26/SEPolicy-Modification-for-Android-6-0-Root/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1069,105 +1173,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2015/06/15/CallerLocation-for-M9/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://ntflc.com/2015/06/15/Navigation-Bar-Style/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="ntflc">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ntflc's blog">
-      <meta itemprop="description" content="Software QA Engineer">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | ntflc's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2015/06/15/Navigation-Bar-Style/" class="post-title-link" itemprop="url">HTC One M8/M9 虚拟按键样式修改包</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2015-06-15 23:00:41" itemprop="dateCreated datePublished" datetime="2015-06-15T23:00:41+08:00">2015-06-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Resource/" itemprop="url" rel="index"><span itemprop="name">Resource</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2015/06/15/Navigation-Bar-Style/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/06/15/Navigation-Bar-Style/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><strong>是否觉得 HTC 默认的虚拟按键不好看，或者用久了腻了，想尝试其他样式的虚拟按键？<br>福利来了！我提取了其他机型 SystemUI 里的虚拟按键图片，做成了 Aroma 界面的单刷包，用 Recovery 直接刷入即可，适用于 HTC One M9 基于 Sense 7.0 的 ROM。</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2015/06/15/Navigation-Bar-Style/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
