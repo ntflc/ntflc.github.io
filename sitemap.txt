@@ -1,3 +1,4 @@
+https://ntflc.com/about/index.html
 https://ntflc.com/2019/01/01/Overview-of-2018/
 https://ntflc.com/2020/01/01/Overview-of-2019/
 https://ntflc.com/2023/12/17/Overview-of-2022/
@@ -50,7 +51,6 @@ https://ntflc.com/2015/06/15/HTC-Weibo-App/
 https://ntflc.com/2015/06/15/hello-world/
 https://ntflc.com/tags/index.html
 https://ntflc.com/categories/index.html
-https://ntflc.com/about/index.html
 https://ntflc.com/
 https://ntflc.com/tags/Tutorial/
 https://ntflc.com/tags/HTC-Sense/
