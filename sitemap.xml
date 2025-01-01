@@ -2,9 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://ntflc.com/2025/01/01/Overview-of-2024/</loc>
+    
+    <lastmod>2025-01-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://ntflc.com/about/index.html</loc>
     
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ntflc.com/404/index.html</loc>
+    
+    <lastmod>2025-01-01</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -84,15 +102,6 @@
   
   <url>
     <loc>https://ntflc.com/vercel.json</loc>
-    
-    <lastmod>2024-01-03</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ntflc.com/404/index.html</loc>
     
     <lastmod>2024-01-03</lastmod>
     
@@ -490,7 +499,7 @@
 
   <url>
     <loc>https://ntflc.com/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -498,273 +507,273 @@
   
   <url>
     <loc>https://ntflc.com/tags/Tutorial/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/HTC-Sense/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/Resource/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/Cellar-Location/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/M9/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/Weibo/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/China-Sense/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/M8/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/Essay/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/Test/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/Jenkins/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/LeakCanary/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/ROM/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/MaximusHD/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/NTFLC-ROM/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/MID/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/iOS/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/Android-Wear/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/Apache/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/PHP/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/STF/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/WebPageTest/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/Monkey/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/NGINX/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/Navigation-Bar/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/API/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/Automation/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/BlinkFeed/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/SEPolicy/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/Root/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/Selenium/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/WebDriver/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/Python/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/Network-Icon/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/NAS/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/Synology/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/qBittorrent/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/HomeAssistant/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/tags/TestNG/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -773,42 +782,42 @@
   
   <url>
     <loc>https://ntflc.com/categories/Tutorial/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/categories/Resource/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/categories/Essay/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/categories/Test/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/categories/ROM/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ntflc.com/categories/NAS/</loc>
-    <lastmod>2024-02-04</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

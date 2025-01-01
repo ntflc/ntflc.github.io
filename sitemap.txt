@@ -1,4 +1,6 @@
+https://ntflc.com/2025/01/01/Overview-of-2024/
 https://ntflc.com/about/index.html
+https://ntflc.com/404/index.html
 https://ntflc.com/2024/02/04/Overview-of-2023/
 https://ntflc.com/2019/01/01/Overview-of-2018/
 https://ntflc.com/2020/01/01/Overview-of-2019/
@@ -8,7 +10,6 @@ https://ntflc.com/2022/01/02/Overview-of-2021/
 https://ntflc.com/2017/01/02/Overview-of-2016/
 https://ntflc.com/2018/01/10/Overview-of-2017/
 https://ntflc.com/vercel.json
-https://ntflc.com/404/index.html
 https://ntflc.com/2016/04/08/Changing-Weibo-Source-to-HTC-10/
 https://ntflc.com/2015/07/20/HTC-One-M9-NTFLC-ROM-N2-0/
 https://ntflc.com/2015/06/24/HTC-One-M9-MaximusHD-5-0/
