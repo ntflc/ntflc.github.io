@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://ntflc.com/2020/01/01/2019-Review/</loc>
+    
+    <lastmod>2026-01-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://ntflc.com/2025/01/01/2024-Review/</loc>
     
     <lastmod>2026-01-01</lastmod>
@@ -47,15 +56,6 @@
   </url>
   
   <url>
-    <loc>https://ntflc.com/2020/01/01/2019-Review/</loc>
-    
-    <lastmod>2026-01-01</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://ntflc.com/2019/01/01/2018-Review/</loc>
     
     <lastmod>2026-01-01</lastmod>
@@ -66,6 +66,15 @@
   
   <url>
     <loc>https://ntflc.com/2018/01/10/2017-Review/</loc>
+    
+    <lastmod>2026-01-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ntflc.com/2017/01/02/2016-Review/</loc>
     
     <lastmod>2026-01-01</lastmod>
     
@@ -86,15 +95,6 @@
     <loc>https://ntflc.com/404/index.html</loc>
     
     <lastmod>2025-01-01</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ntflc.com/2017/01/02/2016-Review/</loc>
-    
-    <lastmod>2024-01-14</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -506,6 +506,13 @@
 
   
   <url>
+    <loc>https://ntflc.com/tags/Essay/</loc>
+    <lastmod>2026-01-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://ntflc.com/tags/Tutorial/</loc>
     <lastmod>2026-01-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -541,13 +548,6 @@
   </url>
   
   <url>
-    <loc>https://ntflc.com/tags/Weibo/</loc>
-    <lastmod>2026-01-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://ntflc.com/tags/China-Sense/</loc>
     <lastmod>2026-01-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -562,7 +562,7 @@
   </url>
   
   <url>
-    <loc>https://ntflc.com/tags/Essay/</loc>
+    <loc>https://ntflc.com/tags/Weibo/</loc>
     <lastmod>2026-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -646,14 +646,14 @@
   </url>
   
   <url>
-    <loc>https://ntflc.com/tags/STF/</loc>
+    <loc>https://ntflc.com/tags/WebPageTest/</loc>
     <lastmod>2026-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://ntflc.com/tags/WebPageTest/</loc>
+    <loc>https://ntflc.com/tags/STF/</loc>
     <lastmod>2026-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -667,14 +667,14 @@
   </url>
   
   <url>
-    <loc>https://ntflc.com/tags/NGINX/</loc>
+    <loc>https://ntflc.com/tags/Navigation-Bar/</loc>
     <lastmod>2026-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://ntflc.com/tags/Navigation-Bar/</loc>
+    <loc>https://ntflc.com/tags/NGINX/</loc>
     <lastmod>2026-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -758,14 +758,14 @@
   </url>
   
   <url>
-    <loc>https://ntflc.com/tags/qBittorrent/</loc>
+    <loc>https://ntflc.com/tags/HomeAssistant/</loc>
     <lastmod>2026-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://ntflc.com/tags/HomeAssistant/</loc>
+    <loc>https://ntflc.com/tags/qBittorrent/</loc>
     <lastmod>2026-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -781,6 +781,13 @@
 
   
   <url>
+    <loc>https://ntflc.com/categories/Essay/</loc>
+    <lastmod>2026-01-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://ntflc.com/categories/Tutorial/</loc>
     <lastmod>2026-01-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -789,13 +796,6 @@
   
   <url>
     <loc>https://ntflc.com/categories/Resource/</loc>
-    <lastmod>2026-01-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://ntflc.com/categories/Essay/</loc>
     <lastmod>2026-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
