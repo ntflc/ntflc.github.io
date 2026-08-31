@@ -1,3 +1,5 @@
+https://ntflc.com/2026/08/31/Bridge-Singtel-Broadband/
+https://ntflc.com/about/index.html
 https://ntflc.com/2026/02/14/Singapore-PR-Journey/
 https://ntflc.com/2026/01/01/2025-Review/
 https://ntflc.com/2020/01/01/2019-Review/
@@ -9,7 +11,6 @@ https://ntflc.com/2021/02/08/2020-Review/
 https://ntflc.com/2019/01/01/2018-Review/
 https://ntflc.com/2018/01/10/2017-Review/
 https://ntflc.com/2017/01/02/2016-Review/
-https://ntflc.com/about/index.html
 https://ntflc.com/404/index.html
 https://ntflc.com/vercel.json
 https://ntflc.com/2016/04/08/Changing-Weibo-Source-to-HTC-10/
@@ -96,6 +97,8 @@ https://ntflc.com/tags/HomeAssistant/
 https://ntflc.com/tags/qBittorrent/
 https://ntflc.com/tags/TestNG/
 https://ntflc.com/tags/Singapore/
+https://ntflc.com/tags/Singtel/
+https://ntflc.com/tags/Broadband/
 https://ntflc.com/categories/Essay/
 https://ntflc.com/categories/Tutorial/
 https://ntflc.com/categories/Resource/
