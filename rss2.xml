@@ -6,7 +6,7 @@
     <description>Software Development Engineer in Test</description>
     <language>en</language>
     <copyright>All rights reserved 2026, ntflc</copyright>
-    <lastBuildDate>Mon, 31 Aug 2026 15:11:55 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 01 Sep 2026 14:43:10 GMT</lastBuildDate>
     <generator>Hexo</generator>
     <image>
       <url>https://ntflc.com/icon.png</url>
@@ -14,6 +14,21 @@
       <link>https://ntflc.com/</link>
     </image>
     <atom:link href="https://ntflc.com/rss2.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>新加坡 MRT 支持 Apple Pay 快捷公交卡功能了</title>
+      <link>https://ntflc.com/2026/09/01/Singapore-MRT-Support-Apple-Pay-Express-Transit-Mode/</link>
+      <description>
+        <![CDATA[<p>昨天刷到 Reddit 上讨论新加坡 MRT 部分站点支持 Apple Pay 快捷公交卡功能了，具体可参考<a href="https://www.reddit.com/r/singapore/comments/1w2favz/apple_pay_express_transit_mode_works_at_some_mrt/">这个</a>帖子。于是下班时试了下，真的可以了。</p>
+<p>根据 Reddit 的讨论，目前这个功能应该还在早期测试，不是所有 MRT&#x2F;LRT 站点都支持，巴士目前还不支持。但根据交通部长的说法，年底前应该会全部支持。</p>]]>
+      </description>
+      <author>ntflc</author>
+      <category domain="https://ntflc.com/categories/Information/">Information</category>
+      <category domain="https://ntflc.com/tags/Singapore/">Singapore</category>
+      <category domain="https://ntflc.com/tags/Information/">Information</category>
+      <category domain="https://ntflc.com/tags/MRT/">MRT</category>
+      <category domain="https://ntflc.com/tags/Apple-Pay/">Apple Pay</category>
+      <pubDate>Tue, 01 Sep 2026 14:08:25 GMT</pubDate>
+    </item>
     <item>
       <title>桥接 Singtel 宽带</title>
       <link>https://ntflc.com/2026/08/31/Bridge-Singtel-Broadband/</link>
@@ -247,19 +262,6 @@
       <category domain="https://ntflc.com/tags/Test/">Test</category>
       <category domain="https://ntflc.com/tags/WebPageTest/">WebPageTest</category>
       <pubDate>Wed, 27 Sep 2017 02:31:24 GMT</pubDate>
-    </item>
-    <item>
-      <title>在 Windows 下搭建 WebPageTest 私有实例</title>
-      <link>https://ntflc.com/2017/06/04/Install-WebPageTest-on-Windows/</link>
-      <description>
-        <![CDATA[<p>上篇文章 <a href="/2017/06/04/Install-Apache-and-PHP-on-Windows/">在 Windows 下安装、配置 Apache 2.4 和 PHP 7</a> 讲了在 Windows 下配置 PHP 环境，主要是为了搭建 WebPageTest 而准备。</p>
-<p><a href="https://www.webpagetest.org/">WebPageTest</a> 是一项由 Google 开发、支持的开源项目，最初是 <a href="http://dev.aol.com/">AOL</a> 内部使用的工具，后于 2008 年开源。这是一款用于测试网页性能的工具，简单易用，并且可以自己部署私有实例。这篇文章就简单讲一下私有实例的部署过程。</p>]]>
-      </description>
-      <author>ntflc</author>
-      <category domain="https://ntflc.com/categories/Test/">Test</category>
-      <category domain="https://ntflc.com/tags/Test/">Test</category>
-      <category domain="https://ntflc.com/tags/WebPageTest/">WebPageTest</category>
-      <pubDate>Sun, 04 Jun 2017 09:06:13 GMT</pubDate>
     </item>
   </channel>
 </rss>

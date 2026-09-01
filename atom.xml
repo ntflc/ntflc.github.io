@@ -11,7 +11,26 @@
   <rights>All rights reserved 2026, ntflc</rights>
   <subtitle>Software Development Engineer in Test</subtitle>
   <title>ntflc's blog</title>
-  <updated>2026-08-31T15:11:55.676Z</updated>
+  <updated>2026-09-01T14:43:10.520Z</updated>
+  <entry>
+    <author>
+      <name>ntflc</name>
+    </author>
+    <category term="Information" scheme="https://ntflc.com/categories/Information/"/>
+    <category term="Singapore" scheme="https://ntflc.com/tags/Singapore/"/>
+    <category term="Information" scheme="https://ntflc.com/tags/Information/"/>
+    <category term="MRT" scheme="https://ntflc.com/tags/MRT/"/>
+    <category term="Apple Pay" scheme="https://ntflc.com/tags/Apple-Pay/"/>
+    <id>https://ntflc.com/2026/09/01/Singapore-MRT-Support-Apple-Pay-Express-Transit-Mode/</id>
+    <link href="https://ntflc.com/2026/09/01/Singapore-MRT-Support-Apple-Pay-Express-Transit-Mode/"/>
+    <published>2026-09-01T14:08:25.000Z</published>
+    <summary>
+      <![CDATA[<p>昨天刷到 Reddit 上讨论新加坡 MRT 部分站点支持 Apple Pay 快捷公交卡功能了，具体可参考<a href="https://www.reddit.com/r/singapore/comments/1w2favz/apple_pay_express_transit_mode_works_at_some_mrt/">这个</a>帖子。于是下班时试了下，真的可以了。</p>
+<p>根据 Reddit 的讨论，目前这个功能应该还在早期测试，不是所有 MRT&#x2F;LRT 站点都支持，巴士目前还不支持。但根据交通部长的说法，年底前应该会全部支持。</p>]]>
+    </summary>
+    <title>新加坡 MRT 支持 Apple Pay 快捷公交卡功能了</title>
+    <updated>2026-09-01T14:43:10.520Z</updated>
+  </entry>
   <entry>
     <author>
       <name>ntflc</name>
@@ -321,22 +340,5 @@
     </summary>
     <title>在 macOS 下搭建 WebPageTest 私有实例</title>
     <updated>2023-12-30T17:31:04.639Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>ntflc</name>
-    </author>
-    <category term="Test" scheme="https://ntflc.com/categories/Test/"/>
-    <category term="Test" scheme="https://ntflc.com/tags/Test/"/>
-    <category term="WebPageTest" scheme="https://ntflc.com/tags/WebPageTest/"/>
-    <id>https://ntflc.com/2017/06/04/Install-WebPageTest-on-Windows/</id>
-    <link href="https://ntflc.com/2017/06/04/Install-WebPageTest-on-Windows/"/>
-    <published>2017-06-04T09:06:13.000Z</published>
-    <summary>
-      <![CDATA[<p>上篇文章 <a href="/2017/06/04/Install-Apache-and-PHP-on-Windows/">在 Windows 下安装、配置 Apache 2.4 和 PHP 7</a> 讲了在 Windows 下配置 PHP 环境，主要是为了搭建 WebPageTest 而准备。</p>
-<p><a href="https://www.webpagetest.org/">WebPageTest</a> 是一项由 Google 开发、支持的开源项目，最初是 <a href="http://dev.aol.com/">AOL</a> 内部使用的工具，后于 2008 年开源。这是一款用于测试网页性能的工具，简单易用，并且可以自己部署私有实例。这篇文章就简单讲一下私有实例的部署过程。</p>]]>
-    </summary>
-    <title>在 Windows 下搭建 WebPageTest 私有实例</title>
-    <updated>2023-12-30T17:20:02.611Z</updated>
   </entry>
 </feed>

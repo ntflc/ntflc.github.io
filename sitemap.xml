@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://ntflc.com/2026/09/01/Singapore-MRT-Support-Apple-Pay-Express-Transit-Mode/</loc>
+    
+    <lastmod>2026-09-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://ntflc.com/2026/08/31/Bridge-Singtel-Broadband/</loc>
     
     <lastmod>2026-08-31</lastmod>
@@ -826,6 +835,27 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>https://ntflc.com/tags/Information/</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://ntflc.com/tags/MRT/</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://ntflc.com/tags/Apple-Pay/</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
@@ -865,6 +895,13 @@
   
   <url>
     <loc>https://ntflc.com/categories/NAS/</loc>
+    <lastmod>2026-09-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://ntflc.com/categories/Information/</loc>
     <lastmod>2026-09-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
