@@ -11,7 +11,25 @@
   <rights>All rights reserved 2026, ntflc</rights>
   <subtitle>Software Development Engineer in Test</subtitle>
   <title>ntflc's blog</title>
-  <updated>2026-09-01T14:43:10.520Z</updated>
+  <updated>2026-09-02T14:31:48.924Z</updated>
+  <entry>
+    <author>
+      <name>ntflc</name>
+    </author>
+    <category term="Trip" scheme="https://ntflc.com/categories/Trip/"/>
+    <category term="Trip" scheme="https://ntflc.com/tags/Trip/"/>
+    <category term="Thailand" scheme="https://ntflc.com/tags/Thailand/"/>
+    <category term="Bangkok" scheme="https://ntflc.com/tags/Bangkok/"/>
+    <id>https://ntflc.com/2026/09/02/2026-Thailand-Trip/</id>
+    <link href="https://ntflc.com/2026/09/02/2026-Thailand-Trip/"/>
+    <published>2026-09-02T13:14:45.000Z</published>
+    <summary>
+      <![CDATA[<p>最近想丰富下博客内容，想到今年旅行了好几次，正好可以整理成博客，于是便有了这个系列。</p>
+<p>2026 年的第一趟旅行，由 2 月初的泰国曼谷之旅开启。这次旅行为期 4 天，正好从我生日这天开始。</p>]]>
+    </summary>
+    <title>2026 泰国曼谷之旅</title>
+    <updated>2026-09-02T14:31:48.924Z</updated>
+  </entry>
   <entry>
     <author>
       <name>ntflc</name>
@@ -319,26 +337,5 @@
     </summary>
     <title>2017：变</title>
     <updated>2026-01-01T02:30:11.872Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>ntflc</name>
-    </author>
-    <category term="Test" scheme="https://ntflc.com/categories/Test/"/>
-    <category term="Test" scheme="https://ntflc.com/tags/Test/"/>
-    <category term="WebPageTest" scheme="https://ntflc.com/tags/WebPageTest/"/>
-    <id>https://ntflc.com/2017/09/27/Install-WebPageTest-on-macOS/</id>
-    <link href="https://ntflc.com/2017/09/27/Install-WebPageTest-on-macOS/"/>
-    <published>2017-09-27T02:31:24.000Z</published>
-    <summary>
-      <![CDATA[<p>WebPageTest 最新版本（<a href="https://github.com/WPO-Foundation/webpagetest/releases/tag/WebPageTest-17.08">17.08</a>）的一个新功能，是增加了一个新的支持多平台的 Agent 端：<a href="https://github.com/WPO-Foundation/wptagent">wptagent</a>。</p>
-<blockquote>
-<p>The biggest change by far is a new cross-platform agent (wptagent) that supports Linux, Windows, Mac and Android testing. Eventually wptdriver will be deprecated and all testing will be moved to the new agent.</p>
-</blockquote>
-<p>得益于此，我们终于可以在 macOS 系统下搭建 WebPageTest 环境，不用再依赖 Windows 虚拟机了。而且，新的 wptagent 还支持 Android 设备（无需 root）。本文将介绍 macOS 系统下如何搭建 WebPageTest 服务端、测试端，以及如何使用 Android 设备进行测试。</p>
-<p>虽然 macOS 自带 Apache 和 PHP，但我还是习惯于自己配置一套新环境，因此以下教程基于非自带 Apache 和 PHP。</p>]]>
-    </summary>
-    <title>在 macOS 下搭建 WebPageTest 私有实例</title>
-    <updated>2023-12-30T17:31:04.639Z</updated>
   </entry>
 </feed>
