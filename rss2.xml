@@ -6,7 +6,7 @@
     <description>Software Development Engineer in Test</description>
     <language>en</language>
     <copyright>All rights reserved 2026, ntflc</copyright>
-    <lastBuildDate>Wed, 02 Sep 2026 14:31:48 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 03 Sep 2026 15:06:07 GMT</lastBuildDate>
     <generator>Hexo</generator>
     <image>
       <url>https://ntflc.com/icon.png</url>
@@ -14,6 +14,20 @@
       <link>https://ntflc.com/</link>
     </image>
     <atom:link href="https://ntflc.com/rss2.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>2026 台湾之旅</title>
+      <link>https://ntflc.com/2026/09/03/2026-Taiwan-Trip/</link>
+      <description>
+        <![CDATA[<p>2026 年的第二趟旅行，是五一的台湾之旅。</p>
+<p>去年 9 月第一次去台湾，深深地爱上了这里。风景秀丽独特，美食小吃非常合我胃口，遇到的人也都很友善。回来后就马上申请了多次签证，本以为也会像第一次那样卡很久，结果第二天就下签了。因为是从付款时一年有效，就硬是拖到两个月截止期才付款。</p>
+<p>于是今年初就计划起这第二次台湾行，最后选在了五一，总共六天。</p>]]>
+      </description>
+      <author>ntflc</author>
+      <category domain="https://ntflc.com/categories/Trip/">Trip</category>
+      <category domain="https://ntflc.com/tags/Trip/">Trip</category>
+      <category domain="https://ntflc.com/tags/Taiwan/">Taiwan</category>
+      <pubDate>Thu, 03 Sep 2026 13:37:05 GMT</pubDate>
+    </item>
     <item>
       <title>2026 泰国曼谷之旅</title>
       <link>https://ntflc.com/2026/09/02/2026-Thailand-Trip/</link>
@@ -247,18 +261,6 @@
       <category domain="https://ntflc.com/tags/Test/">Test</category>
       <category domain="https://ntflc.com/tags/Jenkins/">Jenkins</category>
       <pubDate>Wed, 10 Oct 2018 08:49:25 GMT</pubDate>
-    </item>
-    <item>
-      <title>2017：变</title>
-      <link>https://ntflc.com/2018/01/10/2017-Review/</link>
-      <description>
-        <![CDATA[<p>翻了翻 2017 年写的博客，总共也没几篇。再看看去年、前年，都有写总结全年的随笔，今年也不能少。</p>
-<p>2017 年对我来说，核心词应该是『变』。变，变化，拥抱变化。从 4 月从猎豹离职，到加入美团后不停面对人员变动，『变』充满了我的生活。想想这一年，总体还是比较平淡，不如 16 年那么波澜，但也有许多值得回忆的地方。正好借这篇随笔，回顾下我的 2017，也畅想下 2018。</p>]]>
-      </description>
-      <author>ntflc</author>
-      <category domain="https://ntflc.com/categories/Essay/">Essay</category>
-      <category domain="https://ntflc.com/tags/Essay/">Essay</category>
-      <pubDate>Wed, 10 Jan 2018 15:23:27 GMT</pubDate>
     </item>
   </channel>
 </rss>

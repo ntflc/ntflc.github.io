@@ -11,7 +11,25 @@
   <rights>All rights reserved 2026, ntflc</rights>
   <subtitle>Software Development Engineer in Test</subtitle>
   <title>ntflc's blog</title>
-  <updated>2026-09-02T14:31:48.924Z</updated>
+  <updated>2026-09-03T15:06:07.612Z</updated>
+  <entry>
+    <author>
+      <name>ntflc</name>
+    </author>
+    <category term="Trip" scheme="https://ntflc.com/categories/Trip/"/>
+    <category term="Trip" scheme="https://ntflc.com/tags/Trip/"/>
+    <category term="Taiwan" scheme="https://ntflc.com/tags/Taiwan/"/>
+    <id>https://ntflc.com/2026/09/03/2026-Taiwan-Trip/</id>
+    <link href="https://ntflc.com/2026/09/03/2026-Taiwan-Trip/"/>
+    <published>2026-09-03T13:37:05.000Z</published>
+    <summary>
+      <![CDATA[<p>2026 年的第二趟旅行，是五一的台湾之旅。</p>
+<p>去年 9 月第一次去台湾，深深地爱上了这里。风景秀丽独特，美食小吃非常合我胃口，遇到的人也都很友善。回来后就马上申请了多次签证，本以为也会像第一次那样卡很久，结果第二天就下签了。因为是从付款时一年有效，就硬是拖到两个月截止期才付款。</p>
+<p>于是今年初就计划起这第二次台湾行，最后选在了五一，总共六天。</p>]]>
+    </summary>
+    <title>2026 台湾之旅</title>
+    <updated>2026-09-03T15:06:07.612Z</updated>
+  </entry>
   <entry>
     <author>
       <name>ntflc</name>
@@ -321,21 +339,5 @@
     </summary>
     <title>在 Jenkins 构建历史中显示启动人</title>
     <updated>2023-12-30T17:36:11.575Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>ntflc</name>
-    </author>
-    <category term="Essay" scheme="https://ntflc.com/categories/Essay/"/>
-    <category term="Essay" scheme="https://ntflc.com/tags/Essay/"/>
-    <id>https://ntflc.com/2018/01/10/2017-Review/</id>
-    <link href="https://ntflc.com/2018/01/10/2017-Review/"/>
-    <published>2018-01-10T15:23:27.000Z</published>
-    <summary>
-      <![CDATA[<p>翻了翻 2017 年写的博客，总共也没几篇。再看看去年、前年，都有写总结全年的随笔，今年也不能少。</p>
-<p>2017 年对我来说，核心词应该是『变』。变，变化，拥抱变化。从 4 月从猎豹离职，到加入美团后不停面对人员变动，『变』充满了我的生活。想想这一年，总体还是比较平淡，不如 16 年那么波澜，但也有许多值得回忆的地方。正好借这篇随笔，回顾下我的 2017，也畅想下 2018。</p>]]>
-    </summary>
-    <title>2017：变</title>
-    <updated>2026-01-01T02:30:11.872Z</updated>
   </entry>
 </feed>
