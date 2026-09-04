@@ -11,7 +11,24 @@
   <rights>All rights reserved 2026, ntflc</rights>
   <subtitle>Software Development Engineer in Test</subtitle>
   <title>ntflc's blog</title>
-  <updated>2026-09-03T15:06:07.612Z</updated>
+  <updated>2026-09-04T16:06:33.597Z</updated>
+  <entry>
+    <author>
+      <name>ntflc</name>
+    </author>
+    <category term="Trip" scheme="https://ntflc.com/categories/Trip/"/>
+    <category term="Trip" scheme="https://ntflc.com/tags/Trip/"/>
+    <category term="Guangdong" scheme="https://ntflc.com/tags/Guangdong/"/>
+    <id>https://ntflc.com/2026/09/04/2026-Guangdong-Trip/</id>
+    <link href="https://ntflc.com/2026/09/04/2026-Guangdong-Trip/"/>
+    <published>2026-09-04T13:09:05.000Z</published>
+    <summary>
+      <![CDATA[<p>2026 年的第三趟旅行，是 5 月底的广东之旅。</p>
+<p>这是一趟非常临时的旅行。4 月底去台湾前，想着 5 月底连续两个假期（5 月 27 日 Hari Raya Haji，6 月 1 日 Vesak Day 补假），请两天假就能连休 6 天，便匆匆订下了行程。由于机票太贵，就换了新航的里程票，代价就是回程得从香港出发。</p>]]>
+    </summary>
+    <title>2026 广东之旅</title>
+    <updated>2026-09-04T16:06:33.597Z</updated>
+  </entry>
   <entry>
     <author>
       <name>ntflc</name>
@@ -323,21 +340,5 @@
     </summary>
     <title>TestNG 失败重跑（支持使用 dataProvider 的参数化用例）</title>
     <updated>2023-12-30T17:40:58.504Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>ntflc</name>
-    </author>
-    <category term="Test" scheme="https://ntflc.com/categories/Test/"/>
-    <category term="Test" scheme="https://ntflc.com/tags/Test/"/>
-    <category term="Jenkins" scheme="https://ntflc.com/tags/Jenkins/"/>
-    <id>https://ntflc.com/2018/10/10/Show-User-in-Jenkins-Build-History/</id>
-    <link href="https://ntflc.com/2018/10/10/Show-User-in-Jenkins-Build-History/"/>
-    <published>2018-10-10T08:49:25.000Z</published>
-    <summary>
-      <![CDATA[<p>最近在使用 Jenkins 时，想在构建历史里显示启动人，网上搜了一圈，发现没有完整一些的教程，于是决定自己写一篇。</p>]]>
-    </summary>
-    <title>在 Jenkins 构建历史中显示启动人</title>
-    <updated>2023-12-30T17:36:11.575Z</updated>
   </entry>
 </feed>
