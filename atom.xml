@@ -11,7 +11,26 @@
   <rights>All rights reserved 2026, ntflc</rights>
   <subtitle>Software Development Engineer in Test</subtitle>
   <title>ntflc's blog</title>
-  <updated>2026-09-04T16:06:33.597Z</updated>
+  <updated>2026-09-10T15:14:20.598Z</updated>
+  <entry>
+    <author>
+      <name>ntflc</name>
+    </author>
+    <category term="Trip" scheme="https://ntflc.com/categories/Trip/"/>
+    <category term="Trip" scheme="https://ntflc.com/tags/Trip/"/>
+    <category term="Canada" scheme="https://ntflc.com/tags/Canada/"/>
+    <category term="USA" scheme="https://ntflc.com/tags/USA/"/>
+    <id>https://ntflc.com/2026/09/07/2026-North-America-Trip/</id>
+    <link href="https://ntflc.com/2026/09/07/2026-North-America-Trip/"/>
+    <published>2026-09-07T12:55:10.000Z</published>
+    <summary>
+      <![CDATA[<p>今年最重要的一趟旅行，是 8 月的北美之旅。</p>
+<p>早在 10 年前，我还在猎豹移动的时候，原本有出差美国的机会，我也借此机会办了十年美签。但后来因为同行的其他同事美签没过，再加上业务调整，最后没有成行。不知不觉，十年美签到了最后一年，我还从来没去过美国，想着如果不去以后再申请签证可能会被拒，就开始计划美国行。</p>
+<p>又因为 HYJ 在加拿大工作，想着既然要去北美，那就顺便去趟加拿大。于是这趟旅行最后就成了北美之旅。</p>]]>
+    </summary>
+    <title>2026 北美之旅</title>
+    <updated>2026-09-10T15:14:20.598Z</updated>
+  </entry>
   <entry>
     <author>
       <name>ntflc</name>
@@ -324,21 +343,5 @@
     </summary>
     <title>2018：平淡</title>
     <updated>2026-01-01T02:30:31.503Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>ntflc</name>
-    </author>
-    <category term="Test" scheme="https://ntflc.com/categories/Test/"/>
-    <category term="Test" scheme="https://ntflc.com/tags/Test/"/>
-    <category term="TestNG" scheme="https://ntflc.com/tags/TestNG/"/>
-    <id>https://ntflc.com/2018/10/18/TestNG-Retry-Failed-Tests-with-DataProvider/</id>
-    <link href="https://ntflc.com/2018/10/18/TestNG-Retry-Failed-Tests-with-DataProvider/"/>
-    <published>2018-10-18T12:36:41.000Z</published>
-    <summary>
-      <![CDATA[<p>最近在用 Java+TestNG+Maven 写 UI 自动化。因为之前用惯了 Python 的测试框架，失败重跑装个插件（<a href="https://github.com/box/flaky">flaky</a> 或者 <a href="https://github.com/pytest-dev/pytest-rerunfailures">pytest-rerunfailures</a>）就行。而 TestNG 的失败重跑需要自己重新方法，并且网上搜了很多资料，针对使用了 <code>dataProvider</code> 的参数化用例都存在一些问题。因此希望这篇文章能对需要的人起到帮助。</p>]]>
-    </summary>
-    <title>TestNG 失败重跑（支持使用 dataProvider 的参数化用例）</title>
-    <updated>2023-12-30T17:40:58.504Z</updated>
   </entry>
 </feed>
